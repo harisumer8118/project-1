@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>Ardian | Full‑Page Slider · Smooth</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary: #D94535;
+      --primary-dark: #B63A2C;
+      --dark: #323C46;
+      --light-gray: #F5F5F5;
+      --text: #555555;
+      --white: #FFFFFF;
+      --black: #000000;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease-in-out;
+      --slide-duration: 0.9s;
+      --slide-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    html {
+      font-size: 62.5%;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 1.6rem;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    img { max-width: 100%; display: block; height: auto; }
+
+    /* typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+    h1 { font-size: clamp(2.8rem, 8vw, 5.6rem); }
+    h2 { font-size: clamp(2.4rem, 6vw, 3.8rem); }
+    h3 { font-size: clamp(2rem, 4vw, 2.8rem); }
+    .btn {
+      display: inline-block;
+      padding: 1.2rem 2.8rem;
+      background: var(--primary);
+      color: var(--white);
+      font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.075em;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(217, 69, 53, 0.4);
+      text-align: center;
+    }
+    .btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(217, 69, 53, 0.5);
+    }
+    .btn-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 2.4rem 1rem 1.6rem;
+      color: var(--primary);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .btn-arrow::after {
+      content: "→";
+      font-size: 1.8rem;
+      transition: var(--transition);
+    }
+    .btn-arrow:hover { gap: 1.2rem; }
+    .btn-arrow-white { color: var(--white); }
+
+    /* slider wrapper — smooth snap */
+    .slider-wrapper {
+      height: 100vh;
+      width: 100vw;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      position: relative;
+      overscroll-behavior: none;
+    }
+    .section-slide {
+      height: 100vh;
+      width: 100%;
+      scroll-snap-align: start;
+      overflow: hidden;
+      position: relative;
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    /* subtle fade-in for content inside slides */
+    .section-slide .container,
+    .section-slide .hero-content,
+    .section-slide .content,
+    .section-slide .grid {
+      animation: slideFadeIn 0.9s var(--slide-ease) both;
+    }
+    @keyframes slideFadeIn {
+      0% { opacity: 0.4; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: transparent;
+      transition: background 0.4s ease, box-shadow 0.3s ease;
+    }
+    .header.scrolled {
+      background: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .header-top {
+      background: transparent;
+      padding: 0.4rem 0;
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease;
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 40px;
+      overflow: hidden;
+    }
+    .header-top.hidden {
+      opacity: 0;
+      transform: translateY(-100%);
+      max-height: 0;
+      border-bottom: none;
+      pointer-events: none;
+    }
+    .header-top .container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: clamp(0.8rem, 2vw, 2rem);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      flex-wrap: wrap;
+    }
+    .header-top a { color: rgba(255,255,255,0.85); transition: color 0.2s; }
+    .header-top a:hover { color: var(--white); }
+    .header.scrolled .header-top a { color: var(--dark); }
+    .header.scrolled .header-top .lang-switcher a.active { color: var(--primary); }
+    .header-top .social-links { display: flex; gap: 0.5rem; }
+    .header-top .investor-reports { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .header-top .lang-switcher { display: flex; gap: 0.5rem; font-weight: 500; }
+
+    .header-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo img {
+      height: clamp(3rem, 5vw, 3.6rem);
+      width: auto;
+      transition: filter 0.3s ease;
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: clamp(1.2rem, 2.5vw, 2.4rem);
+    }
+    .nav-menu a {
+      font-size: clamp(1.2rem, 1.3vw, 1.4rem);
+      font-weight: 500;
+      color: var(--white);
+      transition: color 0.25s ease, border-color 0.25s ease;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .nav-menu a:hover {
+      color: rgba(255,255,255,0.7);
+      border-bottom-color: rgba(255,255,255,0.3);
+    }
+    .header.scrolled .nav-menu a {
+      color: var(--black);
+    }
+    .header.scrolled .nav-menu a:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .nav-menu .btn {
+      padding: 0.6rem 1.6rem;
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+      background: var(--primary);
+      color: var(--white);
+      white-space: nowrap;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 0.4rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 2.8rem;
+      height: 2px;
+      background: var(--white);
+      transition: var(--transition);
+    }
+    .header.scrolled .hamburger span { background: var(--black); }
+
+    @media (max-width: 1024px) {
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        gap: 1.2rem;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        align-items: stretch;
+      }
+      .nav-menu.open { display: flex; }
+      .hamburger { display: flex; }
+      .nav-menu a {
+        color: var(--dark) !important;
+        white-space: normal;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #eee;
+      }
+      .nav-menu a:hover {
+        color: var(--primary) !important;
+        border-bottom-color: var(--primary) !important;
+      }
+      .nav-menu .btn { width: 100%; text-align: center; }
+    }
+
+    /* pagination dots */
+    .pagination {
+      position: fixed;
+      right: clamp(1rem, 2vw, 2.4rem);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.8rem, 1.5vw, 1.2rem);
+      align-items: center;
+    }
+    .pagination .dot {
+      width: clamp(10px, 1.2vw, 12px);
+      height: clamp(10px, 1.2vw, 12px);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      border: 1.5px solid rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+    }
+    .pagination .dot.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.25);
+      box-shadow: 0 0 0 3px rgba(217,69,53,0.4);
+    }
+    .pagination .dot:hover {
+      transform: scale(1.15);
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    /* hero */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 8rem 0 4rem;
+      overflow: hidden;
+      background: var(--dark);
+    }
+    .hero video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+    .hero .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+      z-index: 1;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .hero-content {
+      max-width: 65%;
+      animation: fadeInUp 1s ease-out 1s both;
+    }
+    .hero-content h1 {
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1.6rem;
+      line-height: 1.1;
+    }
+    .hero-content h1 strong { font-weight: 700; }
+    .hero-content p {
+      font-size: clamp(1.6rem, 2vw, 2rem);
+      opacity: 0.9;
+      max-width: 600px;
+      margin-bottom: 2.4rem;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .hero-content { max-width: 100%; }
+      .hero { padding: 6rem 0 2rem; }
+    }
+
+    /* key-figures */
+    .key-figures {
+      background: var(--dark);
+      color: var(--white);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .key-figures .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: center;
+      width: 100%;
+    }
+    .key-figures .big-number {
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      padding-right: clamp(2rem, 4vw, 4rem);
+    }
+    .key-figures .big-number .number {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 300;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .key-figures .big-number .number span { font-size: clamp(6rem, 16vw, 14rem); }
+    .key-figures .big-number .label {
+      font-size: clamp(1.4rem, 1.6vw, 1.8rem);
+      opacity: 0.8;
+      margin-top: 0.4rem;
+    }
+    .key-figures .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1.5rem, 2vw, 2rem) clamp(2rem, 4vw, 4rem);
+    }
+    .key-figures .stat .number {
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .key-figures .stat .label {
+      font-size: clamp(1.2rem, 1.2vw, 1.4rem);
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    @media (max-width: 768px) {
+      .key-figures .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .key-figures .big-number {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        padding-bottom: 2rem;
+      }
+    }
+
+    /* pillars */
+    .pillars {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 0;
+    }
+    .pillars .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: clamp(2rem, 4vw, 4rem);
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .pillars .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(1.2rem, 2vw, 2rem);
+    }
+    .pillar-card {
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+      min-height: clamp(200px, 40vh, 280px);
+      display: flex;
+      align-items: flex-end;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      will-change: transform;
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+      transition: background 0.4s ease;
+    }
+    .pillar-card:hover::before {
+      background: rgba(217,69,53,0.8);
+    }
+    .pillar-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+    .pillar-card .content {
+      position: relative;
+      z-index: 2;
+      padding: clamp(1.5rem, 3vw, 3rem);
+      color: var(--white);
+      width: 100%;
+    }
+    .pillar-card .content h3 {
+      color: var(--white);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .pillar-card .content .arrow {
+      display: inline-block;
+      font-size: clamp(2rem, 2.4vw, 2.4rem);
+      margin-top: 1rem;
+      transition: transform 0.35s ease;
+    }
+    .pillar-card:hover .content .arrow { transform: translateX(8px); }
+    @media (max-width: 768px) {
+      .pillars .grid { grid-template-columns: 1fr; }
+      .pillar-card { min-height: 180px; }
+    }
+
+    /* investors */
+    .investors {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=600&fit=crop') no-repeat center/cover;
+      position: relative;
+    }
+    .investors::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(50,60,70,0.7);
+      z-index: 1;
+    }
+    .investors .container {
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .investors .content {
+      max-width: 55%;
+      background: var(--white);
+      padding: clamp(2rem, 4vw, 4rem);
+      color: var(--dark);
+    }
+    .investors .content h2 { color: var(--dark); margin-bottom: 1.2rem; }
+    .investors .content p {
+      margin-bottom: 2rem;
+      font-size: clamp(1.6rem, 1.8vw, 1.8rem);
+    }
+    @media (max-width: 768px) {
+      .investors .content { max-width: 100%; padding: 2.5rem; }
+    }
+
+    /* sustainability */
+    .sustainability {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--light-gray);
+      position: relative;
+      overflow: hidden;
+    }
+    .sustainability .bg-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop');
+      background-size: cover;
+      background-position: center;
+      transition: width 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 0;
+      will-change: width;
+    }
+    .sustainability .bg-image.shrink { width: 40%; }
+    .sustainability .bg-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80%;
+      height: 100%;
+      background: rgba(0,0,0,0.1);
+      z-index: 0;
+      pointer-events: none;
+      transition: width 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .sustainability .bg-overlay.shrink { width: 40%; }
+    .sustainability .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .sustainability .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: center;
+      width: 100%;
+      min-height: 50vh;
+    }
+    .sustainability .content {
+      padding-right: clamp(0rem, 2vw, 2rem);
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(2px);
+      padding: 2.4rem;
+      border-radius: 4px;
+    }
+    .sustainability .content h2 { margin-bottom: 1.2rem; }
+    .sustainability .content p {
+      font-size: clamp(1.6rem, 1.8vw, 1.8rem);
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) {
+      .sustainability .bg-image {
+        width: 100%;
+        opacity: 0.25;
+      }
+      .sustainability .bg-overlay {
+        width: 100%;
+        background: rgba(0,0,0,0.2);
+      }
+      .sustainability .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .sustainability .content {
+        padding-right: 0;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(4px);
+      }
+      .sustainability .bg-image.shrink,
+      .sustainability .bg-overlay.shrink { width: 100% !important; }
+    }
+
+    /* talents */
+    .talents {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--dark);
+      color: var(--white);
+    }
+    .talents .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .talents .content h2 { color: var(--white); margin-bottom: 1.2rem; }
+    .talents .content p {
+      font-size: clamp(1.6rem, 1.8vw, 1.8rem);
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    .talents .images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .talents .images img {
+      width: 100%;
+      height: clamp(140px, 25vh, 200px);
+      object-fit: cover;
+      border-radius: 0;
+      box-shadow: var(--shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .talents .images img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    @media (max-width: 768px) {
+      .talents .container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .talents .images { grid-template-columns: 1fr 1fr; }
+      .talents .images img { height: 140px; }
+    }
+
+    /* newsletter */
+    .newsletter {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--light-gray);
+      text-align: center;
+    }
+    .newsletter .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+    .newsletter h2 { color: var(--primary); margin-bottom: 1rem; }
+    .newsletter p {
+      font-size: clamp(1.6rem, 1.8vw, 1.8rem);
+      margin-bottom: 2.5rem;
+    }
+    .newsletter form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .newsletter .form-row {
+      display: flex;
+      gap: 1.2rem;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .newsletter input[type="text"],
+    .newsletter input[type="email"] {
+      flex: 1;
+      padding: 1.2rem 1.6rem;
+      border: 1px solid transparent;
+      background: var(--white);
+      font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+      min-width: 180px;
+      transition: var(--transition);
+      width: 100%;
+    }
+    .newsletter input:focus {
+      border-color: var(--dark);
+      outline: none;
+    }
+    .newsletter .form-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      text-align: left;
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+      width: 100%;
+    }
+    .newsletter .btn { width: 100%; max-width: 240px; }
+
+    /* footer */
+    .footer {
+      height: auto !important;
+      padding: clamp(2rem, 5vh, 5rem) 0;
+      background: var(--dark);
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+    }
+    .footer .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .footer .grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      margin-bottom: 3rem;
+    }
+    .footer .logo img {
+      height: clamp(3rem, 4vw, 4rem);
+      width: auto;
+      margin-bottom: 1.5rem;
+    }
+    .footer .address p {
+      font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+      margin-bottom: 0.4rem;
+    }
+    .footer .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .footer .social-links {
+      display: flex;
+      gap: 1.2rem;
+    }
+    .footer .social-links a {
+      font-size: clamp(1.8rem, 2.2vw, 2.2rem);
+      padding: 0.4rem;
+      transition: var(--transition);
+    }
+    .footer .social-links a:hover { color: var(--primary); }
+    .footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 1rem 2.5rem;
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+    }
+    .footer .footer-links a { transition: var(--transition); }
+    .footer .footer-links a:hover { color: var(--white); }
+    .footer .bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+    }
+    @media (max-width: 768px) {
+      .footer .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .footer .right { align-items: flex-start; }
+      .footer .footer-links { justify-content: flex-start; }
+      .footer .bottom { flex-direction: column; align-items: flex-start; }
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; width: 100%; }
+    .slider-wrapper::-webkit-scrollbar { width: 0; background: transparent; }
+    .slider-wrapper { scrollbar-width: none; -ms-overflow-style: none; }
+  </style>
+</head>
+<body>
+
+<div class="slider-wrapper" id="sliderWrapper">
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-top" id="headerTop">
+      <div class="container">
+        <div class="social-links">
+          <a href="#" aria-label="X">𝕏</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="YouTube">▶</a>
+        </div>
+        <div class="investor-reports">
+          <a href="#">TRUSTVIEW ARDIAN</a>
+          <span>|</span>
+          <a href="#">Investor reports</a>
+        </div>
+        <div class="lang-switcher">
+          <a href="#" class="active">EN</a>
+          <a href="#">FR</a>
+        </div>
+      </div>
+    </div>
+    <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
+      <a href="#" class="logo" id="logoLink">
+        <img id="logoImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Ctext x='0' y='28' font-family='Arial, sans-serif' font-weight='700' font-size='28' fill='%23FFFFFF'%3EArdian%3C/text%3E%3C/svg%3E" alt="Ardian" />
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-menu" id="navMenu">
+        <a href="#">The Firm</a>
+        <a href="#">Expertise</a>
+        <a href="#">Investors</a>
+        <a href="#">News &amp; Insights</a>
+        <a href="#">Sustainability</a>
+        <a href="#">Talents</a>
+        <a href="#" class="btn">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SLIDES -->
+  <section class="section-slide" data-index="0">
+    <div class="hero">
+      <video autoplay muted loop playsinline>
+        <source src="https://www.ardian.com/sites/default/files/videos/ARDIAN-Film_Marque-BOUCLE_MUETTE-MAJ-2024--1920x800.mp4" type="video/mp4" />
+        <source src="https://www.ardian.com/sites/default/files/videos/ARDIAN-Film_Marque-BOUCLE_MUETTE-MAJ-2024--960x400.mp4" type="video/mp4" />
+      </video>
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1><strong>ARDIAN</strong><br />MASTERING CHANGE FOR LASTING VALUE</h1>
+          <p>A constant force in a world of change. Ardian is a global diversified private markets firm providing investment solutions and customized strategies.</p>
+          <a href="#" class="btn-arrow btn-arrow-white">Discover Ardian's commitment to creating Lasting Change</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide key-figures" data-index="1">
+    <div class="container">
+      <div class="grid">
+        <div class="big-number">
+          <div class="number">$<span>200</span> BN</div>
+          <div class="label">of assets under management or advised</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="number">22</div><div class="label">offices worldwide</div></div>
+          <div class="stat"><div class="number">1,100</div><div class="label">Employees</div></div>
+          <div class="stat"><div class="number">350+</div><div class="label">investment professionals</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide pillars" data-index="2">
+    <div class="container">
+      <div class="section-header">
+        <h2>Investment expertise across private markets</h2>
+        <a href="#" class="btn">Our solutions</a>
+      </div>
+      <div class="grid">
+        <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop');">
+          <div class="content"><h3>Private Equity</h3><span class="arrow">→</span></div>
+        </div>
+        <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop');">
+          <div class="content"><h3>Real Assets</h3><span class="arrow">→</span></div>
+        </div>
+        <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop');">
+          <div class="content"><h3>Credit</h3><span class="arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide investors" data-index="3">
+    <div class="container">
+      <div class="content">
+        <h2>Treating every investor as an individual</h2>
+        <p>From the beginning, Ardian has fostered a culture of excellent customer service and a drive to exceed our clients' expectations and earn their loyalty. We combine professionalism with a personal touch.</p>
+        <a href="#" class="btn">Investors</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide sustainability" data-index="4" id="sustainabilitySlide">
+    <div class="bg-image" id="sustainabilityBg"></div>
+    <div class="bg-overlay" id="sustainabilityOverlay"></div>
+    <div class="container">
+      <div class="grid">
+        <div class="content">
+          <h2>Positive Social Impact</h2>
+          <p>Our mission is to invest in a way that creates sustainable, long-term value and fulfils our social responsibilities. We believe that the gains we help to create should be shared as widely as possible.</p>
+          <a href="#" class="btn">Sustainability</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide talents" data-index="5">
+    <div class="container">
+      <div class="content">
+        <h2>Success built on the efforts of extremely talented people</h2>
+        <p>We look for excellence and integrity in everyone who joins Ardian. We are a company built on long-term commitments and the loyalty that sustains them.</p>
+        <a href="#" class="btn">Careers at Ardian</a>
+      </div>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=200&fit=crop" alt="Team" />
+        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=300&h=200&fit=crop" alt="Office" />
+        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=300&h=200&fit=crop" alt="Meeting" />
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=200&fit=crop" alt="Collaboration" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slide newsletter" data-index="6">
+    <div class="container">
+      <h2>Newsletter</h2>
+      <p>Stay up to date on our activities, market news, investments and our latest insights by signing up below</p>
+      <form>
+        <div class="form-row">
+          <input type="text" placeholder="First Name *" required />
+          <input type="text" placeholder="Last Name *" required />
+        </div>
+        <input type="email" placeholder="Email *" required />
+        <div class="form-check">
+          <input type="checkbox" id="consent" required />
+          <label for="consent">I understand that, by clicking the "subscribe" button, my email address will be used for commercial prospecting purposes by Ardian France.</label>
+        </div>
+        <button type="submit" class="btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section-slide footer" data-index="7">
+    <div class="container">
+      <div class="grid">
+        <div class="left">
+          <div class="logo">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Ctext x='0' y='28' font-family='Arial, sans-serif' font-weight='700' font-size='28' fill='%23ffffff'%3EArdian%3C/text%3E%3C/svg%3E" alt="Ardian" />
+          </div>
+          <div class="address">
+            <p>20, Place Vendôme<br />75001 Paris, France</p>
+            <p><strong>+33 1 41 71 92 00</strong></p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="social-links">
+            <a href="#" aria-label="X">𝕏</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+          <div class="footer-links">
+            <a href="#">Contacts &amp; Offices</a>
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Legal</a>
+            <a href="#">Cookies Policy</a>
+            <a href="#">Privacy notices</a>
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>Copyright © 2026. All Rights Reserved.</span>
+        <span>Ardian</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination" id="pagination"></div>
+
+<script>
+  (function() {
+    const wrapper = document.getElementById('sliderWrapper');
+    const slides = document.querySelectorAll('.section-slide');
+    const pagination = document.getElementById('pagination');
+    const header = document.getElementById('header');
+    const headerTop = document.getElementById('headerTop');
+    const logoImage = document.getElementById('logoImage');
+    let activeIndex = 0;
+    let isScrolling = false;
+
+    // build dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.dataset.index = i;
+      dot.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const index = parseInt(this.dataset.index, 10);
+        if (index === activeIndex) return;
+        goToSlide(index);
+      });
+      pagination.appendChild(dot);
+    });
+    const dots = pagination.querySelectorAll('.dot');
+
+    function goToSlide(index) {
+      if (isScrolling) return;
+      if (index < 0) index = 0;
+      if (index >= slides.length) index = slides.length - 1;
+      if (index === activeIndex) return;
+      isScrolling = true;
+      activeIndex = index;
+      updateDots();
+      const target = slides[index];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    function updateDots() {
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === activeIndex));
+    }
+
+    function updateLogo(isScrolled) {
+      if (isScrolled) {
+        logoImage.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Ctext x='0' y='28' font-family='Arial, sans-serif' font-weight='700' font-size='28' fill='%23000000'%3EArdian%3C/text%3E%3C/svg%3E";
+      } else {
+        logoImage.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Ctext x='0' y='28' font-family='Arial, sans-serif' font-weight='700' font-size='28' fill='%23FFFFFF'%3EArdian%3C/text%3E%3C/svg%3E";
+      }
+    }
+
+    // sustainability hover/active
+    const sustainabilitySlide = document.getElementById('sustainabilitySlide');
+    const bgImage = document.getElementById('sustainabilityBg');
+    const bgOverlay = document.getElementById('sustainabilityOverlay');
+
+    function updateSustainabilityShrink(shouldShrink) {
+      if (!bgImage || !bgOverlay) return;
+      if (shouldShrink) {
+        bgImage.classList.add('shrink');
+        bgOverlay.classList.add('shrink');
+      } else {
+        bgImage.classList.remove('shrink');
+        bgOverlay.classList.remove('shrink');
+      }
+    }
+
+    if (sustainabilitySlide) {
+      sustainabilitySlide.addEventListener('mouseenter', () => updateSustainabilityShrink(true));
+      sustainabilitySlide.addEventListener('mouseleave', () => updateSustainabilityShrink(false));
+    }
+
+    function checkSustainabilityActive() {
+      if (!sustainabilitySlide) return;
+      const rect = sustainabilitySlide.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      const ratio = visible / rect.height;
+      updateSustainabilityShrink(ratio > 0.35);
+    }
+
+    // scroll handler
+    function handleScroll() {
+      const scrollY = wrapper.scrollTop;
+      const trigger = 10;
+      if (scrollY > trigger) {
+        header.classList.add('scrolled');
+        headerTop.classList.add('hidden');
+        updateLogo(true);
+      } else {
+        header.classList.remove('scrolled');
+        headerTop.classList.remove('hidden');
+        updateLogo(false);
+      }
+
+      clearTimeout(window._scrollTimeout);
+      window._scrollTimeout = setTimeout(() => {
+        let closestIndex = 0;
+        let closestDist = Infinity;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const centerY = wrapperRect.top + wrapperRect.height / 2;
+        slides.forEach((slide, i) => {
+          const rect = slide.getBoundingClientRect();
+          const slideCenter = rect.top + rect.height / 2;
+          const dist = Math.abs(centerY - slideCenter);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+        if (closestIndex !== activeIndex) {
+          activeIndex = closestIndex;
+          updateDots();
+        }
+        checkSustainabilityActive();
+      }, 80);
+    }
+
+    wrapper.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', checkSustainabilityActive);
+
+    window.addEventListener('load', function() {
+      header.classList.remove('scrolled');
+      headerTop.classList.remove('hidden');
+      updateLogo(false);
+      activeIndex = 0;
+      updateDots();
+      wrapper.scrollTo(0, 0);
+      setTimeout(checkSustainabilityActive, 400);
+    });
+
+    // mobile menu
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navMenu').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navMenu').classList.remove('open');
+      });
+    });
+
+    // extra smoothness: force hardware acceleration on slides
+    slides.forEach(s => {
+      s.style.transform = 'translateZ(0)';
+      s.style.backfaceVisibility = 'hidden';
+    });
+  })();
+</script>
+</body>
+</html>
