@@ -760,6 +760,7 @@
       font-size: clamp(1.3rem, 1.4vw, 1.5rem);
       color: #ccc;
       line-height: 1.6;
+      text-align: left;
     }
     .sustainability-faq-wrapper .faq-col .faq-answer.open {
       max-height: 400px;
@@ -1202,7 +1203,7 @@
       /* five-column-section: horizontal scroll + side-by-side */
       .five-column-section {
         height: auto !important;
-        min-height: 60vh;
+        /* min-height: 60vh; */
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -1282,15 +1283,15 @@
       }
 
       /* fix hero height */
-      .hero { height: auto; min-height: 100vh; padding: 8rem 0 4rem; }
-      .key-figures { height: auto; min-height: 100vh; padding: 50px 0; }
-      .pillars { height: auto; min-height: 100vh; padding: 50px 0; }
-      .investors { height: auto; min-height: 100vh; padding: 50px 0; }
-      .sustainability-faq-wrapper { height: auto; min-height: 100vh; }
-      .talents { height: auto; min-height: 100vh; padding: 50px 0; }
-      .newsletter { height: auto; min-height: 100vh; padding: 50px 0; }
-      .footer { padding: 50px 0; }
-      .cta-section { height: auto; min-height: 100vh; padding: 50px 0; }
+      .hero { height: auto; min-height: 80vh; padding: 8rem 0 4rem; }
+      .key-figures { height: auto;  padding: 60px 0; }
+      .pillars { height: auto;  padding: 60px 0; }
+      .investors { height: auto;  padding: 60px 0; }
+      .sustainability-faq-wrapper { height: auto;  }
+      .talents { height: auto;  padding: 60px 0; }
+      .newsletter { height: auto;  padding: 60px 0; }
+      .footer { padding: 60px 0; }
+      .cta-section { height: auto;  padding: 60px 0; }
     }
 
     /* ===== CTA SECTION ===== */
@@ -1420,10 +1421,10 @@
     }
     @media (max-width: 820px) {
       .cta-section {
-        padding: 48px 24px;
+        padding: 60px 24px;
         gap: 48px;
         height: auto;
-        min-height: 100vh;
+        
       }
       .cta-section .cta-section__title { font-size: 32px; letter-spacing: -1.5px; }
       .cta-section .cta-section__title span { display: inline; }
