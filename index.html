@@ -7,7 +7,7 @@
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
   <style>
     /* ===== GLOBAL RESET & BASE ===== */
     *,
@@ -295,6 +295,13 @@
       color: var(--primary);
     }
 
+    /* Mobile header layout: logo left, reason select + hamburger on right */
+    .header-main .mobile-right-group {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
     .nav-menu {
       display: flex;
       align-items: center;
@@ -351,6 +358,88 @@
       background: var(--white);
     }
 
+    /* ===== REGION SELECTOR (mobile & desktop) ===== */
+    .region-selector {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .region-selector .selected-region {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 1rem 0.4rem 0.6rem;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s, border-color 0.2s;
+      font-size: clamp(1.1rem, 1.2vw, 1.3rem);
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.4;
+    }
+    .region-selector .selected-region:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .region-selector .selected-region .flag-icon { font-size: 1.8rem; line-height: 1; }
+    .region-selector .selected-region .arrow-down {
+      font-size: 1.2rem;
+      opacity: 0.6;
+      transition: transform 0.25s ease;
+      margin-left: 0.2rem;
+    }
+    .region-selector .selected-region .arrow-down.open { transform: rotate(180deg); }
+    .region-selector .dropdown-list {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 180px;
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      padding: 0.6rem 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+      z-index: 1200;
+      backdrop-filter: blur(8px);
+      background: rgba(18,17,17,0.96);
+    }
+    .region-selector .dropdown-list.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .region-selector .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 1.4rem;
+      color: var(--white);
+      font-size: clamp(1.2rem, 1.3vw, 1.4rem);
+      transition: background 0.15s;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+    .region-selector .dropdown-item:hover {
+      background: rgba(201,160,74,0.15);
+      color: var(--primary);
+    }
+    .region-selector .dropdown-item .flag-icon { font-size: 1.8rem; line-height: 1; }
+    .header.scrolled .region-selector .selected-region {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .header.scrolled .region-selector .selected-region:hover { background: rgba(255,255,255,0.1); }
+
+    /* ===== MOBILE BREAKPOINT: region selector left of hamburger, not in nav ===== */
     @media (max-width: 1024px) {
       .nav-menu {
         display: none;
@@ -385,6 +474,35 @@
       .nav-menu .btn {
         width: 100%;
         text-align: center;
+      }
+      /* Hide region selector inside nav on mobile */
+      .nav-menu .region-selector {
+        display: none !important;
+      }
+      /* Show region selector in header-main right group */
+      .header-main .region-selector {
+        display: inline-block;
+      }
+      /* Adjust header-main layout */
+      .header-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header-main .mobile-right-group {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+    }
+
+    /* Desktop: region selector stays in nav */
+    @media (min-width: 1025px) {
+      #regionSelectorMobile {
+        display: none !important;
+      }
+      .nav-menu .region-selector {
+        display: inline-block !important;
       }
     }
 
@@ -1064,16 +1182,49 @@
       .footer .bottom { flex-direction: column; align-items: flex-start; }
     }
 
-    /* ===== 5 COLUMN EXPANDABLE - MOBILE HORIZONTAL SCROLL ===== */
-    .five-column-section {
+    /* ===== 5 COLUMN EXPANDABLE - UPDATED WITH SERVICES HEADING & VERTICAL TEXT ===== */
+    .five-column-section-wrapper {
+      position: relative;
       height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark);
+    }
+
+    /* Services heading – center aligned, golden, uppercase, bold, large, thin modern font */
+    .services-heading {
+      text-align: center;
+      color: #d4af37;
+      font-size: clamp(3.6rem, 6vw, 5.6rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: 'Inter', Arial, sans-serif;
+      padding: 2rem 2rem 0.5rem 2rem;
+      flex-shrink: 0;
+      background: var(--dark);
+      margin: 0;
+      line-height: 1.2;
+    }
+    @media (max-width: 768px) {
+      .services-heading {
+        font-size: clamp(2.8rem, 5vw, 4rem);
+        padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+      }
+    }
+
+    .five-column-section {
+      flex: 1;
       width: 100%;
       display: flex;
       flex-wrap: nowrap;
       overflow: hidden;
       position: relative;
       background: var(--dark);
+      min-height: 0;
     }
+
     .col-item {
       flex: 1 0 20%;
       height: 100%;
@@ -1084,9 +1235,9 @@
       transition: flex 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
       overflow: hidden;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start; /* vertical text alignment */
       justify-content: flex-start;
-      padding: 0 0 4rem 3rem;
+      padding: 0 0 0 2rem; /* left padding for vertical text */
     }
     .col-item .col-overlay {
       position: absolute;
@@ -1096,74 +1247,54 @@
       z-index: 1;
     }
     .col-item:hover .col-overlay { background: rgba(18, 17, 17, 0.2); }
-    .col-item .col-content {
+
+    /* ---- VERTICAL HEADING (always visible) ---- */
+    .col-item .col-heading {
       position: relative;
-      z-index: 2;
-      color: #fff;
-      text-align: left;
-      padding: 0;
-      max-width: 90%;
-      opacity: 0;
-      transition: opacity 0.4s ease 0.1s;
-      pointer-events: none;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-      width: 100%;
-    }
-    .col-item:hover .col-content { opacity: 1; }
-    .col-item .col-content h3 {
-      color: #fff;
-      font-weight: 100 !important;
-      font-size: clamp(4rem, 6vw, 5rem) !important;
-      margin-bottom: 0.2rem;
-      letter-spacing: 0.02em;
+      z-index: 3;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
       font-family: 'Inter', Arial, sans-serif;
-    }
-    .col-item .col-content p { display: none; }
-
-    .five-column-section.expanded .col-item {
-      flex: 0 0 0;
-      opacity: 0;
+      font-weight: 100 !important;
+      font-size: clamp(1.8rem, 2.4vw, 2.8rem) !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-top: auto !important;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+      padding: 1.2rem 0.4rem;
+      margin: 0;
+      line-height: 1.3;
+      transition: opacity 0.3s ease;
       pointer-events: none;
-    }
-    .five-column-section.expanded .col-item.active-expanded {
-      flex: 1 0 100% !important;
-      opacity: 1 !important;
-      pointer-events: auto;
-      cursor: default;
-    }
-    .five-column-section.expanded .col-item.active-expanded .col-content {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .five-column-section.expanded .col-item.active-expanded .col-overlay {
-      background: rgba(18, 17, 17, 0.3);
+      white-space: nowrap;
+      /* vertical text starts from top, goes down */
     }
 
+    /* Hide all other content by default (desktop & mobile) */
+    .col-item .col-content {
+      display: none;
+    }
     .col-item .col-cta {
       display: none;
-      margin-top: 2rem;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .five-column-section.expanded .col-item.active-expanded .col-cta {
-      display: inline-block;
-      opacity: 1;
-      transform: translateY(0);
+
+    /* ---- HOVER STATE (desktop) ---- */
+    @media (hover: hover) and (min-width: 769px) {
+      .col-item:hover .col-heading {
+        opacity: 1; /* keep visible */
+      }
+      /* On hover, only the heading should be visible – already true */
+      .col-item:hover .col-content {
+        display: none !important;
+      }
+      .col-item:hover .col-cta {
+        display: none !important;
+      }
     }
-    .col-item .col-cta .btn {
-      background: var(--primary);
-      color: var(--dark);
-      padding: 1rem 2.8rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      box-shadow: 0 6px 20px rgba(201, 160, 74, 0.4);
-    }
-    .col-item .col-cta .btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 8px 28px rgba(201, 160, 74, 0.6);
-      background: #d4af37;
-    }
+
+    /* ---- CLICK STATE (desktop) – now only redirects, NO expansion ---- */
+    /* (Removed all expansion styling) */
 
     .close-btn {
       position: absolute;
@@ -1186,6 +1317,7 @@
       transition: opacity 0.3s ease, background 0.2s;
     }
     .close-btn:hover { border-color: var(--primary); color: var(--primary); }
+    /* close button hidden since expansion removed */
     .five-column-section.expanded .close-btn {
       opacity: 1;
       pointer-events: auto;
@@ -1193,17 +1325,20 @@
 
     /* ===== MOBILE: 5 columns horizontal scroll, section height auto + padding ===== */
     @media (max-width: 768px) {
-      /* all sections: height auto, 50px top & bottom padding */
       .section-slide {
         height: auto !important;
         padding-top: 50px !important;
         padding-bottom: 50px !important;
         overflow: visible;
       }
-      /* five-column-section: horizontal scroll + side-by-side */
+      .five-column-section-wrapper {
+        height: auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
       .five-column-section {
         height: auto !important;
-        /* min-height: 60vh; */
+        min-height: 400px;
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -1214,59 +1349,38 @@
         gap: 0;
       }
       .five-column-section .col-item {
-        flex: 0 0 80% !important;
+        flex: 0 0 40% !important;
         height: 400px;
         scroll-snap-align: start;
-        padding: 0 0 2rem 2rem;
+        padding: 0 0 0 1.5rem;
         margin-right: 0.5rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      /* vertical heading always visible on mobile */
+      .five-column-section .col-item .col-heading {
+        font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
+        opacity: 1;
+        padding: 1.2rem 0.3rem;
       }
       .five-column-section .col-item .col-content {
-        opacity: 1 !important;
-        pointer-events: auto;
-      }
-      .five-column-section .col-item .col-content h3 {
-        font-size: 3.2rem !important;
-      }
-      .five-column-section .col-item .col-content p {
-        display: block !important;
-        font-size: 1.2rem;
-        max-width: 180px;
-      }
-      .five-column-section .col-item .col-overlay {
-        background: rgba(18, 17, 17, 0.55);
+        display: none !important;
       }
       .five-column-section .col-item .col-cta {
         display: none !important;
       }
+      .five-column-section .col-item .col-overlay {
+        background: rgba(18, 17, 17, 0.6);
+      }
       .five-column-section .close-btn {
         display: none !important;
       }
-      .five-column-section.expanded .col-item {
-        flex: 0 0 80% !important;
-        opacity: 1 !important;
-        pointer-events: auto;
-      }
-      .five-column-section.expanded .col-item.active-expanded {
-        flex: 0 0 80% !important;
-        opacity: 1 !important;
-        pointer-events: auto;
-        cursor: pointer;
-      }
-      .five-column-section.expanded .col-item.active-expanded .col-content {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .five-column-section.expanded .col-item.active-expanded .col-cta {
-        display: none !important;
-      }
       .five-column-section .col-item:hover .col-overlay {
-        background: rgba(18, 17, 17, 0.55);
+        background: rgba(18, 17, 17, 0.6);
       }
       .five-column-section .col-item:hover {
         transform: none;
       }
-
-      /* Pagination dots - adjust for shorter sections */
       .pagination {
         bottom: 1.5rem;
         right: 1rem;
@@ -1281,8 +1395,6 @@
         height: 18px;
         width: 8px;
       }
-
-      /* fix hero height */
       .hero { height: auto; min-height: 80vh; padding: 8rem 0 4rem; }
       .key-figures { height: auto;  padding: 60px 0; }
       .pillars { height: auto;  padding: 60px 0; }
@@ -1449,97 +1561,24 @@
       .footer-nav-btn:last-child { border-bottom: none; }
     }
 
-    /* ===== REGION SELECTOR ===== */
-    .region-selector {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-      margin: 0 0.4rem;
-    }
-    .region-selector .selected-region {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.4rem 1rem 0.4rem 0.6rem;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: background 0.2s, border-color 0.2s;
-      font-size: clamp(1.1rem, 1.2vw, 1.3rem);
-      font-weight: 500;
-      color: var(--white);
-      line-height: 1.4;
-    }
-    .region-selector .selected-region:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.2);
-    }
-    .region-selector .selected-region .flag-icon { font-size: 1.8rem; line-height: 1; }
-    .region-selector .selected-region .arrow-down {
+    /* ===== REGION SELECTOR (additional style for mobile right group) ===== */
+    .header-main .mobile-right-group .region-selector .selected-region {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
       font-size: 1.2rem;
-      opacity: 0.6;
-      transition: transform 0.25s ease;
-      margin-left: 0.2rem;
+      padding: 0.3rem 0.8rem 0.3rem 0.5rem;
     }
-    .region-selector .selected-region .arrow-down.open { transform: rotate(180deg); }
-    .region-selector .dropdown-list {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      min-width: 180px;
-      background: var(--dark);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-      padding: 0.6rem 0;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-6px);
-      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-      z-index: 1200;
-      backdrop-filter: blur(8px);
-      background: rgba(18,17,17,0.96);
+    .header-main .mobile-right-group .region-selector .selected-region .flag-icon {
+      font-size: 1.5rem;
     }
-    .region-selector .dropdown-list.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
+    .header-main .mobile-right-group .region-selector .dropdown-list {
+      right: auto;
+      left: 0;
     }
-    .region-selector .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 0.7rem 1.4rem;
-      color: var(--white);
-      font-size: clamp(1.2rem, 1.3vw, 1.4rem);
-      transition: background 0.15s;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-    }
-    .region-selector .dropdown-item:hover {
-      background: rgba(201,160,74,0.15);
-      color: var(--primary);
-    }
-    .region-selector .dropdown-item .flag-icon { font-size: 1.8rem; line-height: 1; }
-    .header.scrolled .region-selector .selected-region {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.1);
-    }
-    .header.scrolled .region-selector .selected-region:hover { background: rgba(255,255,255,0.1); }
+
     @media (max-width: 1024px) {
-      .region-selector .selected-region {
-        padding: 0.6rem 1.2rem;
-        width: 100%;
-        justify-content: center;
-      }
-      .region-selector .dropdown-list {
-        right: auto;
-        left: 0;
-        width: 100%;
+      #regionSelectorMobile {
+        display: inline-block !important;
       }
     }
   </style>
@@ -1554,27 +1593,45 @@
         <a href="#" class="logo" id="logoLink">
           <span class="logo-text">FINSOULS</span>
         </a>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
+        <!-- Mobile right group: Reason Select + Hamburger -->
+        <div class="mobile-right-group">
+          <div class="region-selector" id="regionSelectorMobile">
+            <div class="selected-region" id="selectedRegionMobile">
+              <span class="flag-icon"></span>
+              <span>UAE</span>
+              <span class="arrow-down" id="regionArrowMobile">▾</span>
+            </div>
+            <div class="dropdown-list" id="regionDropdownMobile">
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="UAE"><span class="flag-icon"></span> UAE</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Dubai"><span class="flag-icon"></span> Dubai</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Abu Dhabi"><span class="flag-icon"></span> Abu Dhabi</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Sharjah"><span class="flag-icon"></span> Sharjah</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Ras Al Khaimah"><span class="flag-icon"></span> Ras Al Khaimah</button>
+            </div>
+          </div>
+          <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
         <nav class="nav-menu" id="navMenu">
           <a href="#">Home</a>
           <a href="#">About us</a>
           <a href="#">Services</a>
           <a href="#">Contact</a>
           <a href="#">Teams</a>
-          <div class="region-selector" id="regionSelector">
-            <div class="selected-region" id="selectedRegion">
+          <!-- Desktop region selector inside nav -->
+          <div class="region-selector" id="regionSelectorDesktop">
+            <div class="selected-region" id="selectedRegionDesktop">
               <span class="flag-icon"></span>
               <span>UAE</span>
-              <span class="arrow-down" id="regionArrow">▾</span>
+              <span class="arrow-down" id="regionArrowDesktop">▾</span>
             </div>
-            <div class="dropdown-list" id="regionDropdown">
-              <button class="dropdown-item" data-flag="" data-label="UAE"><span class="flag-icon"></span> UAE</button>
-              <button class="dropdown-item" data-flag="" data-label="Dubai"><span class="flag-icon"></span> Dubai</button>
-              <button class="dropdown-item" data-flag="" data-label="Abu Dhabi"><span class="flag-icon"></span> Abu Dhabi</button>
-              <button class="dropdown-item" data-flag="" data-label="Sharjah"><span class="flag-icon"></span> Sharjah</button>
-              <button class="dropdown-item" data-flag="" data-label="Ras Al Khaimah"><span class="flag-icon"></span> Ras Al Khaimah</button>
+            <div class="dropdown-list" id="regionDropdownDesktop">
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="UAE"><span class="flag-icon"></span> UAE</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Dubai"><span class="flag-icon"></span> Dubai</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Abu Dhabi"><span class="flag-icon"></span> Abu Dhabi</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Sharjah"><span class="flag-icon"></span> Sharjah</button>
+              <button class="dropdown-item" data-flag="🇦🇪" data-label="Ras Al Khaimah"><span class="flag-icon"></span> Ras Al Khaimah</button>
             </div>
           </div>
           <a href="#" class="btn">Book a Consultant</a>
@@ -1600,60 +1657,54 @@
       </div>
     </section>
 
-    <!-- ===== SLIDE 4: 5‑COLUMN EXPANDABLE (now horizontal scroll on mobile) ===== -->
+    <!-- ===== SLIDE 4: 5‑COLUMN (NOW LINKS, NO EXPAND) ===== -->
     <section class="section-slide" data-index="3" style="padding:0; height:100vh;">
-      <div class="five-column-section" id="fiveColSection">
-        <div class="col-item" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop');" data-col="0">
-          <div class="col-overlay"></div>
-          <div class="col-content">
-            <h3>Innovation</h3>
-            <p>Pioneering new paths in private markets with creative thinking.</p>
-            <div class="col-cta">
-              <a href="#" class="btn">Learn More →</a>
+      <div class="five-column-section-wrapper">
+        <h2 class="services-heading">Services</h2>
+        <div class="five-column-section" id="fiveColSection">
+          <!-- Each col-item is now a link (wrapped in <a>) -->
+          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop');" data-col="0">
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">Innovation</h3>
+            <div class="col-content">
+              <p>Pioneering new paths in private markets with creative thinking.</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
             </div>
-          </div>
-        </div>
-        <div class="col-item" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop');" data-col="1">
-          <div class="col-overlay"></div>
-          <div class="col-content">
-            <h3>Excellence</h3>
-            <p>Uncompromising quality and performance across all investments.</p>
-            <div class="col-cta">
-              <a href="#" class="btn">Learn More →</a>
+          </a>
+          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop');" data-col="1">
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">Excellence</h3>
+            <div class="col-content">
+              <p>Uncompromising quality and performance across all investments.</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
             </div>
-          </div>
-        </div>
-        <div class="col-item" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop');" data-col="2">
-          <div class="col-overlay"></div>
-          <div class="col-content">
-            <h3>Integrity</h3>
-            <p>Trust and transparency are the foundation of every relationship.</p>
-            <div class="col-cta">
-              <a href="#" class="btn">Learn More →</a>
+          </a>
+          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop');" data-col="2">
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">Integrity</h3>
+            <div class="col-content">
+              <p>Trust and transparency are the foundation of every relationship.</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
             </div>
-          </div>
-        </div>
-        <div class="col-item" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop');" data-col="3">
-          <div class="col-overlay"></div>
-          <div class="col-content">
-            <h3>Collaboration</h3>
-            <p>Working together to amplify impact and drive lasting change.</p>
-            <div class="col-cta">
-              <a href="#" class="btn">Learn More →</a>
+          </a>
+          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop');" data-col="3">
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">Collaboration</h3>
+            <div class="col-content">
+              <p>Working together to amplify impact and drive lasting change.</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
             </div>
-          </div>
-        </div>
-        <div class="col-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop');" data-col="4">
-          <div class="col-overlay"></div>
-          <div class="col-content">
-            <h3>Future</h3>
-            <p>Building a sustainable tomorrow through bold investment choices.</p>
-            <div class="col-cta">
-              <a href="#" class="btn">Learn More →</a>
+          </a>
+          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop');" data-col="4">
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">Future</h3>
+            <div class="col-content">
+              <p>Building a sustainable tomorrow through bold investment choices.</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
             </div>
-          </div>
+          </a>
+          <button class="close-btn" id="closeExpandBtn">✕</button>
         </div>
-        <button class="close-btn" id="closeExpandBtn">✕</button>
       </div>
     </section>
 
@@ -1675,7 +1726,7 @@
       </div>
     </section>
 
-    <!-- ===== SLIDE 3: SERVICES ===== -->
+    <!-- ===== SLIDE 3: SERVICES (PILLARS) ===== -->
     <section class="section-slide pillars" data-index="2">
       <div class="container">
         <div class="section-header">
@@ -1974,35 +2025,38 @@
         s.style.backfaceVisibility = 'hidden';
       });
 
-      // ===== FIVE COLUMN (desktop hover/expand) =====
+      // ===== FIVE COLUMN – REMOVED EXPAND, ONLY HOVER WIDTH EFFECT =====
       const section = document.getElementById('fiveColSection');
-      const cols = section.querySelectorAll('.col-item');
+      const cols = document.querySelectorAll('.col-item'); // now <a> elements
       const closeBtn = document.getElementById('closeExpandBtn');
 
-      // only apply desktop behavior if not mobile (screen > 768px)
       function isMobile() { return window.innerWidth <= 768; }
 
       function applyDesktopBehavior() {
         if (isMobile()) {
-          // mobile: reset any expanded state, ensure horizontal scroll works
-          section.classList.remove('expanded');
+          // Mobile: each item takes 80% width, no hover width change
           cols.forEach(c => {
-            c.classList.remove('active-expanded');
             c.style.flex = '0 0 80%';
             c.style.opacity = '1';
           });
           return;
         }
-        // desktop: restore hover/expand behavior
-        section.classList.remove('expanded');
+        // Desktop: reset flex to equal distribution
         cols.forEach(c => {
           c.style.flex = '1 0 20%';
           c.style.opacity = '1';
-          c.classList.remove('active-expanded');
         });
 
+        // Remove any existing mouseenter/mouseleave listeners (by replacing)
+        // We'll use event delegation or re-attach.
+        // For simplicity, remove all listeners and attach new ones.
+        // We'll also ensure no expand class remains.
+        section.classList.remove('expanded');
+        cols.forEach(c => c.classList.remove('active-expanded'));
+
+        // Hover effect: expand hovered column, shrink others
         cols.forEach(col => {
-          col.addEventListener('mouseenter', function() {
+          col.addEventListener('mouseenter', function(e) {
             if (isMobile()) return;
             cols.forEach(c => {
               c.style.flex = '1 0 20%';
@@ -2015,34 +2069,26 @@
               }
             });
           });
-          col.addEventListener('mouseleave', function() {
+          col.addEventListener('mouseleave', function(e) {
             if (isMobile()) return;
             cols.forEach(c => {
               c.style.flex = '1 0 20%';
               c.style.opacity = '1';
             });
           });
-          col.addEventListener('click', function(e) {
-            if (isMobile()) return;
-            e.stopPropagation();
-            window.location.href = '#';
-          });
+          // Click does nothing except follow the link (already an <a>)
+          // No expand logic.
         });
 
-        closeBtn.addEventListener('click', function(e) {
-          if (isMobile()) return;
-          e.stopPropagation();
-          cols.forEach(c => {
-            c.style.flex = '1 0 20%';
-            c.style.opacity = '1';
-          });
-          section.classList.remove('expanded');
-          cols.forEach(c => c.classList.remove('active-expanded'));
-        });
+        // Hide close button (no expand)
+        closeBtn.style.display = 'none';
       }
 
       applyDesktopBehavior();
       window.addEventListener('resize', applyDesktopBehavior);
+
+      // Also ensure that on mobile, no hover width change
+      // The isMobile() check in mouseenter/mouseleave prevents it.
 
       // ===== FAQ toggle =====
       window.toggleFaq = function(el) {
@@ -2059,45 +2105,51 @@
         }
       };
 
-      // ===== REGION SELECTOR =====
-      const regionSelector = document.getElementById('regionSelector');
-      const selectedRegion = document.getElementById('selectedRegion');
-      const regionDropdown = document.getElementById('regionDropdown');
-      const regionArrow = document.getElementById('regionArrow');
-      const dropdownItems = regionDropdown.querySelectorAll('.dropdown-item');
+      // ===== REGION SELECTOR (mobile + desktop) =====
+      function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
+        const selector = document.getElementById(selectorId);
+        if (!selector) return;
+        const selected = document.getElementById(selectedId);
+        const dropdown = document.getElementById(dropdownId);
+        const arrow = document.getElementById(arrowId);
+        const items = dropdown.querySelectorAll('.dropdown-item');
 
-      selectedRegion.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const isOpen = regionDropdown.classList.contains('open');
-        regionDropdown.classList.toggle('open');
-        regionArrow.classList.toggle('open');
-      });
-
-      dropdownItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+        selected.addEventListener('click', function(e) {
           e.stopPropagation();
-          const flag = this.dataset.flag;
-          const label = this.dataset.label;
-          selectedRegion.innerHTML = `
-            <span class="flag-icon">${flag}</span>
-            <span>${label}</span>
-            <span class="arrow-down" id="regionArrow">▾</span>
-          `;
-          document.getElementById('regionArrow').classList.remove('open');
-          regionDropdown.classList.remove('open');
-          dropdownItems.forEach(d => d.style.background = 'transparent');
-          this.style.background = 'rgba(201,160,74,0.15)';
+          const isOpen = dropdown.classList.contains('open');
+          dropdown.classList.toggle('open');
+          if (arrow) arrow.classList.toggle('open');
         });
-      });
 
-      document.addEventListener('click', function(e) {
-        if (!regionSelector.contains(e.target)) {
-          regionDropdown.classList.remove('open');
-          const arrow = document.getElementById('regionArrow');
-          if (arrow) arrow.classList.remove('open');
-        }
-      });
-      regionDropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+        items.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const flag = this.dataset.flag;
+            const label = this.dataset.label;
+            selected.innerHTML = `
+              <span class="flag-icon">${flag}</span>
+              <span>${label}</span>
+              <span class="arrow-down" id="${arrowId}">▾</span>
+            `;
+            document.getElementById(arrowId).classList.remove('open');
+            dropdown.classList.remove('open');
+            items.forEach(d => d.style.background = 'transparent');
+            this.style.background = 'rgba(201,160,74,0.15)';
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!selector.contains(e.target)) {
+            dropdown.classList.remove('open');
+            const arrowEl = document.getElementById(arrowId);
+            if (arrowEl) arrowEl.classList.remove('open');
+          }
+        });
+        dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+      }
+
+      setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
+      setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
 
     })();
   </script>
