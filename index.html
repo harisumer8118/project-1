@@ -93,27 +93,30 @@
       font-size: clamp(2rem, 4vw, 2.8rem);
       color: #d4af37;
     }
+    /* ===== BUTTONS: Glassmorphism + Glow on hover ===== */
     .btn {
       display: inline-block;
       padding: 1.2rem 2.8rem;
-      background: var(--primary);
-      color: var(--dark);
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.25);
+      color: var(--white);
       font-size: clamp(1.2rem, 1.4vw, 1.4rem);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.075em;
-      border: none;
-      border-radius: 0;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(201, 160, 74, 0.4);
-      text-align: center;
       border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 20px rgba(201, 160, 74, 0.6);
-      background: #d4af37;
+      background: rgba(201, 160, 74, 0.95);
+      border-color: rgba(201, 160, 74, 0.9);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      transform: scale(1.03);
       color: #121111;
     }
     .btn-arrow {
@@ -121,17 +124,28 @@
       align-items: center;
       gap: 0.8rem;
       padding: 1rem 2.4rem 1rem 1.6rem;
-      color: var(--primary);
+      color: var(--white);
       font-weight: 500;
-      transition: var(--transition);
+      transition: all 0.3s ease;
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 30px;
+      border: 1px solid rgba(201, 160, 74, 0.25);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .btn-arrow::after {
       content: "→";
       font-size: 1.8rem;
-      transition: var(--transition);
+      transition: all 0.3s ease;
     }
     .btn-arrow:hover {
       gap: 1.2rem;
+      background: rgba(201, 160, 74, 0.95);
+      border-color: rgba(201, 160, 74, 0.9);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+      transform: scale(1.03);
     }
     .btn-arrow-white {
       color: var(--white);
@@ -139,7 +153,48 @@
     .btn-arrow-white::after {
       color: var(--white);
     }
-
+    .btn-arrow-white:hover {
+      color: #121111;
+    }
+    .btn-arrow-white:hover::after {
+      color: #121111;
+    }
+    /* Glassmorphism for all buttons */
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      border-radius: 60px;
+      padding: 0.8rem 2.4rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 1.6rem;
+      color: var(--color-text-light);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .pill-btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      border-color: rgba(201, 160, 74, 0.9);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      transform: scale(1.03);
+      color: #121111;
+    }
+    .pill-btn--light {
+      background: rgba(201, 160, 74, 0.2);
+      color: var(--color-text-light);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .pill-btn--light:hover {
+      background: rgba(201, 160, 74, 0.95);
+      border-color: rgba(201, 160, 74, 0.9);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+    }
     /* ===== SLIDER WRAPPER ===== */
     .slider-wrapper {
       height: 100vh;
@@ -324,19 +379,24 @@
       color: var(--white);
     }
     .header.scrolled .nav-menu a:hover {
-      color: var(--primary);
+      color: #000;
       border-bottom-color: var(--primary);
     }
     .nav-menu .btn {
       padding: 0.6rem 1.6rem;
       font-size: clamp(1rem, 1.2vw, 1.2rem);
-      background: var(--primary);
-      color: var(--dark);
+      background: rgba(201, 160, 74, 0.15);
+      color: var(--white);
       white-space: nowrap;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .nav-menu .btn:hover {
-      background: #d4af37;
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
       color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
     }
     .hamburger {
       display: none;
@@ -382,7 +442,19 @@
       background: rgba(255,255,255,0.1);
       border-color: rgba(255,255,255,0.2);
     }
-    .region-selector .selected-region .flag-icon { font-size: 1.8rem; line-height: 1; }
+    .region-selector .selected-region .flag-icon {
+      width: 20px;
+      height: 15px;
+      display: inline-block;
+      line-height: 1;
+      font-size: 0;
+    }
+    .region-selector .selected-region .flag-icon img {
+      width: 20px;
+      height: 15px;
+      object-fit: contain;
+      border-radius: 2px;
+    }
     .region-selector .selected-region .arrow-down {
       font-size: 1.2rem;
       opacity: 0.6;
@@ -432,7 +504,19 @@
       background: rgba(201,160,74,0.15);
       color: var(--primary);
     }
-    .region-selector .dropdown-item .flag-icon { font-size: 1.8rem; line-height: 1; }
+    .region-selector .dropdown-item .flag-icon {
+      width: 20px;
+      height: 15px;
+      display: inline-block;
+      line-height: 1;
+      font-size: 0;
+    }
+    .region-selector .dropdown-item .flag-icon img {
+      width: 20px;
+      height: 15px;
+      object-fit: contain;
+      border-radius: 2px;
+    }
     .header.scrolled .region-selector .selected-region {
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.1);
@@ -475,15 +559,12 @@
         width: 100%;
         text-align: center;
       }
-      /* Hide region selector inside nav on mobile */
       .nav-menu .region-selector {
         display: none !important;
       }
-      /* Show region selector in header-main right group */
       .header-main .region-selector {
         display: inline-block;
       }
-      /* Adjust header-main layout */
       .header-main {
         display: flex;
         justify-content: space-between;
@@ -496,7 +577,6 @@
       }
     }
 
-    /* Desktop: region selector stays in nav */
     @media (min-width: 1025px) {
       #regionSelectorMobile {
         display: none !important;
@@ -698,7 +778,7 @@
       }
     }
 
-    /* ===== PILLARS ===== */
+    /* ===== PILLARS (SERVICES) – now "Insights & Blogs" ===== */
     .pillars {
       height: 100vh;
       display: flex;
@@ -715,7 +795,19 @@
       gap: 1.5rem;
     }
     .pillars .section-header h2 { color: #d4af37; }
-    .pillars .section-header .btn { background: var(--primary); color: var(--dark); }
+    .pillars .section-header .btn { 
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .pillars .section-header .btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
+    }
     .pillars .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -723,7 +815,7 @@
     }
     .pillar-card {
       position: relative;
-      border-radius: 0;
+      border-radius: 10px 10px 0 0 ;
       overflow: hidden;
       min-height: clamp(200px, 40vh, 280px);
       display: flex;
@@ -734,6 +826,7 @@
       box-shadow: var(--shadow);
       cursor: pointer;
       will-change: transform;
+      border-radius: 10px;
     }
     .pillar-card::before {
       content: '';
@@ -757,14 +850,24 @@
       font-weight: 300;
       margin-bottom: 0.5rem;
     }
-    .pillar-card .content .arrow {
+    .pillar-card .content .btn {
       display: inline-block;
-      font-size: clamp(2rem, 2.4vw, 2.4rem);
       margin-top: 1rem;
-      transition: transform 0.35s ease;
-      color: var(--primary);
+      padding: 0.6rem 1.8rem;
+      font-size: 1.2rem;
+      background: rgba(201, 160, 74, 0.2);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(201, 160, 74, 0.3);
+      color: #fff;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .pillar-card:hover .content .arrow { transform: translateX(8px); }
+    .pillar-card .content .btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
+    }
     @media (max-width: 768px) {
       .pillars .grid { grid-template-columns: 1fr; }
       .pillar-card { min-height: 180px; }
@@ -914,7 +1017,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 80%;
+      width: 100%;
       height: 100%;
       background: rgba(18, 17, 17, 0.3);
       z-index: 0;
@@ -922,7 +1025,7 @@
       transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .sustainability-left .bg-image-fixed.shrink-left { width: 50%; }
-    .sustainability-left .bg-overlay-fixed.shrink-left { width: 30%; }
+    .sustainability-left .bg-overlay-fixed.shrink-left { width: 50%; }
     .sustainability-left .content-box {
       position: relative;
       z-index: 2;
@@ -942,8 +1045,19 @@
       margin-bottom: 2rem;
       color: var(--white);
     }
-    .sustainability-left .content-box .btn { background: var(--primary); color: var(--dark); }
-    .sustainability-left .content-box .btn:hover { background: #d4af37; }
+    .sustainability-left .content-box .btn { 
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .sustainability-left .content-box .btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
+    }
     @media (max-width: 1024px) {
       .sustainability-faq-wrapper {
         flex-direction: column;
@@ -1095,10 +1209,18 @@
     .newsletter .btn {
       width: 100%;
       max-width: 240px;
-      background: var(--primary);
-      color: var(--dark);
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .newsletter .btn:hover { background: #d4af37; }
+    .newsletter .btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5), 0 0 60px rgba(201, 160, 74, 0.2);
+      color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
+    }
 
     /* ===== FOOTER ===== */
     .footer {
@@ -1192,7 +1314,6 @@
       background: var(--dark);
     }
 
-    /* Services heading – center aligned, golden, uppercase, bold, large, thin modern font */
     .services-heading {
       text-align: center;
       color: #d4af37;
@@ -1235,9 +1356,9 @@
       transition: flex 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
       overflow: hidden;
       display: flex;
-      align-items: flex-start; /* vertical text alignment */
+      align-items: flex-start;
       justify-content: flex-start;
-      padding: 0 0 0 2rem; /* left padding for vertical text */
+      padding: 0 0 0 2rem;
     }
     .col-item .col-overlay {
       position: absolute;
@@ -1248,7 +1369,6 @@
     }
     .col-item:hover .col-overlay { background: rgba(18, 17, 17, 0.2); }
 
-    /* ---- VERTICAL HEADING (always visible) ---- */
     .col-item .col-heading {
       position: relative;
       z-index: 3;
@@ -1260,7 +1380,6 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #fff;
-      margin-top: auto !important;
       text-shadow: 0 2px 12px rgba(0,0,0,0.7);
       padding: 1.2rem 0.4rem;
       margin: 0;
@@ -1268,10 +1387,8 @@
       transition: opacity 0.3s ease;
       pointer-events: none;
       white-space: nowrap;
-      /* vertical text starts from top, goes down */
     }
 
-    /* Hide all other content by default (desktop & mobile) */
     .col-item .col-content {
       display: none;
     }
@@ -1279,12 +1396,10 @@
       display: none;
     }
 
-    /* ---- HOVER STATE (desktop) ---- */
     @media (hover: hover) and (min-width: 769px) {
       .col-item:hover .col-heading {
-        opacity: 1; /* keep visible */
+        opacity: 1;
       }
-      /* On hover, only the heading should be visible – already true */
       .col-item:hover .col-content {
         display: none !important;
       }
@@ -1292,9 +1407,6 @@
         display: none !important;
       }
     }
-
-    /* ---- CLICK STATE (desktop) – now only redirects, NO expansion ---- */
-    /* (Removed all expansion styling) */
 
     .close-btn {
       position: absolute;
@@ -1317,13 +1429,11 @@
       transition: opacity 0.3s ease, background 0.2s;
     }
     .close-btn:hover { border-color: var(--primary); color: var(--primary); }
-    /* close button hidden since expansion removed */
     .five-column-section.expanded .close-btn {
       opacity: 1;
       pointer-events: auto;
     }
 
-    /* ===== MOBILE: 5 columns horizontal scroll, section height auto + padding ===== */
     @media (max-width: 768px) {
       .section-slide {
         height: auto !important;
@@ -1357,7 +1467,6 @@
         align-items: flex-start;
         justify-content: flex-start;
       }
-      /* vertical heading always visible on mobile */
       .five-column-section .col-item .col-heading {
         font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
         opacity: 1;
@@ -1431,31 +1540,6 @@
     }
     .cta-section .cta-section__title span { display: block; }
     .flx { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
-    .pill-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 60px;
-      padding: 0.8rem 2.4rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-size: 1.6rem;
-      color: var(--color-text-light);
-    }
-    .pill-btn--light {
-      background: var(--color-text-light);
-      color: var(--color-dark);
-      border-color: var(--color-text-light);
-    }
-    .pill-btn--light:hover {
-      background: transparent;
-      color: var(--color-text-light);
-      border-color: var(--color-text-light);
-    }
-    .pill-btn-span { display: inline-block; }
     .footer-nav {
       display: flex;
       width: 100%;
@@ -1536,7 +1620,6 @@
         padding: 60px 24px;
         gap: 48px;
         height: auto;
-        
       }
       .cta-section .cta-section__title { font-size: 32px; letter-spacing: -1.5px; }
       .cta-section .cta-section__title span { display: inline; }
@@ -1561,7 +1644,6 @@
       .footer-nav-btn:last-child { border-bottom: none; }
     }
 
-    /* ===== REGION SELECTOR (additional style for mobile right group) ===== */
     .header-main .mobile-right-group .region-selector .selected-region {
       background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.15);
@@ -1569,7 +1651,15 @@
       padding: 0.3rem 0.8rem 0.3rem 0.5rem;
     }
     .header-main .mobile-right-group .region-selector .selected-region .flag-icon {
-      font-size: 1.5rem;
+      width: 18px;
+      height: 13px;
+      font-size: 0;
+    }
+    .header-main .mobile-right-group .region-selector .selected-region .flag-icon img {
+      width: 18px;
+      height: 13px;
+      object-fit: contain;
+      border-radius: 2px;
     }
     .header-main .mobile-right-group .region-selector .dropdown-list {
       right: auto;
@@ -1580,6 +1670,14 @@
       #regionSelectorMobile {
         display: inline-block !important;
       }
+    }
+
+    /* ===== BLOG CARD BORDER RADIUS ===== */
+    .pillar-card {
+      border-radius: 10px 10px 0 0  !important;
+    }
+    .pillar-card .content .btn {
+      border-radius: 30px;
     }
   </style>
 </head>
@@ -1593,20 +1691,19 @@
         <a href="#" class="logo" id="logoLink">
           <span class="logo-text">FINSOULS</span>
         </a>
-        <!-- Mobile right group: Reason Select + Hamburger -->
         <div class="mobile-right-group">
           <div class="region-selector" id="regionSelectorMobile">
             <div class="selected-region" id="selectedRegionMobile">
-              <span class="flag-icon"></span>
-              <span>UAE</span>
+              <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+              <span>Global</span>
               <span class="arrow-down" id="regionArrowMobile">▾</span>
             </div>
             <div class="dropdown-list" id="regionDropdownMobile">
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="UAE"><span class="flag-icon"></span> UAE</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Dubai"><span class="flag-icon"></span> Dubai</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Abu Dhabi"><span class="flag-icon"></span> Abu Dhabi</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Sharjah"><span class="flag-icon"></span> Sharjah</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Ras Al Khaimah"><span class="flag-icon"></span> Ras Al Khaimah</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
             </div>
           </div>
           <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -1619,19 +1716,18 @@
           <a href="#">Services</a>
           <a href="#">Contact</a>
           <a href="#">Teams</a>
-          <!-- Desktop region selector inside nav -->
           <div class="region-selector" id="regionSelectorDesktop">
             <div class="selected-region" id="selectedRegionDesktop">
-              <span class="flag-icon"></span>
-              <span>UAE</span>
+              <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+              <span>Global</span>
               <span class="arrow-down" id="regionArrowDesktop">▾</span>
             </div>
             <div class="dropdown-list" id="regionDropdownDesktop">
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="UAE"><span class="flag-icon"></span> UAE</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Dubai"><span class="flag-icon"></span> Dubai</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Abu Dhabi"><span class="flag-icon"></span> Abu Dhabi</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Sharjah"><span class="flag-icon"></span> Sharjah</button>
-              <button class="dropdown-item" data-flag="🇦🇪" data-label="Ras Al Khaimah"><span class="flag-icon"></span> Ras Al Khaimah</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
             </div>
           </div>
           <a href="#" class="btn">Book a Consultant</a>
@@ -1657,53 +1753,12 @@
       </div>
     </section>
 
-    <!-- ===== SLIDE 4: 5‑COLUMN (NOW LINKS, NO EXPAND) ===== -->
+    <!-- ===== SLIDE 4: 5‑COLUMN (DYNAMIC SERVICES) ===== -->
     <section class="section-slide" data-index="3" style="padding:0; height:100vh;">
       <div class="five-column-section-wrapper">
         <h2 class="services-heading">Services</h2>
         <div class="five-column-section" id="fiveColSection">
-          <!-- Each col-item is now a link (wrapped in <a>) -->
-          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop');" data-col="0">
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">Innovation</h3>
-            <div class="col-content">
-              <p>Pioneering new paths in private markets with creative thinking.</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          </a>
-          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop');" data-col="1">
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">Excellence</h3>
-            <div class="col-content">
-              <p>Uncompromising quality and performance across all investments.</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          </a>
-          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop');" data-col="2">
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">Integrity</h3>
-            <div class="col-content">
-              <p>Trust and transparency are the foundation of every relationship.</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          </a>
-          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop');" data-col="3">
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">Collaboration</h3>
-            <div class="col-content">
-              <p>Working together to amplify impact and drive lasting change.</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          </a>
-          <a href="#" class="col-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop');" data-col="4">
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">Future</h3>
-            <div class="col-content">
-              <p>Building a sustainable tomorrow through bold investment choices.</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          </a>
-          <button class="close-btn" id="closeExpandBtn">✕</button>
+          <!-- Columns will be dynamically inserted here -->
         </div>
       </div>
     </section>
@@ -1726,23 +1781,15 @@
       </div>
     </section>
 
-    <!-- ===== SLIDE 3: SERVICES (PILLARS) ===== -->
-    <section class="section-slide pillars" data-index="2">
+    <!-- ===== SLIDE 3: INSIGHTS & BLOGS (unchanged) ===== -->
+    <section class="section-slide pillars" data-index="2" id="blogSection">
       <div class="container">
         <div class="section-header">
-          <h2>Our Accounting Services in Dubai</h2>
-          <a href="#" class="btn">All Services</a>
+          <h2>Insights & Blogs</h2>
+          <a href="#" class="btn" id="allBlogsBtn">All Blogs</a>
         </div>
-        <div class="grid">
-          <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop');">
-            <div class="content"><h3>VAT Consultancy</h3><span class="arrow">→</span></div>
-          </div>
-          <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop');">
-            <div class="content"><h3>Tax Agent</h3><span class="arrow">→</span></div>
-          </div>
-          <div class="pillar-card" style="background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop');">
-            <div class="content"><h3>Accounting &amp; Bookkeeping</h3><span class="arrow">→</span></div>
-          </div>
+        <div class="grid" id="blogGrid">
+          <!-- Blog cards will be dynamically inserted here -->
         </div>
       </div>
     </section>
@@ -1755,8 +1802,8 @@
             <div class="bg-image-fixed" id="sustainabilityBgFixed"></div>
             <div class="bg-overlay-fixed" id="sustainabilityOverlayFixed"></div>
             <div class="content-box">
-              <h2>Positive Social Impact</h2>
-              <p>Our mission is to invest in a way that creates sustainable, long-term value and fulfils our social responsibilities. We believe that the gains we help to create should be shared as widely as possible.</p>
+              <h2>How We Work</h2>
+              <p>Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.</p>
               <a href="#" class="btn">Sustainability</a>
             </div>
           </div>
@@ -1797,8 +1844,8 @@
     <!-- ===== SLIDE 8: CTA SECTION ===== -->
     <section class="section-slide" data-index="7" style="padding:0; height:100vh;">
       <section class="cta-section">
-        <h2 class="cta-section__title"><span>Staff your outage with fast response, </span><span>and crews you can rely on.</span></h2>
-        <div class="flx"><a href="/request-crew" class="pill-btn pill-btn--light"><span class="pill-btn-span">Request Crews</span></a></div>
+        <h2 class="cta-section__title"><span>Latest News Powered by Bloomberg</span></h2>
+       
         <nav class="footer-nav">
           <div class="footer-nav-track">
             <a href="/industries" class="footer-nav-btn">
@@ -2007,6 +2054,8 @@
         wrapper.scrollTo(0, 0);
         updateSustainabilityShrink(false);
         setTimeout(checkSustainabilityActive, 400);
+        updateBlogs('Global');
+        updateServices('Global');
       });
 
       // Mobile menu
@@ -2025,36 +2074,29 @@
         s.style.backfaceVisibility = 'hidden';
       });
 
-      // ===== FIVE COLUMN – REMOVED EXPAND, ONLY HOVER WIDTH EFFECT =====
+      // ===== FIVE COLUMN – DYNAMIC SERVICES =====
       const section = document.getElementById('fiveColSection');
-      const cols = document.querySelectorAll('.col-item'); // now <a> elements
       const closeBtn = document.getElementById('closeExpandBtn');
 
       function isMobile() { return window.innerWidth <= 768; }
 
       function applyDesktopBehavior() {
         if (isMobile()) {
-          // Mobile: each item takes 80% width, no hover width change
+          const cols = document.querySelectorAll('.col-item');
           cols.forEach(c => {
             c.style.flex = '0 0 80%';
             c.style.opacity = '1';
           });
           return;
         }
-        // Desktop: reset flex to equal distribution
+        const cols = document.querySelectorAll('.col-item');
         cols.forEach(c => {
           c.style.flex = '1 0 20%';
           c.style.opacity = '1';
         });
-
-        // Remove any existing mouseenter/mouseleave listeners (by replacing)
-        // We'll use event delegation or re-attach.
-        // For simplicity, remove all listeners and attach new ones.
-        // We'll also ensure no expand class remains.
         section.classList.remove('expanded');
         cols.forEach(c => c.classList.remove('active-expanded'));
 
-        // Hover effect: expand hovered column, shrink others
         cols.forEach(col => {
           col.addEventListener('mouseenter', function(e) {
             if (isMobile()) return;
@@ -2076,34 +2118,126 @@
               c.style.opacity = '1';
             });
           });
-          // Click does nothing except follow the link (already an <a>)
-          // No expand logic.
         });
-
-        // Hide close button (no expand)
-        closeBtn.style.display = 'none';
+        if (closeBtn) closeBtn.style.display = 'none';
       }
 
-      applyDesktopBehavior();
       window.addEventListener('resize', applyDesktopBehavior);
 
-      // Also ensure that on mobile, no hover width change
-      // The isMobile() check in mouseenter/mouseleave prevents it.
-
-      // ===== FAQ toggle =====
-      window.toggleFaq = function(el) {
-        const answer = el.nextElementSibling;
-        const icon = el.querySelector('.icon');
-        if (answer.classList.contains('open')) {
-          answer.classList.remove('open');
-          icon.classList.remove('open');
-          icon.textContent = '+';
-        } else {
-          answer.classList.add('open');
-          icon.classList.add('open');
-          icon.textContent = '−';
-        }
+      // ===== SERVICES DATA PER REGION =====
+      const servicesData = {
+        'Global': [
+          { title: 'Innovation', desc: 'Pioneering new paths in private markets with creative thinking.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+          { title: 'Excellence', desc: 'Uncompromising quality and performance across all investments.', img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop' },
+          { title: 'Integrity', desc: 'Trust and transparency are the foundation of every relationship.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
+          { title: 'Collaboration', desc: 'Working together to amplify impact and drive lasting change.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+          { title: 'Future', desc: 'Building a sustainable tomorrow through bold investment choices.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+        ],
+        'UAE': [
+          { title: 'UAE Tax Advisory', desc: 'Expert VAT and corporate tax advisory services in the UAE.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=800&fit=crop' },
+          { title: 'Dubai Accounting', desc: 'Professional bookkeeping and accounting tailored to Dubai businesses.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+          { title: 'Business Setup UAE', desc: 'Comprehensive business setup and consultancy in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=800&fit=crop' },
+          { title: 'Audit & Assurance', desc: 'Reliable audit and assurance services for UAE companies.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+          { title: 'Financial Planning', desc: 'Strategic financial planning for growth in the UAE market.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+        ],
+        'Singapore': [
+          { title: 'Singapore Tax Advisory', desc: 'Expert tax advisory and compliance services in Singapore.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=800&fit=crop' },
+          { title: 'Corporate Accounting', desc: 'Corporate accounting and financial management in Singapore.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=800&fit=crop' },
+          { title: 'Business Advisory', desc: 'Strategic business advisory for growth in the Singapore market.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=800&fit=crop' },
+          { title: 'Audit Services', desc: 'Comprehensive audit and assurance services in Singapore.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+          { title: 'Wealth Planning', desc: 'Wealth management and planning for Singapore-based clients.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+        ],
+        'Portugal': [
+          { title: 'Portugal Tax Advisory', desc: 'Expert tax advisory and compliance services in Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=800&fit=crop' },
+          { title: 'Corporate Services', desc: 'Corporate services and accounting for Portuguese businesses.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=800&fit=crop' },
+          { title: 'Golden Visa Advisory', desc: 'Expert guidance on Portugal\'s Golden Visa program.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
+          { title: 'Investment Planning', desc: 'Strategic investment planning in the Portuguese market.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+          { title: 'Business Setup', desc: 'Business setup and consultancy services in Portugal.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+        ],
+        'Pakistan': [
+          { title: 'Pakistan Tax Advisory', desc: 'Expert tax advisory and compliance services in Pakistan.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=800&fit=crop' },
+          { title: 'Accounting Services', desc: 'Professional accounting and bookkeeping in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=800&fit=crop' },
+          { title: 'Business Advisory', desc: 'Strategic business advisory for growth in Pakistan.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+          { title: 'Audit & Assurance', desc: 'Comprehensive audit services for Pakistani businesses.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+          { title: 'Corporate Finance', desc: 'Corporate finance and investment advisory in Pakistan.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+        ]
       };
+
+      function updateServices(region) {
+        const services = servicesData[region] || servicesData['Global'];
+        section.innerHTML = '';
+        services.forEach((service, index) => {
+          const col = document.createElement('a');
+          col.href = '#';
+          col.className = 'col-item';
+          col.style.backgroundImage = `url('${service.img}')`;
+          col.dataset.col = index;
+          col.innerHTML = `
+            <div class="col-overlay"></div>
+            <h3 class="col-heading">${service.title}</h3>
+            <div class="col-content">
+              <p>${service.desc}</p>
+              <div class="col-cta"><span class="btn">Learn More →</span></div>
+            </div>
+          `;
+          section.appendChild(col);
+        });
+        // Re-apply desktop behavior after rendering
+        applyDesktopBehavior();
+      }
+
+      // ===== BLOG DATA PER REGION =====
+      const blogData = {
+        'Global': [
+          { title: 'Global Market Trends 2025', desc: 'An in-depth look at emerging global market trends and their impact on investment strategies.', img: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&h=400&fit=crop' },
+          { title: 'Sustainable Finance Worldwide', desc: 'Exploring the rise of sustainable finance and ESG investing across global markets.', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop' },
+          { title: 'Digital Transformation in Finance', desc: 'How digital transformation is reshaping the financial services industry globally.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' }
+        ],
+        'UAE': [
+          { title: 'UAE Economic Outlook 2025', desc: 'Analyzing the UAE\'s economic growth and investment opportunities in the region.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop' },
+          { title: 'Dubai Real Estate Market', desc: 'Current trends and forecasts for Dubai\'s dynamic real estate sector.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' },
+          { title: 'VAT Compliance in UAE', desc: 'Essential guide to VAT compliance and tax regulations for businesses in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop' }
+        ],
+        'Singapore': [
+          { title: 'Singapore Fintech Innovation', desc: 'How Singapore is leading fintech innovation and digital banking in Asia.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=400&fit=crop' },
+          { title: 'Singapore Economic Policy', desc: 'An analysis of Singapore\'s economic policies and their impact on businesses.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=400&fit=crop' },
+          { title: 'Wealth Management in Singapore', desc: 'Wealth management strategies and opportunities in Singapore\'s financial hub.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop' }
+        ],
+        'Portugal': [
+          { title: 'Portugal Investment Landscape', desc: 'Exploring investment opportunities and the growing economy of Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=400&fit=crop' },
+          { title: 'Golden Visa Portugal', desc: 'A comprehensive guide to Portugal\'s Golden Visa program and its benefits.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop' },
+          { title: 'Portuguese Tech Startups', desc: 'The rise of tech startups in Portugal and the innovation ecosystem.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop' }
+        ],
+        'Pakistan': [
+          { title: 'Pakistan Economic Growth', desc: 'An analysis of Pakistan\'s economic growth and emerging market opportunities.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=400&fit=crop' },
+          { title: 'Investment in Pakistan', desc: 'Key sectors for investment and the business landscape in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' },
+          { title: 'Pakistan Tech Industry', desc: 'The rapid growth of Pakistan\'s technology industry and startup ecosystem.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' }
+        ]
+      };
+
+      const blogGrid = document.getElementById('blogGrid');
+
+      function updateBlogs(region) {
+        const blogs = blogData[region] || blogData['Global'];
+        blogGrid.innerHTML = '';
+        blogs.forEach(blog => {
+          const card = document.createElement('div');
+          card.className = 'pillar-card';
+          card.style.backgroundImage = `url('${blog.img}')`;
+          card.innerHTML = `
+            <div class="content">
+              <h3>${blog.title}</h3>
+              <p style="font-size:1.4rem; opacity:0.9; margin-top:0.5rem;">${blog.desc}</p>
+              <a href="#" class="btn">Explore More</a>
+            </div>
+          `;
+          blogGrid.appendChild(card);
+        });
+        // Update URL with region parameter
+        const url = new URL(window.location);
+        url.searchParams.set('region', region);
+        window.history.replaceState({}, '', url);
+      }
 
       // ===== REGION SELECTOR (mobile + desktop) =====
       function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
@@ -2113,6 +2247,25 @@
         const dropdown = document.getElementById(dropdownId);
         const arrow = document.getElementById(arrowId);
         const items = dropdown.querySelectorAll('.dropdown-item');
+
+        // Get region from URL on load
+        const urlParams = new URLSearchParams(window.location.search);
+        const regionParam = urlParams.get('region');
+        if (regionParam) {
+          const matchingItem = Array.from(items).find(item => item.dataset.label === regionParam);
+          if (matchingItem) {
+            const flag = matchingItem.dataset.flag;
+            const label = matchingItem.dataset.label;
+            selected.innerHTML = `
+              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+              <span>${label}</span>
+              <span class="arrow-down" id="${arrowId}">▾</span>
+            `;
+            document.getElementById(arrowId).classList.remove('open');
+            updateBlogs(label);
+            updateServices(label);
+          }
+        }
 
         selected.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -2127,7 +2280,7 @@
             const flag = this.dataset.flag;
             const label = this.dataset.label;
             selected.innerHTML = `
-              <span class="flag-icon">${flag}</span>
+              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
               <span>${label}</span>
               <span class="arrow-down" id="${arrowId}">▾</span>
             `;
@@ -2135,6 +2288,8 @@
             dropdown.classList.remove('open');
             items.forEach(d => d.style.background = 'transparent');
             this.style.background = 'rgba(201,160,74,0.15)';
+            updateBlogs(label);
+            updateServices(label);
           });
         });
 
@@ -2150,6 +2305,33 @@
 
       setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
       setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+
+      // ===== ALL BLOGS BUTTON =====
+      document.getElementById('allBlogsBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('blogSection').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // ===== VIEW NEWS BUTTON =====
+      document.getElementById('viewNewsBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('View all news articles (demo)');
+      });
+
+      // ===== FAQ toggle =====
+      window.toggleFaq = function(el) {
+        const answer = el.nextElementSibling;
+        const icon = el.querySelector('.icon');
+        if (answer.classList.contains('open')) {
+          answer.classList.remove('open');
+          icon.classList.remove('open');
+          icon.textContent = '+';
+        } else {
+          answer.classList.add('open');
+          icon.classList.add('open');
+          icon.textContent = '−';
+        }
+      };
 
     })();
   </script>
