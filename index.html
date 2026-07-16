@@ -93,7 +93,7 @@
       font-size: clamp(2rem, 4vw, 2.8rem);
       color: #d4af37;
     }
-    /* ===== BUTTONS: Glassmorphism + Glow on hover ===== */
+    /* ===== BUTTONS ===== */
     .btn {
       display: inline-block;
       padding: 1.2rem 2.8rem;
@@ -159,7 +159,6 @@
     .btn-arrow-white:hover::after {
       color: #121111;
     }
-    /* Glassmorphism for all buttons */
     .pill-btn {
       display: inline-flex;
       align-items: center;
@@ -1739,9 +1738,8 @@
     <!-- ===== SLIDE 1: HERO ===== -->
     <section class="section-slide" data-index="0">
       <div class="hero">
-        <video autoplay muted loop playsinline>
-          <source src="https://www.ardian.com/sites/default/files/videos/ARDIAN-Film_Marque-BOUCLE_MUETTE-MAJ-2024--1920x800.mp4" type="video/mp4" />
-          <source src="https://www.ardian.com/sites/default/files/videos/ARDIAN-Film_Marque-BOUCLE_MUETTE-MAJ-2024--960x400.mp4" type="video/mp4" />
+        <video id="heroVideo" muted playsinline preload="auto">
+          <source src="https://harisumer.me/project-1/hailuo-2_3_Animate_the_provided_image_while_preserving_its_original_composition_and_design.-0.mp4" type="video/mp4" />
         </video>
         <div class="overlay"></div>
         <div class="container">
@@ -1782,7 +1780,7 @@
       </div>
     </section>
 
-    <!-- ===== SLIDE 3: INSIGHTS & BLOGS (unchanged) ===== -->
+    <!-- ===== SLIDE 3: INSIGHTS & BLOGS ===== -->
     <section class="section-slide pillars" data-index="2" id="blogSection">
       <div class="container">
         <div class="section-header">
@@ -1944,397 +1942,471 @@
   <div class="pagination" id="pagination"></div>
 
   <script>
-    (function() {
-      const wrapper = document.getElementById('sliderWrapper');
-      const slides = document.querySelectorAll('.section-slide');
-      const pagination = document.getElementById('pagination');
-      const header = document.getElementById('header');
-      let activeIndex = 0;
-      let isScrolling = false;
-      let scrollTimeout = null;
+  (function() {
+    const wrapper = document.getElementById('sliderWrapper');
+    const slides = document.querySelectorAll('.section-slide');
+    const pagination = document.getElementById('pagination');
+    const header = document.getElementById('header');
+    let activeIndex = 0;
+    let isScrolling = false;
+    let scrollTimeout = null;
 
-      slides.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.dataset.index = i;
-        dot.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const index = parseInt(this.dataset.index, 10);
-          if (index === activeIndex) return;
-          goToSlide(index);
-        });
-        pagination.appendChild(dot);
-      });
-      const dots = pagination.querySelectorAll('.dot');
+    // ===== VIDEO CONTROLLER – SCROLL MAPPING (NO LOOP, NO MULTIPLIER) =====
+    const video = document.getElementById('heroVideo');
+    let videoLoaded = false;
+    let duration = 0;
 
-      function goToSlide(index) {
-        if (isScrolling) return;
-        if (index < 0) index = 0;
-        if (index >= slides.length) index = slides.length - 1;
-        if (index === activeIndex) return;
-        isScrolling = true;
-        activeIndex = index;
-        updateDots();
-        const target = slides[index];
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => { isScrolling = false; }, 900);
-      }
-
-      function updateDots() {
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === activeIndex));
-      }
-
-      // Sustainability shrink
-      const sustainabilitySlide = document.getElementById('sustainabilityFaqSlide');
-      const bgImage = document.getElementById('sustainabilityBgFixed');
-      const bgOverlay = document.getElementById('sustainabilityOverlayFixed');
-
-      function updateSustainabilityShrink(shouldShrink) {
-        if (!bgImage || !bgOverlay) return;
-        if (shouldShrink) {
-          bgImage.classList.add('shrink-left');
-          bgOverlay.classList.add('shrink-left');
-        } else {
-          bgImage.classList.remove('shrink-left');
-          bgOverlay.classList.remove('shrink-left');
+    // Safely set video time
+    function safeSetVideoTime(time) {
+      if (!video || !videoLoaded || !duration || duration === 0) return;
+      try {
+        const clampedTime = Math.max(0, Math.min(time, duration));
+        if (Math.abs(video.currentTime - clampedTime) > 0.01) {
+          video.currentTime = clampedTime;
         }
+      } catch (e) {
+        // silently handle
       }
+    }
 
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) updateSustainabilityShrink(true);
-          else updateSustainabilityShrink(false);
-        });
-      }, { threshold: 0.3 });
-      if (sustainabilitySlide) observer.observe(sustainabilitySlide);
-
-      function checkSustainabilityActive() {
-        if (!sustainabilitySlide) return;
-        const rect = sustainabilitySlide.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-        const ratio = visible / rect.height;
-        updateSustainabilityShrink(ratio > 0.3);
+    // Initialize video metadata
+    function initVideo() {
+      if (video.readyState >= 1 && video.duration > 0) {
+        duration = video.duration;
+        videoLoaded = true;
+        video.pause();
+        video.currentTime = 0;
+        updateVideoFromScroll();
+        return true;
       }
+      return false;
+    }
 
-      function handleScroll() {
-        const scrollY = wrapper.scrollTop;
-        if (scrollY > 10) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+    // Core update: map scroll to video time (0 → duration)
+    function updateVideoFromScroll() {
+      if (!videoLoaded || !duration || duration === 0) return;
 
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          let closestIndex = 0;
-          let closestDist = Infinity;
-          const wrapperRect = wrapper.getBoundingClientRect();
-          const centerY = wrapperRect.top + wrapperRect.height / 2;
-          slides.forEach((slide, i) => {
-            const rect = slide.getBoundingClientRect();
-            const slideCenter = rect.top + rect.height / 2;
-            const dist = Math.abs(centerY - slideCenter);
-            if (dist < closestDist) {
-              closestDist = dist;
-              closestIndex = i;
-            }
-          });
-          if (closestIndex !== activeIndex) {
-            activeIndex = closestIndex;
-            updateDots();
+      const hero = document.querySelector('.hero');
+      if (!hero) return;
+
+      const heroTop = hero.offsetTop;
+      const heroHeight = hero.offsetHeight;
+      const scrollTop = wrapper.scrollTop;
+
+      // Progress within hero section (0 to 1)
+      let progress = (scrollTop - heroTop) / heroHeight;
+      progress = Math.max(0, Math.min(progress, 1));
+
+      const targetTime = progress * duration;
+
+      if (Math.abs(video.currentTime - targetTime) > 0.01) {
+        video.currentTime = targetTime;
+      }
+    }
+
+    // Set up video events
+    if (video) {
+      // If metadata already loaded
+      if (initVideo()) {
+        // already ready
+      } else {
+        video.addEventListener('loadedmetadata', function() {
+          if (initVideo()) {
+            // ready
           }
-          checkSustainabilityActive();
-        }, 80);
-      }
-
-      wrapper.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', checkSustainabilityActive);
-
-      window.addEventListener('load', function() {
-        header.classList.remove('scrolled');
-        activeIndex = 0;
-        updateDots();
-        wrapper.scrollTo(0, 0);
-        updateSustainabilityShrink(false);
-        setTimeout(checkSustainabilityActive, 400);
-        updateBlogs('Global');
-        updateServices('Global');
-      });
-
-      // Mobile menu
-      document.getElementById('hamburger').addEventListener('click', function() {
-        document.getElementById('navMenu').classList.toggle('open');
-      });
-      document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-          document.getElementById('navMenu').classList.remove('open');
         });
+        video.addEventListener('canplay', function() {
+          if (!videoLoaded && initVideo()) {
+            // ready
+          }
+        });
+      }
+    }
+
+    // Scroll listener for video
+    wrapper.addEventListener('scroll', updateVideoFromScroll);
+
+    // --- PAGINATION DOTS ---
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.dataset.index = i;
+      dot.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const index = parseInt(this.dataset.index, 10);
+        if (index === activeIndex) return;
+        goToSlide(index);
       });
+      pagination.appendChild(dot);
+    });
+    const dots = pagination.querySelectorAll('.dot');
 
-      // Hardware acceleration
-      slides.forEach(s => {
-        s.style.transform = 'translateZ(0)';
-        s.style.backfaceVisibility = 'hidden';
+    function goToSlide(index) {
+      if (isScrolling) return;
+      if (index < 0) index = 0;
+      if (index >= slides.length) index = slides.length - 1;
+      if (index === activeIndex) return;
+      isScrolling = true;
+      activeIndex = index;
+      updateDots();
+      const target = slides[index];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    function updateDots() {
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === activeIndex));
+    }
+
+    // Sustainability shrink
+    const sustainabilitySlide = document.getElementById('sustainabilityFaqSlide');
+    const bgImage = document.getElementById('sustainabilityBgFixed');
+    const bgOverlay = document.getElementById('sustainabilityOverlayFixed');
+
+    function updateSustainabilityShrink(shouldShrink) {
+      if (!bgImage || !bgOverlay) return;
+      if (shouldShrink) {
+        bgImage.classList.add('shrink-left');
+        bgOverlay.classList.add('shrink-left');
+      } else {
+        bgImage.classList.remove('shrink-left');
+        bgOverlay.classList.remove('shrink-left');
+      }
+    }
+
+    let observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) updateSustainabilityShrink(true);
+        else updateSustainabilityShrink(false);
       });
+    }, { threshold: 0.3 });
+    if (sustainabilitySlide) observer.observe(sustainabilitySlide);
 
-      // ===== FIVE COLUMN – DYNAMIC SERVICES =====
-      const section = document.getElementById('fiveColSection');
-      const closeBtn = document.getElementById('closeExpandBtn');
+    function checkSustainabilityActive() {
+      if (!sustainabilitySlide) return;
+      const rect = sustainabilitySlide.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      const ratio = visible / rect.height;
+      updateSustainabilityShrink(ratio > 0.3);
+    }
 
-      function isMobile() { return window.innerWidth <= 768; }
+    function handleScroll() {
+      const scrollY = wrapper.scrollTop;
+      if (scrollY > 10) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
 
-      function applyDesktopBehavior() {
-        if (isMobile()) {
-          const cols = document.querySelectorAll('.col-item');
-          cols.forEach(c => {
-            c.style.flex = '0 0 80%';
-            c.style.opacity = '1';
-          });
-          return;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        let closestIndex = 0;
+        let closestDist = Infinity;
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const centerY = wrapperRect.top + wrapperRect.height / 2;
+        slides.forEach((slide, i) => {
+          const rect = slide.getBoundingClientRect();
+          const slideCenter = rect.top + rect.height / 2;
+          const dist = Math.abs(centerY - slideCenter);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+        if (closestIndex !== activeIndex) {
+          activeIndex = closestIndex;
+          updateDots();
         }
+        checkSustainabilityActive();
+      }, 80);
+    }
+
+    wrapper.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', checkSustainabilityActive);
+
+    window.addEventListener('load', function() {
+      header.classList.remove('scrolled');
+      activeIndex = 0;
+      updateDots();
+      wrapper.scrollTo(0, 0);
+      updateSustainabilityShrink(false);
+      setTimeout(checkSustainabilityActive, 400);
+      updateBlogs('Global');
+      updateServices('Global');
+      // Ensure video is at 0
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        updateVideoFromScroll();
+      }
+      setTimeout(updateVideoFromScroll, 500);
+    });
+
+    // Mobile menu
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navMenu').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navMenu').classList.remove('open');
+      });
+    });
+
+    // Hardware acceleration
+    slides.forEach(s => {
+      s.style.transform = 'translateZ(0)';
+      s.style.backfaceVisibility = 'hidden';
+    });
+
+    // ===== FIVE COLUMN – DYNAMIC SERVICES =====
+    const section = document.getElementById('fiveColSection');
+    const closeBtn = document.getElementById('closeExpandBtn');
+
+    function isMobile() { return window.innerWidth <= 768; }
+
+    function applyDesktopBehavior() {
+      if (isMobile()) {
         const cols = document.querySelectorAll('.col-item');
         cols.forEach(c => {
-          c.style.flex = '1 0 20%';
+          c.style.flex = '0 0 80%';
           c.style.opacity = '1';
         });
-        section.classList.remove('expanded');
-        cols.forEach(c => c.classList.remove('active-expanded'));
+        return;
+      }
+      const cols = document.querySelectorAll('.col-item');
+      cols.forEach(c => {
+        c.style.flex = '1 0 20%';
+        c.style.opacity = '1';
+      });
+      section.classList.remove('expanded');
+      cols.forEach(c => c.classList.remove('active-expanded'));
 
-        cols.forEach(col => {
-          col.addEventListener('mouseenter', function(e) {
-            if (isMobile()) return;
-            cols.forEach(c => {
-              c.style.flex = '1 0 20%';
-              c.style.opacity = '1';
-            });
-            this.style.flex = '1 0 35%';
-            cols.forEach(c => {
-              if (c !== this) {
-                c.style.flex = '1 0 16.25%';
-              }
-            });
+      cols.forEach(col => {
+        col.addEventListener('mouseenter', function(e) {
+          if (isMobile()) return;
+          cols.forEach(c => {
+            c.style.flex = '1 0 20%';
+            c.style.opacity = '1';
           });
-          col.addEventListener('mouseleave', function(e) {
-            if (isMobile()) return;
-            cols.forEach(c => {
-              c.style.flex = '1 0 20%';
-              c.style.opacity = '1';
-            });
+          this.style.flex = '1 0 35%';
+          cols.forEach(c => {
+            if (c !== this) {
+              c.style.flex = '1 0 16.25%';
+            }
           });
         });
-        if (closeBtn) closeBtn.style.display = 'none';
-      }
-
-      window.addEventListener('resize', applyDesktopBehavior);
-
-      // ===== SERVICES DATA PER REGION =====
-      const servicesData = {
-        'Global': [
-          { title: 'Innovation', desc: 'Pioneering new paths in private markets with creative thinking.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
-          { title: 'Excellence', desc: 'Uncompromising quality and performance across all investments.', img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop' },
-          { title: 'Integrity', desc: 'Trust and transparency are the foundation of every relationship.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
-          { title: 'Collaboration', desc: 'Working together to amplify impact and drive lasting change.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
-          { title: 'Future', desc: 'Building a sustainable tomorrow through bold investment choices.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
-        ],
-        'UAE': [
-          { title: 'UAE Tax Advisory', desc: 'Expert VAT and corporate tax advisory services in the UAE.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=800&fit=crop' },
-          { title: 'Dubai Accounting', desc: 'Professional bookkeeping and accounting tailored to Dubai businesses.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
-          { title: 'Business Setup UAE', desc: 'Comprehensive business setup and consultancy in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=800&fit=crop' },
-          { title: 'Audit & Assurance', desc: 'Reliable audit and assurance services for UAE companies.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
-          { title: 'Financial Planning', desc: 'Strategic financial planning for growth in the UAE market.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
-        ],
-        'Singapore': [
-          { title: 'Singapore Tax Advisory', desc: 'Expert tax advisory and compliance services in Singapore.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=800&fit=crop' },
-          { title: 'Corporate Accounting', desc: 'Corporate accounting and financial management in Singapore.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=800&fit=crop' },
-          { title: 'Business Advisory', desc: 'Strategic business advisory for growth in the Singapore market.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=800&fit=crop' },
-          { title: 'Audit Services', desc: 'Comprehensive audit and assurance services in Singapore.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
-          { title: 'Wealth Planning', desc: 'Wealth management and planning for Singapore-based clients.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
-        ],
-        'Portugal': [
-          { title: 'Portugal Tax Advisory', desc: 'Expert tax advisory and compliance services in Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=800&fit=crop' },
-          { title: 'Corporate Services', desc: 'Corporate services and accounting for Portuguese businesses.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=800&fit=crop' },
-          { title: 'Golden Visa Advisory', desc: 'Expert guidance on Portugal\'s Golden Visa program.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
-          { title: 'Investment Planning', desc: 'Strategic investment planning in the Portuguese market.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
-          { title: 'Business Setup', desc: 'Business setup and consultancy services in Portugal.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
-        ],
-        'Pakistan': [
-          { title: 'Pakistan Tax Advisory', desc: 'Expert tax advisory and compliance services in Pakistan.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=800&fit=crop' },
-          { title: 'Accounting Services', desc: 'Professional accounting and bookkeeping in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=800&fit=crop' },
-          { title: 'Business Advisory', desc: 'Strategic business advisory for growth in Pakistan.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
-          { title: 'Audit & Assurance', desc: 'Comprehensive audit services for Pakistani businesses.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
-          { title: 'Corporate Finance', desc: 'Corporate finance and investment advisory in Pakistan.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
-        ]
-      };
-
-      function updateServices(region) {
-        const services = servicesData[region] || servicesData['Global'];
-        section.innerHTML = '';
-        services.forEach((service, index) => {
-          const col = document.createElement('a');
-          col.href = '#';
-          col.className = 'col-item';
-          col.style.backgroundImage = `url('${service.img}')`;
-          col.dataset.col = index;
-          col.innerHTML = `
-            <div class="col-overlay"></div>
-            <h3 class="col-heading">${service.title}</h3>
-            <div class="col-content">
-              <p>${service.desc}</p>
-              <div class="col-cta"><span class="btn">Learn More →</span></div>
-            </div>
-          `;
-          section.appendChild(col);
+        col.addEventListener('mouseleave', function(e) {
+          if (isMobile()) return;
+          cols.forEach(c => {
+            c.style.flex = '1 0 20%';
+            c.style.opacity = '1';
+          });
         });
-        // Re-apply desktop behavior after rendering
-        applyDesktopBehavior();
-      }
+      });
+      if (closeBtn) closeBtn.style.display = 'none';
+    }
 
-      // ===== BLOG DATA PER REGION =====
-      const blogData = {
-        'Global': [
-          { title: 'Global Market Trends 2025', desc: 'An in-depth look at emerging global market trends and their impact on investment strategies.', img: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&h=400&fit=crop' },
-          { title: 'Sustainable Finance Worldwide', desc: 'Exploring the rise of sustainable finance and ESG investing across global markets.', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop' },
-          { title: 'Digital Transformation in Finance', desc: 'How digital transformation is reshaping the financial services industry globally.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' }
-        ],
-        'UAE': [
-          { title: 'UAE Economic Outlook 2025', desc: 'Analyzing the UAE\'s economic growth and investment opportunities in the region.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop' },
-          { title: 'Dubai Real Estate Market', desc: 'Current trends and forecasts for Dubai\'s dynamic real estate sector.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' },
-          { title: 'VAT Compliance in UAE', desc: 'Essential guide to VAT compliance and tax regulations for businesses in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop' }
-        ],
-        'Singapore': [
-          { title: 'Singapore Fintech Innovation', desc: 'How Singapore is leading fintech innovation and digital banking in Asia.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=400&fit=crop' },
-          { title: 'Singapore Economic Policy', desc: 'An analysis of Singapore\'s economic policies and their impact on businesses.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=400&fit=crop' },
-          { title: 'Wealth Management in Singapore', desc: 'Wealth management strategies and opportunities in Singapore\'s financial hub.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop' }
-        ],
-        'Portugal': [
-          { title: 'Portugal Investment Landscape', desc: 'Exploring investment opportunities and the growing economy of Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=400&fit=crop' },
-          { title: 'Golden Visa Portugal', desc: 'A comprehensive guide to Portugal\'s Golden Visa program and its benefits.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop' },
-          { title: 'Portuguese Tech Startups', desc: 'The rise of tech startups in Portugal and the innovation ecosystem.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop' }
-        ],
-        'Pakistan': [
-          { title: 'Pakistan Economic Growth', desc: 'An analysis of Pakistan\'s economic growth and emerging market opportunities.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=400&fit=crop' },
-          { title: 'Investment in Pakistan', desc: 'Key sectors for investment and the business landscape in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' },
-          { title: 'Pakistan Tech Industry', desc: 'The rapid growth of Pakistan\'s technology industry and startup ecosystem.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' }
-        ]
-      };
+    window.addEventListener('resize', applyDesktopBehavior);
 
-      const blogGrid = document.getElementById('blogGrid');
+    // ===== SERVICES DATA PER REGION =====
+    const servicesData = {
+      'Global': [
+        { title: 'Innovation', desc: 'Pioneering new paths in private markets with creative thinking.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+        { title: 'Excellence', desc: 'Uncompromising quality and performance across all investments.', img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=800&fit=crop' },
+        { title: 'Integrity', desc: 'Trust and transparency are the foundation of every relationship.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
+        { title: 'Collaboration', desc: 'Working together to amplify impact and drive lasting change.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+        { title: 'Future', desc: 'Building a sustainable tomorrow through bold investment choices.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+      ],
+      'UAE': [
+        { title: 'UAE Tax Advisory', desc: 'Expert VAT and corporate tax advisory services in the UAE.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=800&fit=crop' },
+        { title: 'Dubai Accounting', desc: 'Professional bookkeeping and accounting tailored to Dubai businesses.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+        { title: 'Business Setup UAE', desc: 'Comprehensive business setup and consultancy in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=800&fit=crop' },
+        { title: 'Audit & Assurance', desc: 'Reliable audit and assurance services for UAE companies.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+        { title: 'Financial Planning', desc: 'Strategic financial planning for growth in the UAE market.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+      ],
+      'Singapore': [
+        { title: 'Singapore Tax Advisory', desc: 'Expert tax advisory and compliance services in Singapore.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=800&fit=crop' },
+        { title: 'Corporate Accounting', desc: 'Corporate accounting and financial management in Singapore.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=800&fit=crop' },
+        { title: 'Business Advisory', desc: 'Strategic business advisory for growth in the Singapore market.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=800&fit=crop' },
+        { title: 'Audit Services', desc: 'Comprehensive audit and assurance services in Singapore.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+        { title: 'Wealth Planning', desc: 'Wealth management and planning for Singapore-based clients.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+      ],
+      'Portugal': [
+        { title: 'Portugal Tax Advisory', desc: 'Expert tax advisory and compliance services in Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=800&fit=crop' },
+        { title: 'Corporate Services', desc: 'Corporate services and accounting for Portuguese businesses.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=800&fit=crop' },
+        { title: 'Golden Visa Advisory', desc: 'Expert guidance on Portugal\'s Golden Visa program.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=800&fit=crop' },
+        { title: 'Investment Planning', desc: 'Strategic investment planning in the Portuguese market.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+        { title: 'Business Setup', desc: 'Business setup and consultancy services in Portugal.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+      ],
+      'Pakistan': [
+        { title: 'Pakistan Tax Advisory', desc: 'Expert tax advisory and compliance services in Pakistan.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=800&fit=crop' },
+        { title: 'Accounting Services', desc: 'Professional accounting and bookkeeping in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=800&fit=crop' },
+        { title: 'Business Advisory', desc: 'Strategic business advisory for growth in Pakistan.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=800&fit=crop' },
+        { title: 'Audit & Assurance', desc: 'Comprehensive audit services for Pakistani businesses.', img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=800&fit=crop' },
+        { title: 'Corporate Finance', desc: 'Corporate finance and investment advisory in Pakistan.', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=800&fit=crop' }
+      ]
+    };
 
-      function updateBlogs(region) {
-        const blogs = blogData[region] || blogData['Global'];
-        blogGrid.innerHTML = '';
-        blogs.forEach(blog => {
-          const card = document.createElement('div');
-          card.className = 'pillar-card';
-          card.style.backgroundImage = `url('${blog.img}')`;
-          card.innerHTML = `
-            <div class="content">
-              <h3>${blog.title}</h3>
-              <p style="font-size:1.4rem; opacity:0.9; margin-top:0.5rem;">${blog.desc}</p>
-              <a href="#" class="btn">Explore More</a>
-            </div>
+    function updateServices(region) {
+      const services = servicesData[region] || servicesData['Global'];
+      section.innerHTML = '';
+      services.forEach((service, index) => {
+        const col = document.createElement('a');
+        col.href = '#';
+        col.className = 'col-item';
+        col.style.backgroundImage = `url('${service.img}')`;
+        col.dataset.col = index;
+        col.innerHTML = `
+          <div class="col-overlay"></div>
+          <h3 class="col-heading">${service.title}</h3>
+          <div class="col-content">
+            <p>${service.desc}</p>
+            <div class="col-cta"><span class="btn">Learn More →</span></div>
+          </div>
+        `;
+        section.appendChild(col);
+      });
+      applyDesktopBehavior();
+    }
+
+    // ===== BLOG DATA PER REGION =====
+    const blogData = {
+      'Global': [
+        { title: 'Global Market Trends 2025', desc: 'An in-depth look at emerging global market trends and their impact on investment strategies.', img: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&h=400&fit=crop' },
+        { title: 'Sustainable Finance Worldwide', desc: 'Exploring the rise of sustainable finance and ESG investing across global markets.', img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop' },
+        { title: 'Digital Transformation in Finance', desc: 'How digital transformation is reshaping the financial services industry globally.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' }
+      ],
+      'UAE': [
+        { title: 'UAE Economic Outlook 2025', desc: 'Analyzing the UAE\'s economic growth and investment opportunities in the region.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop' },
+        { title: 'Dubai Real Estate Market', desc: 'Current trends and forecasts for Dubai\'s dynamic real estate sector.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' },
+        { title: 'VAT Compliance in UAE', desc: 'Essential guide to VAT compliance and tax regulations for businesses in the UAE.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop' }
+      ],
+      'Singapore': [
+        { title: 'Singapore Fintech Innovation', desc: 'How Singapore is leading fintech innovation and digital banking in Asia.', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=400&fit=crop' },
+        { title: 'Singapore Economic Policy', desc: 'An analysis of Singapore\'s economic policies and their impact on businesses.', img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&h=400&fit=crop' },
+        { title: 'Wealth Management in Singapore', desc: 'Wealth management strategies and opportunities in Singapore\'s financial hub.', img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop' }
+      ],
+      'Portugal': [
+        { title: 'Portugal Investment Landscape', desc: 'Exploring investment opportunities and the growing economy of Portugal.', img: 'https://images.unsplash.com/photo-1519676867248-f0b4c80a44d6?w=600&h=400&fit=crop' },
+        { title: 'Golden Visa Portugal', desc: 'A comprehensive guide to Portugal\'s Golden Visa program and its benefits.', img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&h=400&fit=crop' },
+        { title: 'Portuguese Tech Startups', desc: 'The rise of tech startups in Portugal and the innovation ecosystem.', img: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop' }
+      ],
+      'Pakistan': [
+        { title: 'Pakistan Economic Growth', desc: 'An analysis of Pakistan\'s economic growth and emerging market opportunities.', img: 'https://images.unsplash.com/photo-1587072907392-7d5f7bbd5c3e?w=600&h=400&fit=crop' },
+        { title: 'Investment in Pakistan', desc: 'Key sectors for investment and the business landscape in Pakistan.', img: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop' },
+        { title: 'Pakistan Tech Industry', desc: 'The rapid growth of Pakistan\'s technology industry and startup ecosystem.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&h=400&fit=crop' }
+      ]
+    };
+
+    const blogGrid = document.getElementById('blogGrid');
+
+    function updateBlogs(region) {
+      const blogs = blogData[region] || blogData['Global'];
+      blogGrid.innerHTML = '';
+      blogs.forEach(blog => {
+        const card = document.createElement('div');
+        card.className = 'pillar-card';
+        card.style.backgroundImage = `url('${blog.img}')`;
+        card.innerHTML = `
+          <div class="content">
+            <h3>${blog.title}</h3>
+            <p style="font-size:1.4rem; opacity:0.9; margin-top:0.5rem;">${blog.desc}</p>
+            <a href="#" class="btn">Explore More</a>
+          </div>
+        `;
+        blogGrid.appendChild(card);
+      });
+      const url = new URL(window.location);
+      url.searchParams.set('region', region);
+      window.history.replaceState({}, '', url);
+    }
+
+    // ===== REGION SELECTOR (mobile + desktop) =====
+    function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
+      const selector = document.getElementById(selectorId);
+      if (!selector) return;
+      const selected = document.getElementById(selectedId);
+      const dropdown = document.getElementById(dropdownId);
+      const arrow = document.getElementById(arrowId);
+      const items = dropdown.querySelectorAll('.dropdown-item');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const regionParam = urlParams.get('region');
+      if (regionParam) {
+        const matchingItem = Array.from(items).find(item => item.dataset.label === regionParam);
+        if (matchingItem) {
+          const flag = matchingItem.dataset.flag;
+          const label = matchingItem.dataset.label;
+          selected.innerHTML = `
+            <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+            <span>${label}</span>
+            <span class="arrow-down" id="${arrowId}">▾</span>
           `;
-          blogGrid.appendChild(card);
-        });
-        // Update URL with region parameter
-        const url = new URL(window.location);
-        url.searchParams.set('region', region);
-        window.history.replaceState({}, '', url);
-      }
-
-      // ===== REGION SELECTOR (mobile + desktop) =====
-      function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
-        const selector = document.getElementById(selectorId);
-        if (!selector) return;
-        const selected = document.getElementById(selectedId);
-        const dropdown = document.getElementById(dropdownId);
-        const arrow = document.getElementById(arrowId);
-        const items = dropdown.querySelectorAll('.dropdown-item');
-
-        // Get region from URL on load
-        const urlParams = new URLSearchParams(window.location.search);
-        const regionParam = urlParams.get('region');
-        if (regionParam) {
-          const matchingItem = Array.from(items).find(item => item.dataset.label === regionParam);
-          if (matchingItem) {
-            const flag = matchingItem.dataset.flag;
-            const label = matchingItem.dataset.label;
-            selected.innerHTML = `
-              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
-              <span>${label}</span>
-              <span class="arrow-down" id="${arrowId}">▾</span>
-            `;
-            document.getElementById(arrowId).classList.remove('open');
-            updateBlogs(label);
-            updateServices(label);
-          }
+          document.getElementById(arrowId).classList.remove('open');
+          updateBlogs(label);
+          updateServices(label);
         }
+      }
 
-        selected.addEventListener('click', function(e) {
+      selected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        dropdown.classList.toggle('open');
+        if (arrow) arrow.classList.toggle('open');
+      });
+
+      items.forEach(item => {
+        item.addEventListener('click', function(e) {
           e.stopPropagation();
-          const isOpen = dropdown.classList.contains('open');
-          dropdown.classList.toggle('open');
-          if (arrow) arrow.classList.toggle('open');
+          const flag = this.dataset.flag;
+          const label = this.dataset.label;
+          selected.innerHTML = `
+            <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+            <span>${label}</span>
+            <span class="arrow-down" id="${arrowId}">▾</span>
+          `;
+          document.getElementById(arrowId).classList.remove('open');
+          dropdown.classList.remove('open');
+          items.forEach(d => d.style.background = 'transparent');
+          this.style.background = 'rgba(201,160,74,0.15)';
+          updateBlogs(label);
+          updateServices(label);
         });
-
-        items.forEach(item => {
-          item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const flag = this.dataset.flag;
-            const label = this.dataset.label;
-            selected.innerHTML = `
-              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
-              <span>${label}</span>
-              <span class="arrow-down" id="${arrowId}">▾</span>
-            `;
-            document.getElementById(arrowId).classList.remove('open');
-            dropdown.classList.remove('open');
-            items.forEach(d => d.style.background = 'transparent');
-            this.style.background = 'rgba(201,160,74,0.15)';
-            updateBlogs(label);
-            updateServices(label);
-          });
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!selector.contains(e.target)) {
-            dropdown.classList.remove('open');
-            const arrowEl = document.getElementById(arrowId);
-            if (arrowEl) arrowEl.classList.remove('open');
-          }
-        });
-        dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
-      }
-
-      setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
-      setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
-
-      // ===== ALL BLOGS BUTTON =====
-      document.getElementById('allBlogsBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('blogSection').scrollIntoView({ behavior: 'smooth' });
       });
 
-      // ===== VIEW NEWS BUTTON =====
-      document.getElementById('viewNewsBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        alert('View all news articles (demo)');
-      });
-
-      // ===== FAQ toggle =====
-      window.toggleFaq = function(el) {
-        const answer = el.nextElementSibling;
-        const icon = el.querySelector('.icon');
-        if (answer.classList.contains('open')) {
-          answer.classList.remove('open');
-          icon.classList.remove('open');
-          icon.textContent = '+';
-        } else {
-          answer.classList.add('open');
-          icon.classList.add('open');
-          icon.textContent = '−';
+      document.addEventListener('click', function(e) {
+        if (!selector.contains(e.target)) {
+          dropdown.classList.remove('open');
+          const arrowEl = document.getElementById(arrowId);
+          if (arrowEl) arrowEl.classList.remove('open');
         }
-      };
+      });
+      dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+    }
 
-    })();
-  </script>
+    setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
+    setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+
+    // ===== ALL BLOGS BUTTON =====
+    document.getElementById('allBlogsBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('blogSection').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ===== FAQ toggle =====
+    window.toggleFaq = function(el) {
+      const answer = el.nextElementSibling;
+      const icon = el.querySelector('.icon');
+      if (answer.classList.contains('open')) {
+        answer.classList.remove('open');
+        icon.classList.remove('open');
+        icon.textContent = '+';
+      } else {
+        answer.classList.add('open');
+        icon.classList.add('open');
+        icon.textContent = '−';
+      }
+    };
+
+  })();
+</script>
 </body>
 </html>
