@@ -1737,9 +1737,9 @@
 
     <!-- ===== SLIDE 1: HERO ===== -->
     <section class="section-slide" data-index="0">
-      <div class="hero">
-        <video id="heroVideo" muted playsinline preload="auto">
-          <source src="https://harisumer.me/project-1/hailuo-2_3_Animate_the_provided_image_while_preserving_its_original_composition_and_design.-0.mp4" type="video/mp4" />
+      <div class="hero" id="heroSection">
+        <video id="heroVideo" muted playsinline preload="auto" style="opacity:0.5;">
+          <source src="https://harisumer.me/project-1/background.mp4" type="video/mp4" />
         </video>
         <div class="overlay"></div>
         <div class="container">
@@ -1951,82 +1951,69 @@
     let isScrolling = false;
     let scrollTimeout = null;
 
-    // ===== VIDEO CONTROLLER – SCROLL MAPPING (NO LOOP, NO MULTIPLIER) =====
+    // ===== VIDEO CONTROLLER – SCROLL AS TRIGGER (FORWARD / REVERSE) =====
+    const hero = document.getElementById('heroSection');
     const video = document.getElementById('heroVideo');
-    let videoLoaded = false;
-    let duration = 0;
+    let direction = 'forward';
+    let isAnimating = false;
+    let lastScroll = window.scrollY || wrapper.scrollTop;
 
-    // Safely set video time
-    function safeSetVideoTime(time) {
-      if (!video || !videoLoaded || !duration || duration === 0) return;
-      try {
-        const clampedTime = Math.max(0, Math.min(time, duration));
-        if (Math.abs(video.currentTime - clampedTime) > 0.01) {
-          video.currentTime = clampedTime;
-        }
-      } catch (e) {
-        // silently handle
-      }
-    }
+    // pause and set to start
+    video.pause();
+    video.currentTime = 0;
 
-    // Initialize video metadata
-    function initVideo() {
-      if (video.readyState >= 1 && video.duration > 0) {
-        duration = video.duration;
-        videoLoaded = true;
+    function playForward() {
+      if (isAnimating || (direction === 'forward' && video.currentTime >= video.duration - 0.05)) return;
+      direction = 'forward';
+      isAnimating = true;
+
+      video.playbackRate = 1;
+      video.play();
+
+      video.onended = () => {
         video.pause();
-        video.currentTime = 0;
-        updateVideoFromScroll();
-        return true;
-      }
-      return false;
+        video.currentTime = video.duration;
+        isAnimating = false;
+      };
     }
 
-    // Core update: map scroll to video time (0 → duration)
-    function updateVideoFromScroll() {
-      if (!videoLoaded || !duration || duration === 0) return;
+    function playReverse() {
+      if (isAnimating || (direction === 'reverse' && video.currentTime <= 0.05)) return;
+      direction = 'reverse';
+      isAnimating = true;
+      video.pause();
 
-      const hero = document.querySelector('.hero');
-      if (!hero) return;
-
-      const heroTop = hero.offsetTop;
-      const heroHeight = hero.offsetHeight;
-      const scrollTop = wrapper.scrollTop;
-
-      // Progress within hero section (0 to 1)
-      let progress = (scrollTop - heroTop) / heroHeight;
-      progress = Math.max(0, Math.min(progress, 1));
-
-      const targetTime = progress * duration;
-
-      if (Math.abs(video.currentTime - targetTime) > 0.01) {
-        video.currentTime = targetTime;
+      function reverseStep() {
+        if (direction !== 'reverse') {
+          isAnimating = false;
+          return;
+        }
+        if (video.currentTime <= 0) {
+          video.currentTime = 0;
+          isAnimating = false;
+          return;
+        }
+        video.currentTime -= 1 / 60;
+        requestAnimationFrame(reverseStep);
       }
+      requestAnimationFrame(reverseStep);
     }
 
-    // Set up video events
-    if (video) {
-      // If metadata already loaded
-      if (initVideo()) {
-        // already ready
-      } else {
-        video.addEventListener('loadedmetadata', function() {
-          if (initVideo()) {
-            // ready
-          }
-        });
-        video.addEventListener('canplay', function() {
-          if (!videoLoaded && initVideo()) {
-            // ready
-          }
-        });
+    function updateVideoOnScroll() {
+      const rect = hero.getBoundingClientRect();
+      const heroVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (!heroVisible) return;
+
+      const currentScroll = window.scrollY || wrapper.scrollTop;
+      if (currentScroll > lastScroll) {
+        playForward();
+      } else if (currentScroll < lastScroll) {
+        playReverse();
       }
+      lastScroll = currentScroll;
     }
 
-    // Scroll listener for video
-    wrapper.addEventListener('scroll', updateVideoFromScroll);
-
-    // --- PAGINATION DOTS ---
+    // ===== PAGINATION DOTS =====
     slides.forEach((_, i) => {
       const dot = document.createElement('div');
       dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -2092,9 +2079,12 @@
     }
 
     function handleScroll() {
-      const scrollY = wrapper.scrollTop;
+      const scrollY = wrapper.scrollTop || window.scrollY;
       if (scrollY > 10) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
+
+      // update video
+      updateVideoOnScroll();
 
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -2121,6 +2111,7 @@
 
     wrapper.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', checkSustainabilityActive);
+    window.addEventListener('scroll', handleScroll); // for safety
 
     window.addEventListener('load', function() {
       header.classList.remove('scrolled');
@@ -2131,13 +2122,9 @@
       setTimeout(checkSustainabilityActive, 400);
       updateBlogs('Global');
       updateServices('Global');
-      // Ensure video is at 0
-      if (video) {
-        video.pause();
-        video.currentTime = 0;
-        updateVideoFromScroll();
-      }
-      setTimeout(updateVideoFromScroll, 500);
+      // reset video
+      video.pause();
+      video.currentTime = 0;
     });
 
     // Mobile menu
