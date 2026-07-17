@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
-  <title>FINSOULS – Chartered Accountants & Business Advisors</title>
+  <title>FINSOULS – Regional Content</title>
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
@@ -435,7 +435,6 @@
     }
      @media (max-width:768px) {
       .region-popup .region-grid {
-
         flex-direction: column !important;
       }
     }
@@ -547,14 +546,14 @@
       <div class="container">
         <div class="grid">
           <div class="big-number">
-            <div class="number">About Finsouls</div>
-            <div class="label">One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.</div>
+            <div class="number" id="aboutTitle">About Finsouls</div>
+            <div class="label" id="aboutDesc">One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.</div>
           </div>
-          <div class="stats">
-            <div class="stat"><div class="number">22</div><div class="label">offices worldwide</div></div>
-            <div class="stat"><div class="number">1,100</div><div class="label">Employees</div></div>
-            <div class="stat"><div class="number">350+</div><div class="label">investment professionals</div></div>
-            <div class="stat"><div class="number">$200BN</div><div class="label">of assets under management or advised</div></div>
+          <div class="stats" id="statsContainer">
+            <div class="stat"><div class="number" id="stat1Num">22</div><div class="label" id="stat1Label">offices worldwide</div></div>
+            <div class="stat"><div class="number" id="stat2Num">1,100</div><div class="label" id="stat2Label">Employees</div></div>
+            <div class="stat"><div class="number" id="stat3Num">350+</div><div class="label" id="stat3Label">investment professionals</div></div>
+            <div class="stat"><div class="number" id="stat4Num">$200BN</div><div class="label" id="stat4Label">of assets under management or advised</div></div>
           </div>
         </div>
       </div>
@@ -579,57 +578,57 @@
       </div>
     </section>
 
-    <!-- SLIDE 4: SUSTAINABILITY + FAQ (snap enabled) -->
-    <section class="section-slide snap-enabled" data-index="4" id="sustainabilityFaqSlide" style="padding:0; height:100vh; overflow:hidden;">
-      <div class="sustainability-faq-wrapper">
-        <div class="sustainability-col">
-          <div class="sustainability-left" id="sustainabilityLeft">
-            <div class="bg-image-fixed" id="sustainabilityBgFixed"></div>
-            <div class="bg-overlay-fixed" id="sustainabilityOverlayFixed"></div>
-            <div class="content-box">
-              <h2>How We Work</h2>
-              <p>Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.</p>
-              <a href="#" class="btn">Sustainability</a>
-            </div>
-          </div>
-        </div>
-        <div class="faq-col">
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>What services does Finsouls offer?</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="faq-answer"><p>We offer a full range of accounting, bookkeeping, VAT consultancy, tax agency, and business advisory services tailored to businesses in Dubai and the UAE.</p></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>How experienced is your team?</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="faq-answer"><p>Our team consists of Certified Professional Chartered Accountants with extensive experience across multiple industries, ensuring you receive expert guidance.</p></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Do you offer support for VAT compliance?</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="faq-answer"><p>Yes, we provide comprehensive VAT consultancy and tax agent services to help your business stay compliant with UAE VAT laws and regulations.</p></div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>How can I get started with your services?</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="faq-answer"><p>Simply contact us via phone, email, or our website contact form. We'll schedule a consultation to understand your needs and propose a tailored solution.</p></div>
-          </div>
+  <!-- SLIDE 4: SUSTAINABILITY + FAQ (snap enabled) -->
+<section class="section-slide snap-enabled" data-index="4" id="sustainabilityFaqSlide" style="padding:0; height:100vh; overflow:hidden;">
+  <div class="sustainability-faq-wrapper">
+    <div class="sustainability-col">
+      <div class="sustainability-left" id="sustainabilityLeft">
+        <div class="bg-image-fixed" id="sustainabilityBgFixed"></div>
+        <div class="bg-overlay-fixed" id="sustainabilityOverlayFixed"></div>
+        <div class="content-box">
+          <h2 id="sustainabilityTitle">How We Work</h2>
+          <p id="sustainabilityDesc">Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.</p>
+          <a href="#" class="btn" id="sustainabilityBtn">Sustainability</a>
         </div>
       </div>
-    </section>
+    </div>
+    <div class="faq-col" id="faqCol">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="faq1Q">What services does Finsouls offer?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer"><p id="faq1A">We offer a full range of accounting, bookkeeping, VAT consultancy, tax agency, and business advisory services tailored to businesses in Dubai and the UAE.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="faq2Q">How experienced is your team?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer"><p id="faq2A">Our team consists of Certified Professional Chartered Accountants with extensive experience across multiple industries, ensuring you receive expert guidance.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="faq3Q">Do you offer support for VAT compliance?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer"><p id="faq3A">Yes, we provide comprehensive VAT consultancy and tax agent services to help your business stay compliant with UAE VAT laws and regulations.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span id="faq4Q">How can I get started with your services?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer"><p id="faq4A">Simply contact us via phone, email, or our website contact form. We'll schedule a consultation to understand your needs and propose a tailored solution.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- SLIDE 5: CTA (snap enabled) -->
     <section class="section-slide snap-enabled" data-index="5" style="padding:0; height:100vh;">
       <section class="cta-section">
-        <h2 class="cta-section__title"><span>Latest News Powered by Bloomberg</span></h2>
+        <h2 class="cta-section__title"><span id="ctaTitle">Latest News Powered by Bloomberg</span></h2>
         <nav class="footer-nav">
           <div class="footer-nav-track">
             <a href="/industries" class="footer-nav-btn">
@@ -670,8 +669,8 @@
     <!-- SLIDE 6: NEWSLETTER (snap enabled) -->
     <section class="section-slide newsletter snap-enabled" data-index="6">
       <div class="container">
-        <h2>Newsletter</h2>
-        <p>Stay up to date on our activities, market news, investments and our latest insights by signing up below</p>
+        <h2 id="newsletterTitle">Newsletter</h2>
+        <p id="newsletterDesc">Stay up to date on our activities, market news, investments and our latest insights by signing up below</p>
         <form>
           <div class="form-row">
             <input type="text" placeholder="First Name *" required />
@@ -694,9 +693,9 @@
           <div class="left">
             <div class="logo-text">FINSOULS</div>
             <div class="address">
-              <p>Business Bay Dubai UAE</p>
-              <p><strong>+971 52 449 4542</strong></p>
-              <p><a href="mailto:info@finsouls.com" style="color:var(--primary);">info@finsouls.com</a></p>
+              <p id="footerAddress1">Business Bay Dubai UAE</p>
+              <p><strong id="footerPhone">+971 52 449 4542</strong></p>
+              <p><a href="mailto:info@finsouls.com" style="color:var(--primary);" id="footerEmail">info@finsouls.com</a></p>
             </div>
           </div>
           <div class="right">
@@ -1246,6 +1245,152 @@
         window.history.replaceState({}, '', url);
       }
 
+      // ===== REGIONAL CONTENT DATA (for all sections) =====
+      const regionalContent = {
+        'Global': {
+          about: { title: 'About Finsouls', desc: 'One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.' },
+          stats: [
+            { num: '22', label: 'offices worldwide' },
+            { num: '1,100', label: 'Employees' },
+            { num: '350+', label: 'investment professionals' },
+            { num: '$200BN', label: 'of assets under management or advised' }
+          ],
+          sustainability: { title: 'How We Work', desc: 'Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients\' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.', btn: 'Sustainability' },
+          faq: [
+            { q: 'What services does Finsouls offer?', a: 'We offer a full range of accounting, bookkeeping, VAT consultancy, tax agency, and business advisory services tailored to businesses in Dubai and the UAE.' },
+            { q: 'How experienced is your team?', a: 'Our team consists of Certified Professional Chartered Accountants with extensive experience across multiple industries, ensuring you receive expert guidance.' },
+            { q: 'Do you offer support for VAT compliance?', a: 'Yes, we provide comprehensive VAT consultancy and tax agent services to help your business stay compliant with UAE VAT laws and regulations.' },
+            { q: 'How can I get started with your services?', a: 'Simply contact us via phone, email, or our website contact form. We\'ll schedule a consultation to understand your needs and propose a tailored solution.' }
+          ],
+          cta: 'Latest News Powered by Bloomberg',
+          newsletter: { title: 'Newsletter', desc: 'Stay up to date on our activities, market news, investments and our latest insights by signing up below' },
+          footer: { address: 'Business Bay Dubai UAE', phone: '+971 52 449 4542', email: 'info@finsouls.com' }
+        },
+        'UAE': {
+          about: { title: 'About Finsouls UAE', desc: 'FTA-certified chartered accountants handling business setup, bookkeeping, banking and CFO advisory for companies across the UAE.' },
+          stats: [
+            { num: '18+', label: 'Years in the UAE' },
+            { num: '200+', label: 'Clients across industries' },
+            { num: '4', label: 'Markets and growing' },
+            { num: 'FTA-certified', label: 'Chartered accountants' }
+          ],
+          sustainability: { title: 'How We Work in UAE', desc: 'We combine local expertise with global standards. Our UAE team is fully FTA-certified and specializes in VAT, corporate tax, and business setup across all freezones and mainland.' },
+          faq: [
+            { q: 'What services do you offer in UAE?', a: 'We offer business setup, accounting & bookkeeping, banking consultancy, CFO advisory, and project management for UAE businesses.' },
+            { q: 'Are you FTA-certified?', a: 'Yes, we are FTA-certified chartered accountants with extensive experience in UAE tax and compliance.' },
+            { q: 'Do you handle VAT disputes?', a: 'Yes, we have successfully handled VAT disputes, voluntary disclosures, and penalty reductions for many clients.' },
+            { q: 'Can you help with bank accounts?', a: 'Absolutely. We have relationships with UAE banks and prepare your file the way credit teams want to read it.' }
+          ],
+          cta: 'UAE Market Insights',
+          newsletter: { title: 'UAE Newsletter', desc: 'Stay updated on UAE tax reforms, VAT updates, and business opportunities in the region.' },
+          footer: { address: 'Business Bay, Dubai, UAE', phone: '+971 52 449 4542', email: 'info@finsouls.com' }
+        },
+        'Singapore': {
+          about: { title: 'About Finsouls Singapore', desc: 'Preparing for Singapore — our fourth market. Corporate accounting, tax advisory and business setup for the Asian hub.' },
+          stats: [
+            { num: '18+', label: 'Years of practice' },
+            { num: '200+', label: 'Clients across markets' },
+            { num: '4th', label: 'Market expanding' },
+            { num: 'Licensed', label: 'Audit firm' }
+          ],
+          sustainability: { title: 'How We Work in Singapore', desc: 'We are preparing our Singapore office with the same standards as Dubai — locally licensed, centrally held to the same quality. Services will include corporate accounting, tax advisory, and business setup.' },
+          faq: [
+            { q: 'When will Singapore office open?', a: 'We are preparing our fourth market. Register your interest and you\'ll hear from us before anyone else does.' },
+            { q: 'What services will you offer in Singapore?', a: 'Corporate accounting, tax advisory, business setup, and audit services — the same range as our other markets.' },
+            { q: 'Are you licensed in Singapore?', a: 'We are in the process of obtaining all necessary licenses and registrations.' },
+            { q: 'How can I register interest?', a: 'Use the "Register your interest" button on our Singapore page.' }
+          ],
+          cta: 'Singapore Market Insights',
+          newsletter: { title: 'Singapore Newsletter', desc: 'Be the first to know when we launch in Singapore — exclusive updates and early access.' },
+          footer: { address: 'Singapore (Coming Soon)', phone: '+971 52 449 4542', email: 'info@finsouls.com' }
+        },
+        'Portugal': {
+          about: { title: 'About Finsouls Portugal', desc: 'Guiding GCC nationals and international businesses through Portuguese residency, company formation and accounting — from Lisbon, in your language.' },
+          stats: [
+            { num: '18+', label: 'Years advising clients' },
+            { num: 'Gulf → Portugal', label: 'Relocation specialists' },
+            { num: '150+', label: 'Moves managed' },
+            { num: 'Licensed', label: 'Local advisors' }
+          ],
+          sustainability: { title: 'How We Work in Portugal', desc: 'We guide GCC nationals and international businesses through Portuguese residency, company formation and accounting. Our team is based in Lisbon and works in your language.' },
+          faq: [
+            { q: 'Do you handle Golden Visa applications?', a: 'Yes, we specialize in Golden Visa, D7, and NHR pathway assessments and applications.' },
+            { q: 'Can you help with company formation?', a: 'We handle Portuguese entity formation from NIF to first invoice, including banking and licenses.' },
+            { q: 'What about tax compliance?', a: 'We manage Portuguese compliance for owners who live and earn across borders, including IVA and IRS/IRC filing.' },
+            { q: 'Do you assist with relocation?', a: 'Yes, we provide residency consultancy and financial guidance for families and investors moving to Portugal.' }
+          ],
+          cta: 'Portugal Market Insights',
+          newsletter: { title: 'Portugal Newsletter', desc: 'Stay informed about Portuguese residency, tax changes, and investment opportunities.' },
+          footer: { address: 'Lisbon, Portugal', phone: '+351 21 234 5678', email: 'info.pt@finsouls.com' }
+        },
+        'Pakistan': {
+          about: { title: 'About Finsouls Pakistan', desc: 'Licensed auditors and tax advisors for Pakistani businesses — with the discipline of a firm built in Dubai.' },
+          stats: [
+            { num: '18+', label: 'Years of practice' },
+            { num: '150+', label: 'Businesses served' },
+            { num: 'Licensed', label: 'Audit firm' },
+            { num: 'SECP & FBR', label: 'Registered advisors' }
+          ],
+          sustainability: { title: 'How We Work in Pakistan', desc: 'We are licensed auditors and tax advisors serving Pakistani businesses. Our team handles SECP registration, FBR compliance, and audit services with the discipline of a firm built in Dubai.' },
+          faq: [
+            { q: 'What services do you offer in Pakistan?', a: 'We offer taxation, business setup, banking services, accounting & bookkeeping, and audit services.' },
+            { q: 'Are you licensed in Pakistan?', a: 'Yes, we are a licensed audit firm with SECP and FBR registrations.' },
+            { q: 'Do you handle FBR notices?', a: 'Yes, we have extensive experience responding to FBR notices and handling tax disputes.' },
+            { q: 'Can you help with bank facilities?', a: 'Absolutely. We prepare financials and introductions that help Pakistani businesses secure banking facilities.' }
+          ],
+          cta: 'Pakistan Market Insights',
+          newsletter: { title: 'Pakistan Newsletter', desc: 'Stay updated on Pakistan\'s tax reforms, economic policies, and business opportunities.' },
+          footer: { address: 'Karachi / Lahore, Pakistan', phone: '+92 21 123 4567', email: 'info.pk@finsouls.com' }
+        }
+      };
+
+      function updateRegionalContent(region) {
+        const content = regionalContent[region] || regionalContent['Global'];
+        
+        // About section
+        document.getElementById('aboutTitle').textContent = content.about.title;
+        document.getElementById('aboutDesc').textContent = content.about.desc;
+        
+        // Stats
+        const statsContainer = document.getElementById('statsContainer');
+        const statElements = statsContainer.querySelectorAll('.stat');
+        content.stats.forEach((stat, index) => {
+          if (index < statElements.length) {
+            statElements[index].querySelector('.number').textContent = stat.num;
+            statElements[index].querySelector('.label').textContent = stat.label;
+          }
+        });
+        
+        // Sustainability
+        document.getElementById('sustainabilityTitle').textContent = content.sustainability.title;
+        document.getElementById('sustainabilityDesc').textContent = content.sustainability.desc;
+        // document.getElementById('sustainabilityBtn').textContent = content.sustainability.btn;
+        
+        // FAQ
+        const faqItems = document.querySelectorAll('.faq-item');
+        content.faq.forEach((item, index) => {
+          if (index < faqItems.length) {
+            const questionSpan = faqItems[index].querySelector('.faq-question span:first-child');
+            const answerP = faqItems[index].querySelector('.faq-answer p');
+            if (questionSpan) questionSpan.textContent = item.q;
+            if (answerP) answerP.textContent = item.a;
+          }
+        });
+        
+        // CTA
+        document.getElementById('ctaTitle').textContent = content.cta;
+        
+        // Newsletter
+        document.getElementById('newsletterTitle').textContent = content.newsletter.title;
+        document.getElementById('newsletterDesc').textContent = content.newsletter.desc;
+        
+        // Footer
+        document.getElementById('footerAddress1').textContent = content.footer.address;
+        document.getElementById('footerPhone').textContent = content.footer.phone;
+        document.getElementById('footerEmail').textContent = content.footer.email;
+        document.getElementById('footerEmail').href = `mailto:${content.footer.email}`;
+      }
+
       // ===== REGION SELECTOR =====
       function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
         const selector = document.getElementById(selectorId);
@@ -1270,6 +1415,7 @@
             document.getElementById(arrowId).classList.remove('open');
             updateBlogs(label);
             updateServices(label);
+            updateRegionalContent(label);
           }
         }
 
@@ -1295,6 +1441,7 @@
             this.style.background = 'rgba(201,160,74,0.15)';
             updateBlogs(label);
             updateServices(label);
+            updateRegionalContent(label);
           });
         });
 
@@ -1363,6 +1510,7 @@
         updateSelected(desktopSelected, 'regionArrowDesktop');
         updateBlogs(label);
         updateServices(label);
+        updateRegionalContent(label);
         closePopup();
       });
 
@@ -1379,8 +1527,11 @@
         wrapper.scrollTo(0, 0);
         updateSustainabilityShrink(false);
         setTimeout(checkSustainabilityActive, 400);
-        updateBlogs('Global');
-        updateServices('Global');
+        const urlParams = new URLSearchParams(window.location.search);
+        const region = urlParams.get('region') || 'Global';
+        updateBlogs(region);
+        updateServices(region);
+        updateRegionalContent(region);
         updatePaginationVisibility();
         setTimeout(() => {
           popupOverlay.classList.add('active');
