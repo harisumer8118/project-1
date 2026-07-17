@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
-  <title>FINSOULS – Planning &amp; Guidance</title>
+  <title>FINSOULS – Chartered Accountants & Business Advisors</title>
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
   <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
@@ -31,7 +31,6 @@
     .pill-btn { display:inline-flex; align-items:center; justify-content:center; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); border-radius:60px; padding:0.8rem 2.4rem; transition:all 0.3s ease; font-weight:500; font-size:1.6rem; color:var(--text); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .pill-btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
 
-    /* ----- slider wrapper: snap enabled only for slides from services onward ----- */
     .slider-wrapper {
       height:100vh;
       width:100vw;
@@ -44,7 +43,6 @@
     .slider-wrapper::-webkit-scrollbar { width:0; background:transparent; }
     .slider-wrapper { scrollbar-width:none; -ms-overflow-style:none; }
 
-    /* snap only for slides that are part of the slider (index >= 2) */
     .section-slide.snap-enabled {
       scroll-snap-align:start;
     }
@@ -58,7 +56,6 @@
       backface-visibility:hidden;
       background:var(--dark);
     }
-    /* first two slides (hero, about) do NOT snap */
     .section-slide.no-snap {
       scroll-snap-align:none;
     }
@@ -73,7 +70,6 @@
 
     .container { max-width:1200px; margin:0 auto; padding:0 2rem; width:100%; }
 
-    /* ----- header (unchanged) ----- */
     .header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; transition:background 0.4s ease, box-shadow 0.3s ease; }
     .header.scrolled { background:var(--dark) !important; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
     .header-top { background:transparent; padding:0.4rem 0; font-size:clamp(1rem,1.2vw,1.2rem); display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); transition:opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease; opacity:1; transform:translateY(0); max-height:40px; overflow:hidden; }
@@ -108,7 +104,6 @@
     @media (max-width:1024px) { .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--dark); padding:2rem; box-shadow:var(--shadow); gap:1.2rem; border-top:1px solid rgba(255,255,255,0.05); align-items:stretch; } .nav-menu.open { display:flex; } .hamburger { display:flex; } .nav-menu a { color:var(--white) !important; white-space:normal; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.1); } .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; } .nav-menu .btn { width:100%; text-align:center; } .nav-menu .region-selector { display:none !important; } .header-main .region-selector { display:inline-block; } }
     @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
 
-    /* pagination – only visible when slider is active (after about) */
     .pagination {
       position:fixed;
       bottom:3.2rem;
@@ -139,7 +134,6 @@
     .pagination .dot:hover { transform:scale(1.2); background:var(--primary-dark); border-color:var(--primary-dark); }
     @media (max-width:768px) { .pagination { bottom:2rem; right:1.2rem; padding:0.8rem 0.6rem; gap:1rem; } .pagination .dot { width:10px; height:10px; } .pagination .dot.active { height:22px; width:10px; } }
 
-    /* --- hero canvas --- */
     .hero-scroll-track { position:relative; height:100%; width:100%; }
     .hero-canvas-wrap { position:relative; height:100%; width:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#000; }
     #hero-canvas { width:100%; height:100%; display:block; object-fit:cover; }
@@ -150,7 +144,6 @@
     .hero-overlay .btn-arrow { pointer-events:auto; }
     .loading-bar { position:fixed; bottom:0; left:0; height:4px; background:var(--primary); z-index:10; transition:width 0.15s ease-out; }
 
-    /* --- key figures (about) --- */
     .key-figures { background:var(--dark); color:var(--white); height:100vh; display:flex; align-items:center; }
     .key-figures .grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,4vw,4rem); align-items:center; width:100%; }
     .key-figures .big-number { text-align:left; border-right:1px solid rgba(255,255,255,0.15); padding-right:clamp(2rem,4vw,4rem); }
@@ -161,7 +154,6 @@
     .key-figures .stat .label { font-size:clamp(1.2rem,1.2vw,1.4rem); opacity:0.7; text-transform:uppercase; letter-spacing:0.05em; color:var(--white); }
     @media (max-width:768px) { .key-figures .grid { grid-template-columns:1fr; gap:2rem; } .key-figures .big-number { border-right:none; padding-right:0; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:2rem; } }
 
-    /* pillars / blogs */
     .pillars { height:100vh; display:flex; align-items:center; padding:2rem 0; background:var(--dark); }
     .pillars .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:clamp(2rem,4vw,4rem); flex-wrap:wrap; gap:1.5rem; }
     .pillars .section-header h2 { color:#d4af37; }
@@ -178,7 +170,6 @@
     .pillar-card .content .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
     @media (max-width:768px) { .pillars .grid { grid-template-columns:1fr; } .pillar-card { min-height:180px; } }
 
-    /* five columns */
     .five-column-section-wrapper { position:relative; height:90vh; width:100%; display:flex; flex-direction:column; background:var(--dark); margin-top:100px; }
     .services-heading { text-align:center; color:#d4af37; font-size:clamp(3.6rem,6vw,5.6rem); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-family:'Inter',Arial,sans-serif; padding:2rem 2rem 0.5rem 2rem; flex-shrink:0; background:var(--dark); margin:0; line-height:1.2; }
     @media (max-width:768px) { .services-heading { font-size:clamp(2.8rem,5vw,4rem); padding:1.5rem 1.5rem 0.5rem 1.5rem; } }
@@ -215,7 +206,6 @@
       .cta-section { height:auto; padding:60px 0; }
     }
 
-    /* sustainability + faq */
     .sustainability-faq-wrapper { display:flex; height:100vh; width:100%; background:var(--dark); position:relative; overflow:hidden; }
     .sustainability-faq-wrapper .sustainability-col { flex:1.2; position:relative; overflow:hidden; background:var(--dark); }
     .sustainability-faq-wrapper .faq-col { flex:1; background:var(--dark); padding:4rem 2rem 2rem 2rem; overflow-y:auto; border-left:1px solid rgba(255,255,255,0.05); box-shadow:-4px 0 20px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:left; }
@@ -251,7 +241,6 @@
       .sustainability-left .content-box { max-width:100%; background:rgba(18,17,17,0.95); padding:2rem; margin-left:0; margin-right:0; }
     }
 
-    /* cta */
     .cta-section { position:relative; width:100%; background-color:var(--dark); border-bottom:1px solid var(--color-border-dark); padding:64px 24px; display:flex; flex-direction:column; gap:32px; height:100vh; justify-content:center; overflow:hidden; }
     .cta-section .cta-section__title { font-weight:500; font-size:64px; line-height:1; letter-spacing:-0.04em; color:var(--text); margin:0; text-align:center; }
     .cta-section .cta-section__title span { display:block; }
@@ -270,7 +259,6 @@
     @keyframes marqueeLeft { 100% { transform:translateX(0); } 0% { transform:translateX(-50%); } }
     @media (max-width:820px) { .cta-section { padding:60px 24px; gap:48px; height:auto; } .cta-section .cta-section__title { font-size:32px; letter-spacing:-1.5px; } .cta-section .cta-section__title span { display:inline; } .footer-nav { flex-direction:column; height:auto; border-top:1px solid var(--color-border-dark); overflow:visible; } .footer-nav-track { flex-direction:column; animation:none; width:100%; } .footer-nav-btn { width:100%; border-right:none; border-bottom:1px solid var(--color-border-dark); padding:1.6rem 24px; height:80px; } .footer-nav-btn:last-child { border-bottom:none; } }
 
-    /* newsletter */
     .newsletter { height:100vh; display:flex; align-items:center; background:var(--dark); text-align:center; }
     .newsletter .container { max-width:640px; margin:0 auto; padding:0 2rem; width:100%; }
     .newsletter h2 { color:#d4af37; margin-bottom:1rem; }
@@ -285,7 +273,6 @@
     .newsletter .btn { width:100%; max-width:240px; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); color:var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .newsletter .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
 
-    /* footer */
     .footer { height:auto !important; padding:clamp(2rem,5vh,5rem) 0; background:var(--dark); color:rgba(255,255,255,0.8); display:flex; align-items:center; }
     .footer .container { width:100%; max-width:1200px; margin:0 auto; padding:0 2rem; }
     .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
@@ -302,19 +289,9 @@
     .footer .footer-links a:hover { color:var(--white); }
     .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
     @media (max-width:768px) {
-      .region-popup .region-grid {
-    display: flex;
-    /* flex-wrap: wrap; */
-    gap: 0;
-    border-top: 1px solid var(--color-border-dark);
-    margin-top: 1.2rem;
-    width: 100%;
-    flex-direction: column;
-}
-      
       .footer .grid { grid-template-columns:1fr; gap:2rem; } .footer .right { align-items:flex-start; } .footer .footer-links { justify-content:flex-start; } .footer .bottom { flex-direction:column; align-items:flex-start; } }
 
-    /* ===== REGION POPUP — matches CTA section exactly ===== */
+    /* ===== REGION POPUP — vertical column (clean) ===== */
     .region-popup-overlay {
       position:fixed;
       inset:0;
@@ -337,62 +314,56 @@
       border:1px solid var(--color-border-dark);
       border-radius:20px;
       padding:3.2rem 2.8rem;
-      
-      width:80%;
+      max-width:750px;
+      width:92%;
       box-shadow:0 25px 50px rgba(0,0,0,0.8);
       transform:scale(0.95) translateY(20px);
       transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease;
       opacity:0;
       text-align:center;
+      position:relative;
     }
     .region-popup-overlay.active .region-popup {
       transform:scale(1) translateY(0);
       opacity:1;
     }
     .region-popup h2 {
-      font-size:clamp(2.4rem,4vw,6.2rem);
+      font-size:clamp(2rem,3.5vw,2.8rem);
       font-weight:500;
-      letter-spacing:-0.04em;
+      letter-spacing:-0.03em;
       color:var(--text);
-      margin:0 0 0.4rem 0;
+      margin:0 0 0.2rem 0;
     }
-    .region-popup p {
-      color:rgba(255,255,255,0.6);
-      font-size:clamp(1.4rem,1.6vw,1.6rem);
-      margin-bottom:2rem;
-      font-weight:300;
-    }
-    /* region grid — static, no scroll, same visual as marquee */
     .region-popup .region-grid {
       display:flex;
-      /* flex-wrap:wrap; */
+      flex-direction:row;
       gap:0;
-      border-top:1px solid var(--color-border-dark);
-      margin-top:1.2rem;
+      border-top:0.3px solid var(--color-border-dark);
+      margin-top:1.6rem;
       width:100%;
     }
     .region-popup .region-btn {
-    flex: 1 0 0%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.6rem 2rem;
-    border-bottom: 0px solid var(--color-border-dark);
-    border-right: 0px solid var(--color-border-dark);
-    background: transparent;
-    color: var(--text);
-    font-size: clamp(1.6rem, 2vw, 2rem);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    font-family: inherit;
-    text-align: left;
-    height: 150px;
-}
-    .region-popup .region-btn:nth-child(2n) { border-right:none; }
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:3.2rem 1.6rem;
+      border-bottom:0px solid var(--color-border-dark);
+      background:transparent;
+      color:var(--text);
+      font-size:clamp(1.4rem,1.6vw,1.8rem);
+      font-weight:400;
+      letter-spacing:-0.01em;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      position:relative;
+      overflow:hidden;
+      font-family:inherit;
+      text-align:left;
+      border-left:0.3px solid var(--color-border-dark);
+      border-right:none;
+      width:100%;
+       border-top:0.3px solid var(--color-border-dark) !important;
+    }
     .region-popup .region-btn:last-child { border-bottom:none; }
     .region-popup .region-btn .region-btn__bg {
       position:absolute;
@@ -401,7 +372,7 @@
       background-color:var(--primary);
       transform:scaleX(0);
       transform-origin:left center;
-      transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     .region-popup .region-btn:hover .region-btn__bg {
       transform:scaleX(1);
@@ -413,55 +384,69 @@
       align-items:center;
       gap:1rem;
       transition:color 0.4s ease, transform 0.4s ease;
+      font-size: 13px;
     }
     .region-popup .region-btn:hover .region-btn__label {
       color:var(--dark);
-      transform:translateX(6px);
+      transform:translateX(4px);
     }
     .region-popup .region-btn .region-btn__label .flag-icon img {
-      width:24px;
-      height:18px;
+      width:22px;
+      height:16px;
       object-fit:contain;
       border-radius:2px;
     }
     .region-popup .region-btn .region-btn__arrow {
       position:relative;
       z-index:1;
-      font-size:2.4rem;
+      font-size:2rem;
       transition:transform 0.4s ease, color 0.4s ease;
       font-weight:300;
       color:var(--text);
     }
     .region-popup .region-btn:hover .region-btn__arrow {
       color:var(--dark);
-      transform:translateX(6px);
+      transform:translateX(4px);
     }
-    .region-popup .popup-close {
-      margin-top:2rem;
+    .region-popup .popup-close-x {
+      position:absolute;
+      top:1.2rem;
+      right:1.6rem;
       background:transparent;
       border:none;
-      color:rgba(255,255,255,0.3);
-      font-size:1.4rem;
+      color:rgba(255,255,255,0.4);
+      font-size:2.4rem;
       cursor:pointer;
-      transition:color 0.2s;
+      transition:color 0.2s, transform 0.2s;
       font-family:inherit;
-      letter-spacing:0.03em;
+      line-height:1;
+      padding:0.4rem;
     }
-    .region-popup .popup-close:hover { color:var(--white); }
+    .region-popup .popup-close-x:hover {
+      color:var(--white);
+      transform:rotate(90deg);
+    }
     @media (max-width:480px) {
-      .region-popup { padding:2.4rem 1.6rem; }
-      .region-popup h2 { font-size:2.4rem; }
-      .region-popup .region-btn { flex:1 0 100%; border-right:none; padding:1.2rem 1.6rem; font-size:1.6rem; }
-      .region-popup .region-btn .region-btn__label .flag-icon img { width:20px; height:15px; }
+      .region-popup { padding:2rem 1.6rem; }
+      .region-popup h2 { font-size:2rem; }
+      .region-popup .region-btn { padding:1rem 1.2rem; font-size:1.5rem; }
+      .region-popup .region-btn .region-btn__label .flag-icon img { width:18px; height:13px; }
+      .region-popup .popup-close-x { top:0.8rem; right:1.2rem; font-size:2rem; }
+    }
+     @media (max-width:768px) {
+      .region-popup .region-grid {
+
+        flex-direction: column !important;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- REGION POPUP — matches CTA section design exactly -->
+  <!-- REGION POPUP — vertical column with X close -->
   <div class="region-popup-overlay" id="regionPopup">
     <div class="region-popup">
+      <button class="popup-close-x" id="popupCloseX" aria-label="Close">✕</button>
       <h2>Select Your Region</h2>
-      
       <div class="region-grid" id="regionGrid">
         <button class="region-btn" data-flag="https://flagcdn.com/w40/un.png" data-label="Global">
           <span class="region-btn__bg"></span>
@@ -489,7 +474,6 @@
           <span class="region-btn__arrow">→</span>
         </button>
       </div>
-      <button class="popup-close" id="popupClose">Skip →</button>
     </div>
   </div>
 
@@ -750,14 +734,11 @@
       let activeIndex = 0;
       let isScrolling = false;
       let scrollTimeout = null;
-      let snapActive = false; // true if we are in snap region (from services onward)
-      let previousSnapActive = false;
+      let snapActive = false;
 
-      // Only slides with .snap-enabled are part of the slider
       const snapSlides = Array.from(slides).filter(s => s.classList.contains('snap-enabled'));
       const snapIndices = snapSlides.map(s => parseInt(s.dataset.index, 10));
 
-      // Pagination dots – only for snap-enabled slides
       snapSlides.forEach((slide, i) => {
         const dot = document.createElement('div');
         dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -789,7 +770,6 @@
         dots.forEach((dot, i) => dot.classList.toggle('active', i === activeIndex));
       }
 
-      // Show/hide pagination based on scroll position (only when entering snap zone)
       function updatePaginationVisibility() {
         const firstSnap = snapSlides[0];
         if (!firstSnap) return;
@@ -802,7 +782,6 @@
         }
       }
 
-      // Sustainability shrink
       const sustainabilitySlide = document.getElementById('sustainabilityFaqSlide');
       const bgImage = document.getElementById('sustainabilityBgFixed');
       const bgOverlay = document.getElementById('sustainabilityOverlayFixed');
@@ -835,7 +814,6 @@
         updateSustainabilityShrink(ratio > 0.3);
       }
 
-      // ----- ONE SECTION PER SCROLL (only when snap is active) -----
       let scrollLock = false;
 
       function handleScroll() {
@@ -843,11 +821,9 @@
         if (scrollY > 10) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
 
-        // Determine if we are in snap region (services onward)
         const firstSnap = snapSlides[0];
         if (firstSnap) {
           const rect = firstSnap.getBoundingClientRect();
-          // if the first snap slide is at or above the viewport top, snap is active
           if (rect.top <= 0) {
             snapActive = true;
           } else {
@@ -855,9 +831,7 @@
           }
         }
 
-        // If snap is active, enforce one section per scroll
         if (snapActive) {
-          // Find which snap slide is currently most visible
           let closestIndex = 0;
           let closestDist = Infinity;
           const wrapperRect = wrapper.getBoundingClientRect();
@@ -873,13 +847,10 @@
           });
 
           if (closestIndex !== activeIndex && !isScrolling) {
-            // Only update if not already scrolling
             activeIndex = closestIndex;
             updateDots();
           }
         } else {
-          // If snap is not active, ensure we are not in snap mode
-          // Reset active index to 0 when scrolling back above services
           if (activeIndex !== 0) {
             activeIndex = 0;
             updateDots();
@@ -892,9 +863,8 @@
         scrollTimeout = setTimeout(() => {}, 100);
       }
 
-      // Intercept wheel events to enforce one section per scroll when snap is active
       wrapper.addEventListener('wheel', function(e) {
-        if (!snapActive) return; // only apply when in snap region
+        if (!snapActive) return;
         if (isScrolling) {
           e.preventDefault();
           return;
@@ -904,10 +874,8 @@
         let targetIndex = activeIndex;
 
         if (deltaY > 0) {
-          // scroll down
           targetIndex = Math.min(activeIndex + 1, snapSlides.length - 1);
         } else if (deltaY < 0) {
-          // scroll up
           targetIndex = Math.max(activeIndex - 1, 0);
         }
 
@@ -917,9 +885,7 @@
         }
       }, { passive: false });
 
-      // Touch events for mobile
       let touchStartY = 0;
-      let touchEndY = 0;
 
       wrapper.addEventListener('touchstart', function(e) {
         if (!snapActive) return;
@@ -932,7 +898,6 @@
           e.preventDefault();
           return;
         }
-        // We'll handle on touchend
       }, { passive: false });
 
       wrapper.addEventListener('touchend', function(e) {
@@ -941,7 +906,7 @@
         const deltaY = touchStartY - e.changedTouches[0].clientY;
         touchStartY = 0;
 
-        if (Math.abs(deltaY) < 30) return; // threshold for swipe
+        if (Math.abs(deltaY) < 30) return;
 
         let targetIndex = activeIndex;
         if (deltaY > 0) {
@@ -955,7 +920,6 @@
         }
       }, { passive: true });
 
-      // Also listen to scroll to update active index
       wrapper.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', () => {
         updatePaginationVisibility();
@@ -963,7 +927,7 @@
       });
       window.addEventListener('scroll', handleScroll);
 
-      // ===== CANVAS HERO (unchanged) =====
+      // ===== CANVAS HERO =====
       const FRAME_COUNT = 141;
       const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
       const canvas = document.getElementById('hero-canvas');
@@ -1049,14 +1013,12 @@
       }
 
       function isHeroActive() {
-        // hero is slide 0, but we only care about hero canvas interaction
-        return true; // always allow hero interaction
+        return true;
       }
 
       wrapper.addEventListener('wheel', function(e) {
         if (!framesReady) return;
         if (!isHeroActive()) return;
-        // Only intercept hero wheel if we are on hero slide (index 0)
         const heroSlide = document.querySelector('.hero-slide');
         if (!heroSlide) return;
         const rect = heroSlide.getBoundingClientRect();
@@ -1115,7 +1077,6 @@
         animationLoop(performance.now());
       });
 
-      // Mobile menu
       document.getElementById('hamburger').addEventListener('click', function() {
         document.getElementById('navMenu').classList.toggle('open');
       });
@@ -1369,10 +1330,10 @@
         }
       };
 
-      // ===== REGION POPUP - matches CTA design exactly =====
+      // ===== REGION POPUP - vertical column with X close =====
       const popupOverlay = document.getElementById('regionPopup');
       const regionGrid = document.getElementById('regionGrid');
-      const popupClose = document.getElementById('popupClose');
+      const popupCloseX = document.getElementById('popupCloseX');
 
       function closePopup() {
         popupOverlay.classList.remove('active');
@@ -1405,12 +1366,12 @@
         closePopup();
       });
 
-      popupClose.addEventListener('click', closePopup);
+      popupCloseX.addEventListener('click', closePopup);
       popupOverlay.addEventListener('click', function(e) {
         if (e.target === this) closePopup();
       });
 
-      // Initialisation after load
+      // Init after load
       window.addEventListener('load', function() {
         header.classList.remove('scrolled');
         activeIndex = 0;
