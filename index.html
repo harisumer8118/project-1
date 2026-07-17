@@ -301,36 +301,193 @@
     .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
     .footer .footer-links a:hover { color:var(--white); }
     .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
-    @media (max-width:768px) { .footer .grid { grid-template-columns:1fr; gap:2rem; } .footer .right { align-items:flex-start; } .footer .footer-links { justify-content:flex-start; } .footer .bottom { flex-direction:column; align-items:flex-start; } }
+    @media (max-width:768px) {
+      .region-popup .region-grid {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 0;
+    border-top: 1px solid var(--color-border-dark);
+    margin-top: 1.2rem;
+    width: 100%;
+    flex-direction: column;
+}
+      
+      .footer .grid { grid-template-columns:1fr; gap:2rem; } .footer .right { align-items:flex-start; } .footer .footer-links { justify-content:flex-start; } .footer .bottom { flex-direction:column; align-items:flex-start; } }
 
-    /* region popup */
-    .region-popup-overlay { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.5s ease; }
-    .region-popup-overlay.active { opacity:1; pointer-events:auto; }
-    .region-popup { background:var(--dark); border:1px solid rgba(201,160,74,0.3); border-radius:20px; padding:3.2rem 2.8rem; max-width:420px; width:90%; box-shadow:0 25px 50px rgba(0,0,0,0.8); transform:scale(0.95) translateY(20px); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease; opacity:0; text-align:center; }
-    .region-popup-overlay.active .region-popup { transform:scale(1) translateY(0); opacity:1; }
-    .region-popup h2 { font-size:2.4rem; color:#d4af37; margin-bottom:0.8rem; font-weight:400; }
-    .region-popup p { color:rgba(255,255,255,0.7); font-size:1.4rem; margin-bottom:2rem; }
-    .region-popup .popup-options { display:flex; flex-direction:column; gap:0.8rem; }
-    .region-popup .popup-options button { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1rem 1.2rem; color:var(--white); font-size:1.4rem; font-weight:500; display:flex; align-items:center; gap:1rem; cursor:pointer; transition:all 0.25s ease; width:100%; text-align:left; font-family:inherit; }
-    .region-popup .popup-options button:hover { background:rgba(201,160,74,0.15); border-color:rgba(201,160,74,0.4); transform:scale(1.02); }
-    .region-popup .popup-options button .flag-icon img { width:24px; height:18px; object-fit:contain; border-radius:2px; }
-    .region-popup .popup-close { margin-top:1.8rem; background:transparent; border:none; color:rgba(255,255,255,0.3); font-size:1.2rem; cursor:pointer; transition:color 0.2s; font-family:inherit; }
+    /* ===== REGION POPUP — matches CTA section exactly ===== */
+    .region-popup-overlay {
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      background:rgba(0,0,0,0.7);
+      backdrop-filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 0.5s ease;
+    }
+    .region-popup-overlay.active {
+      opacity:1;
+      pointer-events:auto;
+    }
+    .region-popup {
+      background:var(--dark);
+      border:1px solid var(--color-border-dark);
+      border-radius:20px;
+      padding:3.2rem 2.8rem;
+      
+      width:80%;
+      box-shadow:0 25px 50px rgba(0,0,0,0.8);
+      transform:scale(0.95) translateY(20px);
+      transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease;
+      opacity:0;
+      text-align:center;
+    }
+    .region-popup-overlay.active .region-popup {
+      transform:scale(1) translateY(0);
+      opacity:1;
+    }
+    .region-popup h2 {
+      font-size:clamp(2.4rem,4vw,6.2rem);
+      font-weight:500;
+      letter-spacing:-0.04em;
+      color:var(--text);
+      margin:0 0 0.4rem 0;
+    }
+    .region-popup p {
+      color:rgba(255,255,255,0.6);
+      font-size:clamp(1.4rem,1.6vw,1.6rem);
+      margin-bottom:2rem;
+      font-weight:300;
+    }
+    /* region grid — static, no scroll, same visual as marquee */
+    .region-popup .region-grid {
+      display:flex;
+      /* flex-wrap:wrap; */
+      gap:0;
+      border-top:1px solid var(--color-border-dark);
+      margin-top:1.2rem;
+      width:100%;
+    }
+    .region-popup .region-btn {
+    flex: 1 0 0%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem 2rem;
+    border-bottom: 0px solid var(--color-border-dark);
+    border-right: 0px solid var(--color-border-dark);
+    background: transparent;
+    color: var(--text);
+    font-size: clamp(1.6rem, 2vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-family: inherit;
+    text-align: left;
+    height: 150px;
+}
+    .region-popup .region-btn:nth-child(2n) { border-right:none; }
+    .region-popup .region-btn:last-child { border-bottom:none; }
+    .region-popup .region-btn .region-btn__bg {
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-color:var(--primary);
+      transform:scaleX(0);
+      transform-origin:left center;
+      transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .region-popup .region-btn:hover .region-btn__bg {
+      transform:scaleX(1);
+    }
+    .region-popup .region-btn .region-btn__label {
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      transition:color 0.4s ease, transform 0.4s ease;
+    }
+    .region-popup .region-btn:hover .region-btn__label {
+      color:var(--dark);
+      transform:translateX(6px);
+    }
+    .region-popup .region-btn .region-btn__label .flag-icon img {
+      width:24px;
+      height:18px;
+      object-fit:contain;
+      border-radius:2px;
+    }
+    .region-popup .region-btn .region-btn__arrow {
+      position:relative;
+      z-index:1;
+      font-size:2.4rem;
+      transition:transform 0.4s ease, color 0.4s ease;
+      font-weight:300;
+      color:var(--text);
+    }
+    .region-popup .region-btn:hover .region-btn__arrow {
+      color:var(--dark);
+      transform:translateX(6px);
+    }
+    .region-popup .popup-close {
+      margin-top:2rem;
+      background:transparent;
+      border:none;
+      color:rgba(255,255,255,0.3);
+      font-size:1.4rem;
+      cursor:pointer;
+      transition:color 0.2s;
+      font-family:inherit;
+      letter-spacing:0.03em;
+    }
     .region-popup .popup-close:hover { color:var(--white); }
-    @media (max-width:480px) { .region-popup { padding:2.4rem 1.6rem; } .region-popup h2 { font-size:2rem; } }
+    @media (max-width:480px) {
+      .region-popup { padding:2.4rem 1.6rem; }
+      .region-popup h2 { font-size:2.4rem; }
+      .region-popup .region-btn { flex:1 0 100%; border-right:none; padding:1.2rem 1.6rem; font-size:1.6rem; }
+      .region-popup .region-btn .region-btn__label .flag-icon img { width:20px; height:15px; }
+    }
   </style>
 </head>
 <body>
-  <!-- REGION POPUP -->
+  <!-- REGION POPUP — matches CTA section design exactly -->
   <div class="region-popup-overlay" id="regionPopup">
     <div class="region-popup">
-      <h2>🌍 Choose your region</h2>
-      <p>Select your preferred region to see relevant content</p>
-      <div class="popup-options" id="popupOptions">
-        <button data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
-        <button data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
-        <button data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
-        <button data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
-        <button data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+      <h2>Select Your Region</h2>
+      
+      <div class="region-grid" id="regionGrid">
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/un.png" data-label="Global">
+          <span class="region-btn__bg"></span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</span>
+          <span class="region-btn__arrow">→</span>
+        </button>
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE">
+          <span class="region-btn__bg"></span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</span>
+          <span class="region-btn__arrow">→</span>
+        </button>
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore">
+          <span class="region-btn__bg"></span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</span>
+          <span class="region-btn__arrow">→</span>
+        </button>
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal">
+          <span class="region-btn__bg"></span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</span>
+          <span class="region-btn__arrow">→</span>
+        </button>
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan">
+          <span class="region-btn__bg"></span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</span>
+          <span class="region-btn__arrow">→</span>
+        </button>
       </div>
       <button class="popup-close" id="popupClose">Skip →</button>
     </div>
@@ -1212,17 +1369,17 @@
         }
       };
 
-      // ===== REGION POPUP =====
+      // ===== REGION POPUP - matches CTA design exactly =====
       const popupOverlay = document.getElementById('regionPopup');
-      const popupOptions = document.getElementById('popupOptions');
+      const regionGrid = document.getElementById('regionGrid');
       const popupClose = document.getElementById('popupClose');
 
       function closePopup() {
         popupOverlay.classList.remove('active');
       }
 
-      popupOptions.addEventListener('click', function(e) {
-        const btn = e.target.closest('button');
+      regionGrid.addEventListener('click', function(e) {
+        const btn = e.target.closest('.region-btn');
         if (!btn) return;
         const label = btn.dataset.label;
         const flag = btn.dataset.flag;
