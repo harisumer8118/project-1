@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>Services — FINSOULS</title>
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --primary:#c9a04a;
+      --primary-dark:#a8852a;
+      --dark:#121111;
+      --text:#fcfbfa;
+      --white:#fcfbfa;
+      --black:#121111;
+      --shadow:0 10px 25px rgba(0,0,0,0.4);
+      --slide-ease:cubic-bezier(0.25,0.46,0.45,0.94);
+      --color-border-dark:rgba(255,255,255,0.08);
+      --muted:rgba(252,251,250,0.62);
+      --muted-2:rgba(252,251,250,0.4);
+      --line:rgba(255,255,255,0.08);
+    }
+    html { font-size:62.5%; scroll-behavior:smooth; }
+    body { font-family:'Inter',Arial,sans-serif; font-size:1.6rem; line-height:1.7; color:var(--text); background:var(--dark); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+    ul { list-style:none; padding:0; margin:0; }
+    img { max-width:100%; display:block; height:auto; }
+    h1,h2,h3,h4,h5,h6 { font-weight:300; color:var(--white); line-height:1.2; }
+    .btn { display:inline-block; padding:1.2rem 2.8rem; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.25); color:var(--white); font-size:clamp(1.2rem,1.4vw,1.4rem); font-weight:600; text-transform:uppercase; letter-spacing:0.075em; border-radius:8px; cursor:pointer; transition:all 0.3s ease; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .btn-arrow { display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem; color:var(--white); font-weight:500; transition:all 0.3s ease; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border-radius:30px; border:1px solid rgba(201,160,74,0.25); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn-arrow::after { content:"→"; font-size:1.8rem; transition:all 0.3s ease; }
+    .btn-arrow:hover { gap:1.2rem; background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; transform:scale(1.03); }
+    .btn-arrow-white { color:var(--white); }
+    .btn-arrow-white:hover { color:#121111; }
+    .btn-arrow-white:hover::after { color:#121111; }
+    .pill-btn { display:inline-flex; align-items:center; justify-content:center; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); border-radius:60px; padding:0.8rem 2.4rem; transition:all 0.3s ease; font-weight:500; font-size:1.6rem; color:var(--text); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .pill-btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .container { max-width:1240px; margin:0 auto; padding:0 3rem; width:100%; }
+    @media (max-width:768px){ .container{padding:0 2rem;} }
+
+    /* ----- HEADER (from homepage) ----- */
+    .header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; transition:background 0.4s ease, box-shadow 0.3s ease; }
+    .header.scrolled { background:var(--dark) !important; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
+    .header-main { display:flex; justify-content:space-between; align-items:center; padding:0.8rem 2rem; max-width:1200px; margin:0 auto; }
+    .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; transition:color 0.3s ease; }
+    .logo-text span { color:var(--primary); }
+    .header.scrolled .logo-text { color:var(--white); }
+    .header.scrolled .logo-text span { color:var(--primary); }
+    .nav-menu { display:flex; align-items:center; gap:clamp(1.2rem,2.5vw,2.4rem); }
+    .nav-menu a { font-size:clamp(1.2rem,1.3vw,1.4rem); font-weight:500; color:var(--white); transition:color 0.25s ease, border-color 0.25s ease; padding:0.4rem 0; border-bottom:2px solid transparent; white-space:nowrap; }
+    .nav-menu a:hover, .nav-menu a.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .nav-menu .btn { padding:0.6rem 1.6rem; font-size:clamp(1rem,1.2vw,1.2rem); background:rgba(201,160,74,0.15); color:var(--white); white-space:nowrap; backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .nav-menu .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
+    .hamburger { display:none; flex-direction:column; gap:0.4rem; cursor:pointer; padding:0.4rem; background:none; border:none; }
+    .hamburger span { display:block; width:2.8rem; height:2px; background:var(--white); transition:all 0.3s ease; }
+    .region-selector { position:relative; display:inline-block; cursor:pointer; }
+    .region-selector .selected-region { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 1rem 0.4rem 0.6rem; border-radius:30px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); transition:background 0.2s, border-color 0.2s; font-size:clamp(1.1rem,1.2vw,1.3rem); font-weight:500; color:var(--white); line-height:1.4; }
+    .region-selector .selected-region:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
+    .region-selector .selected-region .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .region-selector .selected-region .arrow-down { font-size:1.2rem; opacity:0.6; transition:transform 0.25s ease; margin-left:0.2rem; }
+    .region-selector .selected-region .arrow-down.open { transform:rotate(180deg); }
+    .region-selector .dropdown-list { position:absolute; top:calc(100% + 8px); right:0; min-width:180px; background:rgba(18,17,17,0.96); border:1px solid rgba(255,255,255,0.08); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.6); padding:0.6rem 0; opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; z-index:1200; backdrop-filter:blur(8px); }
+    .region-selector .dropdown-list.open { opacity:1; visibility:visible; transform:translateY(0); }
+    .region-selector .dropdown-item { display:flex; align-items:center; gap:0.8rem; padding:0.7rem 1.4rem; color:var(--white); font-size:clamp(1.2rem,1.3vw,1.4rem); transition:background 0.15s; cursor:pointer; border:none; background:transparent; width:100%; text-align:left; font-family:inherit; }
+    .region-selector .dropdown-item:hover { background:rgba(201,160,74,0.15); color:var(--primary); }
+    .region-selector .dropdown-item .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .mobile-right-group { display:flex; align-items:center; gap:1.2rem; }
+    @media (max-width:1024px) {
+      .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--dark); padding:2rem; box-shadow:var(--shadow); gap:1.2rem; border-top:1px solid rgba(255,255,255,0.05); align-items:stretch; }
+      .nav-menu.open { display:flex; }
+      .hamburger { display:flex; }
+      .nav-menu a { color:var(--white) !important; white-space:normal; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.1); }
+      .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; }
+      .nav-menu .btn { width:100%; text-align:center; }
+      .nav-menu .region-selector { display:none !important; }
+      .header-main .region-selector { display:inline-block; }
+    }
+    @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
+
+    /* ----- FOOTER (from homepage) ----- */
+    .footer { padding:clamp(2rem,5vh,5rem) 0; background:var(--dark); color:rgba(255,255,255,0.8); border-top:1px solid var(--line); }
+    .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
+    .footer .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
+    .footer .logo-text span { color:var(--primary); }
+    .footer .address p { font-size:clamp(1.2rem,1.4vw,1.4rem); margin-bottom:0.4rem; color:rgba(255,255,255,0.8); }
+    .footer .address a { color:var(--primary); }
+    .footer .right { display:flex; flex-direction:column; align-items:flex-end; gap:2rem; }
+    .footer .social-links { display:flex; gap:1.2rem; }
+    .footer .social-links a { font-size:clamp(1.8rem,2.2vw,2.2rem); padding:0.4rem; transition:all 0.3s ease; color:rgba(255,255,255,0.7); }
+    .footer .social-links a:hover { color:var(--primary); }
+    .footer .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem 2.5rem; font-size:clamp(1rem,1.2vw,1.2rem); }
+    .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
+    .footer .footer-links a:hover { color:var(--white); }
+    .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
+    @media (max-width:768px) {
+      .footer .grid { grid-template-columns:1fr; gap:2rem; }
+      .footer .right { align-items:flex-start; }
+      .footer .footer-links { justify-content:flex-start; }
+      .footer .bottom { flex-direction:column; align-items:flex-start; }
+    }
+
+    /* ----- Services page specific styles (preserved) ----- */
+    .eyebrow{font-size:1.2rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--primary); font-weight:600; display:flex; align-items:center; gap:1rem;}
+    .eyebrow::before{content:''; width:28px; height:1px; background:var(--primary);}
+    .btn-gold{ display:inline-flex; align-items:center; gap:0.9rem; padding:1.2rem 2.6rem; background:rgba(201,160,74,0.12); border:1px solid rgba(201,160,74,0.35); color:var(--text); font-size:1.3rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; border-radius:100px; cursor:pointer; transition:all 0.35s var(--slide-ease); }
+    .btn-gold::after{ content:'→'; font-size:1.6rem; transition:transform 0.35s var(--slide-ease); }
+    .btn-gold:hover{ background:var(--primary); border-color:var(--primary); color:var(--dark); box-shadow:0 0 30px rgba(201,160,74,0.35); }
+    .btn-gold:hover::after{ transform:translateX(4px); }
+    .btn-ghost{ display:inline-flex; align-items:center; gap:0.8rem; font-size:1.3rem; font-weight:600; letter-spacing:0.04em; color:var(--text); border-bottom:1px solid var(--line); padding-bottom:0.4rem; transition:all 0.3s ease; }
+    .btn-ghost::after{ content:'→'; transition:transform 0.3s ease; }
+    .btn-ghost:hover{ color:var(--primary); border-color:var(--primary); }
+    .btn-ghost:hover::after{ transform:translateX(4px); }
+
+    .services-hero{ position:relative; min-height:88vh; display:flex; align-items:flex-end; padding:14rem 0 6rem; overflow:hidden; margin-top:0; }
+    .services-hero .bg{ position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&h=1000&fit=crop') center/cover; opacity:0.5; transform:scale(1.06); }
+    .services-hero .bg-fade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(18,17,17,0.55) 0%, rgba(18,17,17,0.55) 40%, var(--dark) 100%); }
+    .services-hero .content{ position:relative; z-index:2; }
+    .services-hero .breadcrumb{ font-size:1.2rem; color:var(--muted); margin-bottom:2.2rem; letter-spacing:0.03em; }
+    .services-hero .breadcrumb a{ color:var(--muted); transition:color 0.2s; }
+    .services-hero .breadcrumb a:hover{ color:var(--primary); }
+    .services-hero h1{ font-size:clamp(4rem,8vw,7.6rem); max-width:900px; margin-bottom:2.2rem; }
+    .services-hero h1 strong{ font-weight:700; color:var(--primary); }
+    .services-hero p{ font-size:clamp(1.6rem,1.8vw,1.9rem); color:var(--muted); max-width:560px; }
+    .hero-anim{ opacity:0; transform:translateY(28px); animation:heroIn 1s var(--slide-ease) forwards; }
+    .hero-anim:nth-child(2){ animation-delay:0.12s; }
+    .hero-anim:nth-child(3){ animation-delay:0.24s; }
+    .hero-anim:nth-child(4){ animation-delay:0.36s; }
+    @keyframes heroIn{ to{ opacity:1; transform:translateY(0); } }
+
+    .intro{ padding:9rem 0; border-bottom:1px solid var(--line); }
+    .intro .grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:6rem; align-items:start; }
+    .intro h2{ font-size:clamp(2.8rem,4vw,4rem); margin:1.6rem 0 2rem; max-width:520px; }
+    .intro h2 .accent{ color:var(--primary); font-style:italic; font-weight:300; }
+    .intro-desc{ color:var(--muted); font-size:1.7rem; max-width:480px; }
+    .intro-stats{ display:grid; grid-template-columns:1fr 1fr; gap:3.2rem 2.4rem; padding-left:2rem; border-left:1px solid var(--line); }
+    .intro-stats .stat .num{ font-size:clamp(2.8rem,3.6vw,3.8rem); color:var(--primary); font-weight:300; line-height:1; margin-bottom:0.6rem; }
+    .intro-stats .stat .lbl{ font-size:1.2rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
+    @media (max-width:900px){ .intro .grid{ grid-template-columns:1fr; gap:4rem; } .intro-stats{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:3rem; } }
+
+    .pin-wrap{ position:relative; height:500vh; }
+    .pin-inner{ position:sticky; top:0; height:100vh; display:flex; overflow:hidden; background:var(--dark-2); }
+    .pin-heading{ position:absolute; top:6rem; left:0; right:0; z-index:5; text-align:center; pointer-events:none; }
+    .pin-heading .eyebrow{ justify-content:center; margin-bottom:1.2rem; }
+    .pin-heading .eyebrow::before{ display:none; }
+    .pin-heading h2{ font-size:clamp(2.6rem,4vw,3.8rem); }
+    .pin-col{ flex:1; position:relative; height:100%; display:flex; align-items:flex-end; padding:6rem 3.4rem 7rem; overflow:hidden; border-right:1px solid var(--line); }
+    .pin-col:last-child{ border-right:none; }
+    .pin-col .ghost-letter{ position:absolute; top:50%; left:50%; transform:translate(-50%,-45%); font-size:34rem; font-weight:700; color:rgba(255,255,255,0.025); line-height:1; pointer-events:none; user-select:none; }
+    .pin-col .col-index{ position:absolute; top:3.2rem; left:3.4rem; font-size:1.2rem; color:var(--muted-2); letter-spacing:0.1em; }
+    .pin-col-content{ position:relative; z-index:2; opacity:0; transform:translateY(52px); }
+    .pin-col-content h3{ font-size:clamp(2rem,2.3vw,2.6rem); color:var(--text); margin-bottom:1.4rem; }
+    .pin-col-content p{ font-size:1.4rem; color:var(--muted); margin-bottom:2.4rem; max-width:280px; }
+    .pin-col-content .btn-ghost{ font-size:1.15rem; }
+    .pin-progress{ position:absolute; bottom:3rem; left:50%; transform:translateX(-50%); display:flex; gap:0.9rem; z-index:6; }
+    .pin-progress .bar{ width:34px; height:2px; background:rgba(255,255,255,0.15); position:relative; overflow:hidden; }
+    .pin-progress .bar span{ position:absolute; inset:0; background:var(--primary); transform:scaleX(0); transform-origin:left; }
+    @media (max-width:900px){
+      .pin-wrap{ height:auto; }
+      .pin-inner{ position:static; height:auto; flex-direction:column; }
+      .pin-heading{ position:static; padding:5rem 2rem 1rem; }
+      .pin-col{ height:auto; min-height:auto; padding:4rem 2rem; align-items:flex-start; border-right:none; border-bottom:1px solid var(--line); }
+      .pin-col .ghost-letter{ font-size:14rem; }
+      .pin-col-content{ transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
+      .pin-progress{ display:none; }
+    }
+
+    .details{ padding:10rem 0; }
+    .details .section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:5rem; gap:2rem; flex-wrap:wrap; }
+    .details .section-head h2{ font-size:clamp(2.8rem,4vw,4rem); max-width:560px; }
+    .details .section-head p{ color:var(--muted); max-width:380px; font-size:1.5rem; }
+    .detail-row{ border-top:1px solid var(--line); padding:3.6rem 0; display:grid; grid-template-columns:80px 1fr 1.3fr auto; gap:3rem; align-items:center; transition:background 0.3s ease; }
+    .detail-row:last-child{ border-bottom:1px solid var(--line); }
+    .detail-row:hover{ background:rgba(255,255,255,0.02); }
+    .detail-row .d-index{ font-size:1.4rem; color:var(--primary); font-weight:600; }
+    .detail-row h3{ font-size:clamp(2rem,2.4vw,2.6rem); color:var(--text); }
+    .detail-row .d-list{ display:flex; flex-wrap:wrap; gap:0.8rem 1rem; }
+    .detail-row .d-list span{ font-size:1.15rem; color:var(--muted); padding:0.6rem 1.4rem; border:1px solid var(--line); border-radius:100px; white-space:nowrap; }
+    @media (max-width:900px){ .detail-row{ grid-template-columns:1fr; gap:1.6rem; padding:3rem 0; } .detail-row .d-index{ order:-1; } }
+
+    .process{ padding:10rem 0; background:var(--dark-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .process .section-head{ text-align:center; max-width:640px; margin:0 auto 6rem; }
+    .process .section-head .eyebrow{ justify-content:center; margin-bottom:1.6rem; }
+    .process .section-head .eyebrow::before{ display:none; }
+    .process .section-head h2{ font-size:clamp(2.8rem,4vw,4rem); }
+    .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+    .process-step{ background:var(--dark-2); padding:3.6rem 2.8rem; }
+    .process-step .step-no{ font-size:1.2rem; color:var(--primary); letter-spacing:0.08em; margin-bottom:2rem; }
+    .process-step h4{ font-size:1.9rem; color:var(--text); margin-bottom:1.2rem; }
+    .process-step p{ font-size:1.35rem; color:var(--muted); }
+    @media (max-width:900px){ .process-grid{ grid-template-columns:1fr; } }
+
+    .cta{ padding:11rem 0; text-align:center; }
+    .cta h2{ font-size:clamp(3rem,5vw,5.2rem); max-width:800px; margin:0 auto 3.2rem; }
+    .cta h2 em{ color:var(--primary); font-style:italic; font-weight:300; }
+    .cta .btn-gold{ font-size:1.4rem; padding:1.5rem 3.4rem; }
+
+    .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
+    .reveal.in{ opacity:1; transform:translateY(0); }
+    @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal, .pin-col-content{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
+  </style>
+</head>
+<body>
+  <!-- HEADER (from homepage, with Services active) -->
+  <header class="header" id="header">
+    <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
+      <a href="#" class="logo">
+        <span class="logo-text">FINSOULS</span>
+      </a>
+      <div class="mobile-right-group">
+        <div class="region-selector" id="regionSelectorMobile">
+          <div class="selected-region" id="selectedRegionMobile">
+            <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowMobile">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownMobile">
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="nav-menu" id="navMenu">
+        <a href="#">Home</a>
+        <a href="#">About us</a>
+        <a href="#" class="active">Services</a>
+        <a href="#">Teams</a>
+        <a href="#">Contact</a>
+        <div class="region-selector" id="regionSelectorDesktop">
+          <div class="selected-region" id="selectedRegionDesktop">
+            <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowDesktop">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownDesktop">
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <a href="#" class="btn">Book a Consultant</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="services-hero">
+    <div class="bg"></div>
+    <div class="bg-fade"></div>
+    <div class="container content">
+      
+      <h1 class="hero-anim">What we <strong>handle</strong>,<br />so you don't have to.</h1>
+      <p class="hero-anim">Bookkeeping, tax, audit, and business setup — delivered by Certified Professional Chartered Accountants who treat your numbers like their own.</p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="container grid">
+      <div class="reveal">
+        <div class="eyebrow">Our Practice</div>
+        <h2>Four disciplines. <span class="accent">One accountable team.</span></h2>
+        <p class="intro-desc">Every engagement runs through the same four pillars — accounting, tax, audit, and advisory — so nothing falls between departments. One point of contact, one standard of rigor, from your first invoice to your next filing deadline.</p>
+      </div>
+      <div class="intro-stats reveal">
+        <div class="stat"><div class="num">18+</div><div class="lbl">Years in practice</div></div>
+        <div class="stat"><div class="num">200+</div><div class="lbl">Clients advised</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Core service lines</div></div>
+        <div class="stat"><div class="num">FTA</div><div class="lbl">Certified accountants</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PINNED 4-COLUMN SCROLL SECTION -->
+  <section class="pin-wrap" id="pinWrap">
+    <div class="pin-inner" id="pinInner">
+      <div class="pin-heading">
+        <div class="eyebrow">Services</div>
+        <h2>Where we take the weight off</h2>
+      </div>
+
+      <div class="pin-col">
+        <span class="col-index">01</span>
+        <span class="ghost-letter">B</span>
+        <div class="pin-col-content">
+          <h3>Bookkeeping &amp; Accounting</h3>
+          <p>Books reconciled monthly and reviewed by chartered accountants, so your numbers are audit-ready the moment you need them.</p>
+          <a href="#contact" class="btn-ghost">Explore More</a>
+        </div>
+      </div>
+
+      <div class="pin-col">
+        <span class="col-index">02</span>
+        <span class="ghost-letter">V</span>
+        <div class="pin-col-content">
+          <h3>VAT &amp; Tax Advisory</h3>
+          <p>FTA-certified guidance on VAT registration, filing, and corporate tax — built to keep you compliant and penalty-free.</p>
+          <a href="#contact" class="btn-ghost">Explore More</a>
+        </div>
+      </div>
+
+      <div class="pin-col">
+        <span class="col-index">03</span>
+        <span class="ghost-letter">A</span>
+        <div class="pin-col-content">
+          <h3>Audit &amp; Assurance</h3>
+          <p>Independent, thorough audits that satisfy regulators and investors — and give you an honest read on your own numbers.</p>
+          <a href="#contact" class="btn-ghost">Explore More</a>
+        </div>
+      </div>
+
+      <div class="pin-col">
+        <span class="col-index">04</span>
+        <span class="ghost-letter">S</span>
+        <div class="pin-col-content">
+          <h3>Business Setup &amp; Advisory</h3>
+          <p>From licensing to banking, we structure your entity right the first time — mainland, freezone, or offshore.</p>
+          <a href="#contact" class="btn-ghost">Explore More</a>
+        </div>
+      </div>
+
+      <div class="pin-progress" id="pinProgress">
+        <div class="bar"><span></span></div>
+        <div class="bar"><span></span></div>
+        <div class="bar"><span></span></div>
+        <div class="bar"><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE DETAIL LIST -->
+  <section class="details">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Every service, in full</h2>
+        <p>A closer look at what's included under each of our four disciplines.</p>
+      </div>
+
+      <div class="detail-row reveal">
+        <div class="d-index">01</div>
+        <h3>Bookkeeping &amp; Accounting</h3>
+        <div class="d-list">
+          <span>Monthly bookkeeping</span><span>Payroll processing</span><span>Accounts payable/receivable</span><span>Management reporting</span>
+        </div>
+        <a href="#contact" class="btn-ghost">Talk to us</a>
+      </div>
+
+      <div class="detail-row reveal">
+        <div class="d-index">02</div>
+        <h3>VAT &amp; Tax Advisory</h3>
+        <div class="d-list">
+          <span>VAT registration</span><span>Quarterly filing</span><span>Corporate tax</span><span>Voluntary disclosures</span>
+        </div>
+        <a href="#contact" class="btn-ghost">Talk to us</a>
+      </div>
+
+      <div class="detail-row reveal">
+        <div class="d-index">03</div>
+        <h3>Audit &amp; Assurance</h3>
+        <div class="d-list">
+          <span>Statutory audit</span><span>Internal controls review</span><span>Due diligence</span><span>Investor reporting</span>
+        </div>
+        <a href="#contact" class="btn-ghost">Talk to us</a>
+      </div>
+
+      <div class="detail-row reveal">
+        <div class="d-index">04</div>
+        <h3>Business Setup &amp; Advisory</h3>
+        <div class="d-list">
+          <span>Trade licensing</span><span>Bank account opening</span><span>Freezone vs mainland</span><span>CFO advisory</span>
+        </div>
+        <a href="#contact" class="btn-ghost">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">How it works</div>
+        <h2>From first call to filed return</h2>
+      </div>
+      <div class="process-grid reveal">
+        <div class="process-step">
+          <div class="step-no">01</div>
+          <h4>Consultation</h4>
+          <p>We map your current setup, obligations, and deadlines in a free initial call.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-no">02</div>
+          <h4>Proposal</h4>
+          <p>A fixed-scope engagement plan with clear pricing — no hourly surprises.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-no">03</div>
+          <h4>Onboarding</h4>
+          <p>We migrate your records and set up reporting inside two weeks.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-no">04</div>
+          <h4>Ongoing care</h4>
+          <p>A dedicated accountant, monthly reporting, and deadlines we track for you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2 class="reveal">Ready for books that <em>close themselves out</em>?</h2>
+      <a href="#" class="btn-gold reveal">Book a Consultation</a>
+    </div>
+  </section>
+
+  <!-- FOOTER (from homepage) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="grid">
+        <div class="left">
+          <div class="logo-text">FINSOULS</div>
+          <div class="address">
+            <p id="footerAddress1">Business Bay, Dubai, UAE</p>
+            <p><strong id="footerPhone">+971 52 449 4542</strong></p>
+            <p><a href="mailto:info@finsouls.com" id="footerEmail" style="color:var(--primary);">info@finsouls.com</a></p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="social-links">
+            <a href="#" aria-label="X">𝕏</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+          <div class="footer-links">
+            <a href="#">Contacts &amp; Offices</a>
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Legal</a>
+            <a href="#">Cookies Policy</a>
+            <a href="#">Privacy notices</a>
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© 2026 FINSOULS | Planning &amp; Guidance. All Rights Reserved.</span>
+        <span>FINSOULS</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      // ---- Header scroll state ----
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', function(){
+        if (window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+
+      // ---- Mobile menu ----
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+      navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+      // ---- Generic reveal-on-scroll for standard sections ----
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(el => io.observe(el));
+
+      // ---- Pinned 4-column scrubbed reveal ----
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const pinWrap = document.getElementById('pinWrap');
+      const pinCols = Array.from(document.querySelectorAll('.pin-col-content'));
+      const progressBars = Array.from(document.querySelectorAll('#pinProgress .bar span'));
+      const mq = window.matchMedia('(min-width: 901px)');
+      let ticking = false;
+
+      function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+      function updatePin(){
+        ticking = false;
+        if (prefersReduced || !mq.matches) return;
+
+        const rect = pinWrap.getBoundingClientRect();
+        const total = pinWrap.offsetHeight - window.innerHeight;
+        const scrolled = -rect.top;
+        const progress = clamp(total > 0 ? scrolled / total : 0, 0, 1);
+        const stagePos = progress * pinCols.length;
+
+        pinCols.forEach((col, i) => {
+          const local = clamp(stagePos - i, 0, 1);
+          const eased = easeOutCubic(local);
+          col.style.opacity = eased;
+          col.style.transform = `translateY(${52 * (1 - eased)}px)`;
+          if (progressBars[i]) {
+            progressBars[i].style.transform = `scaleX(${local})`;
+          }
+        });
+      }
+
+      function onScroll(){
+        if (!ticking) {
+          window.requestAnimationFrame(updatePin);
+          ticking = true;
+        }
+      }
+
+      function setupPin(){
+        if (prefersReduced) {
+          pinCols.forEach(col => { col.style.opacity = 1; col.style.transform = 'none'; });
+          return;
+        }
+        if (mq.matches) {
+          window.addEventListener('scroll', onScroll);
+          updatePin();
+        } else {
+          window.removeEventListener('scroll', onScroll);
+          pinCols.forEach(col => {
+            col.style.transition = 'opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)';
+          });
+          const mobileIo = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+                mobileIo.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.35 });
+          pinCols.forEach(col => mobileIo.observe(col));
+        }
+      }
+
+      setupPin();
+      mq.addEventListener('change', setupPin);
+
+      // ---- Region selector: dummy implementation for consistency ----
+      function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
+        const selector = document.getElementById(selectorId);
+        if (!selector) return;
+        const selected = document.getElementById(selectedId);
+        const dropdown = document.getElementById(dropdownId);
+        const arrow = document.getElementById(arrowId);
+        const items = dropdown.querySelectorAll('.dropdown-item');
+
+        selected.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+          if (arrow) arrow.classList.toggle('open');
+        });
+
+        items.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const flag = this.dataset.flag;
+            const label = this.dataset.label;
+            selected.innerHTML = `
+              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+              <span>${label}</span>
+              <span class="arrow-down" id="${arrowId}">▾</span>
+            `;
+            document.getElementById(arrowId).classList.remove('open');
+            dropdown.classList.remove('open');
+            items.forEach(d => d.style.background = 'transparent');
+            this.style.background = 'rgba(201,160,74,0.15)';
+            // update regional content if needed
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!selector.contains(e.target)) {
+            dropdown.classList.remove('open');
+            const arrowEl = document.getElementById(arrowId);
+            if (arrowEl) arrowEl.classList.remove('open');
+          }
+        });
+        dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+      }
+
+      setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
+      setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+    })();
+  </script>
+</body>
+</html>
