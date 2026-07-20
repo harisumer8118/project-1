@@ -482,7 +482,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="footer">
+  <footer class="footer" style="background-color: #000;">
     <div class="container">
       <div class="grid">
         <div class="left">
@@ -657,8 +657,10 @@
       setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
 
       // ===== CANVAS FRAME ANIMATION (same as homepage) =====
-      const FRAME_COUNT = 141;
-      const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
+    const START_FRAME = 61;
+const END_FRAME = 130;
+const FRAME_COUNT = END_FRAME - START_FRAME + 1; // This will be 70 frames
+const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
       const canvas = document.getElementById('hero-canvas');
       const ctx = canvas.getContext('2d');
       const loadingBar = document.getElementById('loading-bar');
@@ -667,11 +669,11 @@
       let loadedCount = 0;
       let framesReady = false;
 
-   function preloadImages(onDone) {
+ function preloadImages(onDone) {
   for (let i = 0; i < FRAME_COUNT; i++) {
     const img = new Image();
-    // Start from frame 61 (index 60) instead of frame 1
-    const frameNumber = i + 61;
+    // Start from frame 61 and go up to frame 130
+    const frameNumber = START_FRAME + i;
     img.src = FRAME_PATH(frameNumber);
     img.onload = img.onerror = () => {
       loadedCount++;
@@ -763,7 +765,7 @@
         resizeCanvas();
         preloadImages(() => {
           framesReady = true;
-          drawFrame(60);
+          drawFrame(0);
           lastFrameTime = 0;
           if (animationId) cancelAnimationFrame(animationId);
           animationLoop(performance.now());
