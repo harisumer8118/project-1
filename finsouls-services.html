@@ -83,7 +83,7 @@
     @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
 
     /* ----- FOOTER (from homepage) ----- */
-    .footer { padding:clamp(2rem,5vh,5rem) 0; background:var(--dark); color:rgba(255,255,255,0.8); border-top:1px solid var(--line); }
+    .footer { padding:clamp(2rem,5vh,5rem) 0; background:var(--dark); color:rgba(255,255,255,0.8); border-top:1px solid var(--line); position:relative; z-index:10; }
     .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
     .footer .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
     .footer .logo-text span { color:var(--primary); }
@@ -116,22 +116,74 @@
     .btn-ghost:hover{ color:var(--primary); border-color:var(--primary); }
     .btn-ghost:hover::after{ transform:translateX(4px); }
 
-    .services-hero{ position:relative; min-height:88vh; display:flex; align-items:flex-end; padding:14rem 0 6rem; overflow:hidden; margin-top:0; }
-    .services-hero .bg{ position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&h=1000&fit=crop') center/cover; opacity:0.5; transform:scale(1.06); }
-    .services-hero .bg-fade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(18,17,17,0.55) 0%, rgba(18,17,17,0.55) 40%, var(--dark) 100%); }
-    .services-hero .content{ position:relative; z-index:2; }
-    .services-hero .breadcrumb{ font-size:1.2rem; color:var(--muted); margin-bottom:2.2rem; letter-spacing:0.03em; }
-    .services-hero .breadcrumb a{ color:var(--muted); transition:color 0.2s; }
-    .services-hero .breadcrumb a:hover{ color:var(--primary); }
-    .services-hero h1{ font-size:clamp(4rem,8vw,7.6rem); max-width:900px; margin-bottom:2.2rem; }
-    .services-hero h1 strong{ font-weight:700; color:var(--primary); }
-    .services-hero p{ font-size:clamp(1.6rem,1.8vw,1.9rem); color:var(--muted); max-width:560px; }
-    .hero-anim{ opacity:0; transform:translateY(28px); animation:heroIn 1s var(--slide-ease) forwards; }
-    .hero-anim:nth-child(2){ animation-delay:0.12s; }
-    .hero-anim:nth-child(3){ animation-delay:0.24s; }
-    .hero-anim:nth-child(4){ animation-delay:0.36s; }
-    @keyframes heroIn{ to{ opacity:1; transform:translateY(0); } }
+    /* ===== HERO WITH FRAME ANIMATION (same style as homepage) ===== */
+    .shared-canvas-bg {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100vw;
+      height:100vh;
+      z-index:0;
+      pointer-events:none;
+      background:#000;
+    }
+    .shared-canvas-bg canvas {
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+    .hero-slide {
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:flex;
+      align-items:flex-end;
+      padding:10rem 3rem 3rem;
+      background:transparent;
+    }
+    .hero-overlay {
+      position:relative;
+      z-index:2;
+      color:#fff;
+      text-shadow:0 2px 12px rgba(0,0,0,0.8);
+     
+      padding:4rem 3rem 3rem 3rem;
+      width:100%;
+      border-radius:0;
+      pointer-events:none;
+    }
+    .hero-overlay h1 { font-weight:300; font-size:clamp(2.8rem,8vw,5.6rem); max-width:65%; }
+    .hero-overlay h1 strong { font-weight:700; color:var(--primary); }
+    .hero-overlay p { font-size:clamp(1.6rem,2vw,2rem); opacity:0.9; max-width:600px; color:#fff; }
+    .hero-overlay .btn-arrow { pointer-events:auto; }
 
+    /* ===== ABOUT / KEY FIGURES (same as homepage) ===== */
+    .key-figures {
+      position:relative;
+      z-index:1;
+      color:var(--white);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      background:rgba(0,0,0,0.85);
+      padding:4rem 0;
+    }
+    .key-figures .grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,4vw,4rem); align-items:center; width:100%; }
+    .key-figures .big-number { text-align:left;  padding-right:clamp(2rem,4vw,4rem);  padding:2rem; border-radius:12px; }
+    .key-figures .big-number .number { font-size:clamp(3rem,8vw,6rem); font-weight:300; color:var(--primary); line-height:1; }
+    .key-figures .big-number .label { font-size:clamp(1.4rem,1.6vw,1.8rem); opacity:0.9; margin-top:0.4rem; color:var(--white); }
+    .key-figures .stats { display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.5rem,2vw,2rem) clamp(2rem,4vw,4rem);  padding:2rem; border-radius:12px; }
+    .key-figures .stat .number { font-size:clamp(2.8rem,5vw,4.2rem); font-weight:300; color:var(--primary); line-height:1.2; }
+    .key-figures .stat .label { font-size:clamp(1.2rem,1.2vw,1.4rem); opacity:0.8; text-transform:uppercase; letter-spacing:0.05em; color:var(--white); }
+    @media (max-width:768px) {
+      .hero-slide { padding:10rem 2rem 2rem; }
+      .hero-overlay h1 { max-width:100%; }
+      .key-figures .grid { grid-template-columns:1fr; gap:2rem; }
+      .key-figures .big-number { border-right:none; padding-right:0; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:2rem; }
+    }
+
+    /* ===== rest of service page styles ===== */
     .intro{ padding:9rem 0; border-bottom:1px solid var(--line); }
     .intro .grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:6rem; align-items:start; }
     .intro h2{ font-size:clamp(2.8rem,4vw,4rem); margin:1.6rem 0 2rem; max-width:520px; }
@@ -142,8 +194,8 @@
     .intro-stats .stat .lbl{ font-size:1.2rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
     @media (max-width:900px){ .intro .grid{ grid-template-columns:1fr; gap:4rem; } .intro-stats{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:3rem; } }
 
-    .pin-wrap{ position:relative; height:500vh; }
-    .pin-inner{ position:sticky; top:0; height:100vh; display:flex; overflow:hidden; background:var(--dark-2); }
+    .pin-wrap{ position:relative; height:500vh; background:var(--dark); }
+    .pin-inner{ position:sticky; top:0; height:100vh; display:flex; overflow:hidden; background:var(--dark); }
     .pin-heading{ position:absolute; top:6rem; left:0; right:0; z-index:5; text-align:center; pointer-events:none; }
     .pin-heading .eyebrow{ justify-content:center; margin-bottom:1.2rem; }
     .pin-heading .eyebrow::before{ display:none; }
@@ -169,7 +221,7 @@
       .pin-progress{ display:none; }
     }
 
-    .details{ padding:10rem 0; }
+    .details{ padding:10rem 0; background:var(--dark); }
     .details .section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:5rem; gap:2rem; flex-wrap:wrap; }
     .details .section-head h2{ font-size:clamp(2.8rem,4vw,4rem); max-width:560px; }
     .details .section-head p{ color:var(--muted); max-width:380px; font-size:1.5rem; }
@@ -182,19 +234,19 @@
     .detail-row .d-list span{ font-size:1.15rem; color:var(--muted); padding:0.6rem 1.4rem; border:1px solid var(--line); border-radius:100px; white-space:nowrap; }
     @media (max-width:900px){ .detail-row{ grid-template-columns:1fr; gap:1.6rem; padding:3rem 0; } .detail-row .d-index{ order:-1; } }
 
-    .process{ padding:10rem 0; background:var(--dark-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .process{ padding:10rem 0; background:var(--dark); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
     .process .section-head{ text-align:center; max-width:640px; margin:0 auto 6rem; }
     .process .section-head .eyebrow{ justify-content:center; margin-bottom:1.6rem; }
     .process .section-head .eyebrow::before{ display:none; }
     .process .section-head h2{ font-size:clamp(2.8rem,4vw,4rem); }
     .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-    .process-step{ background:var(--dark-2); padding:3.6rem 2.8rem; }
+    .process-step{ background:var(--dark); padding:3.6rem 2.8rem; }
     .process-step .step-no{ font-size:1.2rem; color:var(--primary); letter-spacing:0.08em; margin-bottom:2rem; }
     .process-step h4{ font-size:1.9rem; color:var(--text); margin-bottom:1.2rem; }
     .process-step p{ font-size:1.35rem; color:var(--muted); }
     @media (max-width:900px){ .process-grid{ grid-template-columns:1fr; } }
 
-    .cta{ padding:11rem 0; text-align:center; }
+    .cta{ padding:11rem 0; text-align:center; background:var(--dark); }
     .cta h2{ font-size:clamp(3rem,5vw,5.2rem); max-width:800px; margin:0 auto 3.2rem; }
     .cta h2 em{ color:var(--primary); font-style:italic; font-weight:300; }
     .cta .btn-gold{ font-size:1.4rem; padding:1.5rem 3.4rem; }
@@ -202,10 +254,16 @@
     .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
     .reveal.in{ opacity:1; transform:translateY(0); }
     @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal, .pin-col-content{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
+    
   </style>
 </head>
 <body>
-  <!-- HEADER (from homepage, with Services active) -->
+  <!-- ===== SHARED CANVAS BACKGROUND (frame animation) ===== -->
+  <div class="shared-canvas-bg" id="sharedCanvasBg">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+
+  <!-- HEADER -->
   <header class="header" id="header">
     <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
       <a href="#" class="logo">
@@ -255,35 +313,35 @@
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="services-hero">
-    <div class="bg"></div>
-    <div class="bg-fade"></div>
-    <div class="container content">
-      
-      <h1 class="hero-anim">What we <strong>handle</strong>,<br />so you don't have to.</h1>
-      <p class="hero-anim">Bookkeeping, tax, audit, and business setup — delivered by Certified Professional Chartered Accountants who treat your numbers like their own.</p>
+  <!-- ===== HERO SLIDE with frame canvas ===== -->
+  <section class="hero-slide" id="heroSlide" style="position:relative; z-index:1; min-height:100vh; display:flex; align-items:flex-end; padding:10rem 3rem 3rem;  background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%);">
+    <div class="hero-overlay" style="position:relative; z-index:2; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8); padding:4rem 3rem 3rem 3rem; width:100%; border-radius:0; pointer-events:none;">
+      <h1>What we <strong>handle</strong>,<br />so you don't have to.</h1>
+      <p>Bookkeeping, tax, audit, and business setup — delivered by Certified Professional Chartered Accountants who treat your numbers like their own.</p>
+      <a href="#" class="btn-arrow btn-arrow-white" style="pointer-events:auto; margin-top:2rem;">Explore Services</a>
     </div>
   </section>
 
-  <!-- INTRO -->
-  <section class="intro">
-    <div class="container grid">
-      <div class="reveal">
-        <div class="eyebrow">Our Practice</div>
-        <h2>Four disciplines. <span class="accent">One accountable team.</span></h2>
-        <p class="intro-desc">Every engagement runs through the same four pillars — accounting, tax, audit, and advisory — so nothing falls between departments. One point of contact, one standard of rigor, from your first invoice to your next filing deadline.</p>
-      </div>
-      <div class="intro-stats reveal">
-        <div class="stat"><div class="num">18+</div><div class="lbl">Years in practice</div></div>
-        <div class="stat"><div class="num">200+</div><div class="lbl">Clients advised</div></div>
-        <div class="stat"><div class="num">4</div><div class="lbl">Core service lines</div></div>
-        <div class="stat"><div class="num">FTA</div><div class="lbl">Certified accountants</div></div>
+  <!-- ===== ABOUT / KEY FIGURES (same style as homepage) ===== -->
+  <section class="key-figures" id="aboutSection">
+    <div class="container">
+      <div class="grid">
+        <div class="big-number">
+        <div class="number">Four disciplines. <span class="accent">One accountable team.</span></div>
+          <div class="label">One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.</div>
+        </div>
+        <div class="stats">
+        <div class="stat"><div class="number">18+</div><div class="label">Years in practice</div></div>
+        <div class="stat"><div class="number">200+</div><div class="label">Clients advised</div></div>
+        <div class="stat"><div class="number">4</div><div class="label">Core service lines</div></div>
+        <div class="stat"><div class="number">FTA</div><div class="label">Certified accountants</div></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PINNED 4-COLUMN SCROLL SECTION -->
+  
+
   <section class="pin-wrap" id="pinWrap">
     <div class="pin-inner" id="pinInner">
       <div class="pin-heading">
@@ -340,7 +398,6 @@
     </div>
   </section>
 
-  <!-- SERVICE DETAIL LIST -->
   <section class="details">
     <div class="container">
       <div class="section-head reveal">
@@ -386,7 +443,6 @@
     </div>
   </section>
 
-  <!-- PROCESS -->
   <section class="process">
     <div class="container">
       <div class="section-head reveal">
@@ -418,7 +474,6 @@
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="cta" id="contact">
     <div class="container">
       <h2 class="reveal">Ready for books that <em>close themselves out</em>?</h2>
@@ -426,7 +481,7 @@
     </div>
   </section>
 
-  <!-- FOOTER (from homepage) -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="grid">
@@ -463,7 +518,7 @@
 
   <script>
     (function(){
-      // ---- Header scroll state ----
+      // ---- Header scroll ----
       const header = document.getElementById('header');
       window.addEventListener('scroll', function(){
         if (window.scrollY > 20) header.classList.add('scrolled');
@@ -476,7 +531,7 @@
       hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
       navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
 
-      // ---- Generic reveal-on-scroll for standard sections ----
+      // ---- Reveal on scroll ----
       const reveals = document.querySelectorAll('.reveal');
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -488,7 +543,7 @@
       }, { threshold: 0.15 });
       reveals.forEach(el => io.observe(el));
 
-      // ---- Pinned 4-column scrubbed reveal ----
+      // ---- Pinned scroll (same as original) ----
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const pinWrap = document.getElementById('pinWrap');
       const pinCols = Array.from(document.querySelectorAll('.pin-col-content'));
@@ -556,7 +611,7 @@
       setupPin();
       mq.addEventListener('change', setupPin);
 
-      // ---- Region selector: dummy implementation for consistency ----
+      // ---- Region selector ----
       function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
         const selector = document.getElementById(selectorId);
         if (!selector) return;
@@ -585,7 +640,6 @@
             dropdown.classList.remove('open');
             items.forEach(d => d.style.background = 'transparent');
             this.style.background = 'rgba(201,160,74,0.15)';
-            // update regional content if needed
           });
         });
 
@@ -601,6 +655,122 @@
 
       setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
       setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+
+      // ===== CANVAS FRAME ANIMATION (same as homepage) =====
+      const FRAME_COUNT = 141;
+      const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const loadingBar = document.getElementById('loading-bar');
+
+      const images = new Array(FRAME_COUNT);
+      let loadedCount = 0;
+      let framesReady = false;
+
+      function preloadImages(onDone) {
+        for (let i = 0; i < FRAME_COUNT; i++) {
+          const img = new Image();
+          img.src = FRAME_PATH(i + 1);
+          img.onload = img.onerror = () => {
+            loadedCount++;
+            if (loadedCount === FRAME_COUNT) onDone();
+          };
+          images[i] = img;
+        }
+      }
+
+      function resizeCanvas() {
+        const rect = document.getElementById('sharedCanvasBg').getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      let currentFrame = -1;
+      function drawFrame(index) {
+        index = Math.max(0, Math.min(FRAME_COUNT - 1, index));
+        if (index === currentFrame) return;
+        currentFrame = index;
+        const img = images[index];
+        if (!img || !img.complete || !img.naturalWidth) return;
+        const cw = canvas.width / (window.devicePixelRatio || 1);
+        const ch = canvas.height / (window.devicePixelRatio || 1);
+        const ir = img.naturalWidth / img.naturalHeight;
+        const cr = cw / ch;
+        let dw, dh, dx, dy;
+        if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
+        else         { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      let heroProgress = 0;
+      let targetHeroProgress = 0;
+      const FRAME_INTERVAL = 0.0162;
+      let lastFrameTime = 0;
+      let animationId = null;
+
+      function updateHeroFrame() {
+        if (!framesReady) return;
+        const diff = targetHeroProgress - heroProgress;
+        if (Math.abs(diff) < 0.0005) {
+          heroProgress = targetHeroProgress;
+        } else {
+          const step = Math.sign(diff) * Math.min(Math.abs(diff), FRAME_INTERVAL * 60 * 0.008);
+          heroProgress += step;
+          heroProgress = Math.max(0, Math.min(1, heroProgress));
+        }
+        const frameIndex = Math.round(heroProgress * (FRAME_COUNT - 1));
+        drawFrame(frameIndex);
+      }
+
+      function animationLoop(timestamp) {
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        const delta = (timestamp - lastFrameTime) / 1000;
+        if (delta >= FRAME_INTERVAL) {
+          updateHeroFrame();
+          lastFrameTime = timestamp;
+        }
+        animationId = requestAnimationFrame(animationLoop);
+      }
+
+      // scroll-based progress: from hero (0) to about (1)
+      function updateHeroProgressByScroll() {
+        const heroSlide = document.getElementById('heroSlide');
+        const aboutSection = document.getElementById('aboutSection');
+        if (!heroSlide || !aboutSection) return;
+        const heroRect = heroSlide.getBoundingClientRect();
+        const aboutRect = aboutSection.getBoundingClientRect();
+        const heroTop = heroRect.top;
+        const aboutTop = aboutRect.top;
+        const totalDist = aboutTop - heroTop;
+        if (totalDist <= 0) {
+          targetHeroProgress = 1;
+          return;
+        }
+        const scrolled = -heroTop;
+        let progress = Math.max(0, Math.min(1, scrolled / totalDist));
+        targetHeroProgress = progress;
+      }
+
+      window.addEventListener('load', function() {
+        resizeCanvas();
+        preloadImages(() => {
+          framesReady = true;
+          drawFrame(0);
+          lastFrameTime = 0;
+          if (animationId) cancelAnimationFrame(animationId);
+          animationLoop(performance.now());
+          updateHeroProgressByScroll();
+        });
+        setTimeout(resizeCanvas, 100);
+      });
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('scroll', updateHeroProgressByScroll);
     })();
   </script>
 </body>
