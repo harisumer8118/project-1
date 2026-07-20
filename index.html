@@ -13,6 +13,7 @@
     :root { --primary:#c9a04a; --primary-dark:#a8852a; --dark:#121111; --text:#fcfbfa; --white:#fcfbfa; --black:#121111; --shadow:0 10px 25px rgba(0,0,0,0.4); --slide-ease:cubic-bezier(0.25,0.46,0.45,0.94); --color-border-dark:rgba(255,255,255,0.08); }
     html { font-size:62.5%; scroll-behavior:smooth; }
     body { font-family:'Inter',Arial,sans-serif; font-size:1.6rem; line-height:1.75; color:var(--text); background:var(--dark); -webkit-font-smoothing:antialiased; overflow:hidden; height:100vh; }
+
     a { color:inherit; text-decoration:none; }
     ul { list-style:none; padding:0; margin:0; }
     img { max-width:100%; display:block; height:auto; }
@@ -38,7 +39,7 @@
       scroll-behavior:smooth;
       position:relative;
       overscroll-behavior:none;
-      background:var(--dark);
+      background:transparent;
     }
     .slider-wrapper::-webkit-scrollbar { width:0; background:transparent; }
     .slider-wrapper { scrollbar-width:none; -ms-overflow-style:none; }
@@ -54,7 +55,7 @@
       will-change:transform;
       transform:translateZ(0);
       backface-visibility:hidden;
-      background:var(--dark);
+      background:transparent;
     }
     .section-slide.no-snap {
       scroll-snap-align:none;
@@ -134,33 +135,77 @@
     .pagination .dot:hover { transform:scale(1.2); background:var(--primary-dark); border-color:var(--primary-dark); }
     @media (max-width:768px) { .pagination { bottom:2rem; right:1.2rem; padding:0.8rem 0.6rem; gap:1rem; } .pagination .dot { width:10px; height:10px; } .pagination .dot.active { height:22px; width:10px; } }
 
-    .hero-scroll-track { position:relative; height:100%; width:100%; }
-    .hero-canvas-wrap { position:relative; height:100%; width:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#000; }
-    #hero-canvas { width:100%; height:100%; display:block; object-fit:cover; }
-    .hero-overlay { position:absolute; inset:0; display:flex; justify-content:end; flex-direction:column; gap:12px; pointer-events:none; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8); padding:10rem 3rem 3rem 3rem; bottom:0; align-items:flex-start; background:linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.2) 80%, transparent 100%); }
+    /* shared background canvas wrapper */
+    .shared-canvas-bg {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100vw;
+      height:100vh;
+      z-index:0;
+      pointer-events:none;
+      background:#000;
+    }
+    .shared-canvas-bg canvas {
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+    .section-slide {
+      z-index:1;
+      position:relative;
+    }
+    /* hero overlay with black transparent effect */
+    .hero-slide .hero-overlay {
+      position:absolute;
+      inset:0;
+      display:flex;
+      justify-content:end;
+      flex-direction:column;
+      gap:12px;
+      pointer-events:none;
+      color:#fff;
+      text-shadow:0 2px 12px rgba(0,0,0,0.8);
+      padding:10rem 3rem 3rem 3rem;
+      bottom:0;
+      align-items:flex-start;
+      background: rgba(0, 0, 0, 0.85);
+    }
     .hero-overlay h1 { font-weight:300; font-size:clamp(2.8rem,8vw,5.6rem); max-width:65%; }
     .hero-overlay h1 strong { font-weight:700; color:var(--primary); }
     .hero-overlay p { font-size:clamp(1.6rem,2vw,2rem); opacity:0.9; max-width:600px; color:#fff; }
     .hero-overlay .btn-arrow { pointer-events:auto; }
-    .loading-bar { position:fixed; bottom:0; left:0; height:4px; background:var(--primary); z-index:10; transition:width 0.15s ease-out; }
 
-    .key-figures { background:var(--dark); color:var(--white); height:100vh; display:flex; align-items:center; }
+    /* key figures – transparent bg so canvas shows, with black transparent overlay */
+    .key-figures { 
+      
+      
+      color:var(--white); 
+      height:100vh; 
+      display:flex; 
+      align-items:center; 
+      position:relative; 
+      z-index:1; 
+      background: rgba(0, 0, 0, 0.85);
+    }
     .key-figures .grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,4vw,4rem); align-items:center; width:100%; }
-    .key-figures .big-number { text-align:left; border-right:1px solid rgba(255,255,255,0.15); padding-right:clamp(2rem,4vw,4rem); }
+    .key-figures .big-number { text-align:left; border-right:1px solid rgba(255,255,255,0.15); padding-right:clamp(2rem,4vw,4rem); backdrop-filter:blur(2px); background:rgba(0,0,0,0.2); padding:2rem; border-radius:12px; }
     .key-figures .big-number .number { font-size:clamp(3rem,8vw,6rem); font-weight:300; color:var(--primary); line-height:1; }
-    .key-figures .big-number .label { font-size:clamp(1.4rem,1.6vw,1.8rem); opacity:0.8; margin-top:0.4rem; color:var(--white); }
-    .key-figures .stats { display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.5rem,2vw,2rem) clamp(2rem,4vw,4rem); }
+    .key-figures .big-number .label { font-size:clamp(1.4rem,1.6vw,1.8rem); opacity:0.9; margin-top:0.4rem; color:var(--white); }
+    .key-figures .stats { display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.5rem,2vw,2rem) clamp(2rem,4vw,4rem); background:rgba(0,0,0,0.15); backdrop-filter:blur(2px); padding:2rem; border-radius:12px; }
     .key-figures .stat .number { font-size:clamp(2.8rem,5vw,4.2rem); font-weight:300; color:var(--primary); line-height:1.2; }
-    .key-figures .stat .label { font-size:clamp(1.2rem,1.2vw,1.4rem); opacity:0.7; text-transform:uppercase; letter-spacing:0.05em; color:var(--white); }
+    .key-figures .stat .label { font-size:clamp(1.2rem,1.2vw,1.4rem); opacity:0.8; text-transform:uppercase; letter-spacing:0.05em; color:var(--white); }
     @media (max-width:768px) { .key-figures .grid { grid-template-columns:1fr; gap:2rem; } .key-figures .big-number { border-right:none; padding-right:0; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:2rem; } }
 
-    .pillars { height:100vh; display:flex; align-items:center; padding:2rem 0; background:var(--dark); }
+    /* pillars, services, etc – keep transparent bg */
+    .pillars { background:transparent; height:100vh; display:flex; align-items:center; padding:2rem 0; position:relative; z-index:1; }
     .pillars .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:clamp(2rem,4vw,4rem); flex-wrap:wrap; gap:1.5rem; }
     .pillars .section-header h2 { color:#d4af37; }
     .pillars .section-header .btn { background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); color:var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .pillars .section-header .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
     .pillars .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1.2rem,2vw,2rem); }
-    .pillar-card { position:relative; border-radius:10px 10px 0 0; overflow:hidden; min-height:clamp(200px,40vh,280px); display:flex; align-items:flex-end; background-size:cover; background-position:center; transition:transform 0.4s ease, box-shadow 0.4s ease; box-shadow:var(--shadow); cursor:pointer; will-change:transform; border-radius:10px; }
+    .pillar-card { position:relative; border-radius:10px; overflow:hidden; min-height:clamp(200px,40vh,280px); display:flex; align-items:flex-end; background-size:cover; background-position:center; transition:transform 0.4s ease, box-shadow 0.4s ease; box-shadow:var(--shadow); cursor:pointer; will-change:transform; border-radius:10px; background-color:rgba(0,0,0,0.3); backdrop-filter:blur(2px); }
     .pillar-card::before { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); transition:background 0.4s ease; }
     .pillar-card:hover::before { background:rgba(201,160,74,0.8); }
     .pillar-card:hover { transform:scale(1.02); box-shadow:0 12px 30px rgba(0,0,0,0.5); }
@@ -170,11 +215,10 @@
     .pillar-card .content .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
     @media (max-width:768px) { .pillars .grid { grid-template-columns:1fr; } .pillar-card { min-height:180px; } }
 
-    .five-column-section-wrapper { position:relative; height:90vh; width:100%; display:flex; flex-direction:column; background:var(--dark); margin-top:100px; }
-    .services-heading { text-align:center; color:#d4af37; font-size:clamp(3.6rem,6vw,5.6rem); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-family:'Inter',Arial,sans-serif; padding:2rem 2rem 0.5rem 2rem; flex-shrink:0; background:var(--dark); margin:0; line-height:1.2; }
-    @media (max-width:768px) { .services-heading { font-size:clamp(2.8rem,5vw,4rem); padding:1.5rem 1.5rem 0.5rem 1.5rem; } }
-    .five-column-section { flex:1; width:100%; display:flex; flex-wrap:nowrap; overflow:hidden; position:relative; background:var(--dark); min-height:0; }
-    .col-item { flex:1 0 20%; height:100%; background-size:cover; background-position:center; position:relative; cursor:pointer; transition:flex 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease; overflow:hidden; display:flex; align-items:flex-start; justify-content:flex-start; padding:0 0 0 2rem; }
+    .five-column-section-wrapper { position:relative; height:90vh; width:100%; display:flex; flex-direction:column; background:transparent; margin-top:100px; z-index:1; }
+    .services-heading { text-align:center; color:#d4af37; font-size:clamp(3.6rem,6vw,5.6rem); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-family:'Inter',Arial,sans-serif; padding:2rem 2rem 0.5rem 2rem; flex-shrink:0; background:transparent; margin:0; line-height:1.2; }
+    .five-column-section { flex:1; width:100%; display:flex; flex-wrap:nowrap; overflow:hidden; position:relative; background:transparent; min-height:0; }
+    .col-item { flex:1 0 20%; height:100%; background-size:cover; background-position:center; position:relative; cursor:pointer; transition:flex 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease; overflow:hidden; display:flex; align-items:flex-start; justify-content:flex-start; padding:0 0 0 2rem; background-color:rgba(0,0,0,0.2); backdrop-filter:blur(1px); }
     .col-item .col-overlay { position:absolute; inset:0; background:rgba(18,17,17,0.5); transition:background 0.4s ease; z-index:1; }
     .col-item:hover .col-overlay { background:rgba(18,17,17,0.2); }
     .col-item .col-heading { position:relative; z-index:3; writing-mode:vertical-rl; text-orientation:mixed; font-family:'Inter',Arial,sans-serif; font-weight:100 !important; font-size:clamp(1.8rem,2.4vw,2.8rem) !important; letter-spacing:0.08em; text-transform:uppercase; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.7); padding:1.2rem 0.4rem; margin:0; line-height:1.3; transition:opacity 0.3s ease; pointer-events:none; white-space:nowrap; }
@@ -206,11 +250,12 @@
       .cta-section { height:auto; padding:60px 0; }
     }
 
-    .sustainability-faq-wrapper { display:flex; height:100vh; width:100%; background:var(--dark); position:relative; overflow:hidden; }
-    .sustainability-faq-wrapper .sustainability-col { flex:1.2; position:relative; overflow:hidden; background:var(--dark); }
-    .sustainability-faq-wrapper .faq-col { flex:1; background:var(--dark); padding:4rem 2rem 2rem 2rem; overflow-y:auto; border-left:1px solid rgba(255,255,255,0.05); box-shadow:-4px 0 20px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:left; }
+    /* sustainability – left column text aligned, no image, wider faq */
+    .sustainability-faq-wrapper { display:flex; height:100vh; width:100%; background:transparent; position:relative; overflow:hidden; z-index:1; }
+    .sustainability-faq-wrapper .sustainability-col { flex:1; position:relative; overflow:hidden; background:transparent; display:flex; align-items:center; justify-content:center; padding:2rem; }
+    .sustainability-faq-wrapper .faq-col { flex:1.2; background:rgba(0,0,0,0.2); backdrop-filter:blur(4px); padding:4rem 2rem 2rem 2rem; overflow-y:auto; border-left:1px solid rgba(255,255,255,0.05); box-shadow:-4px 0 20px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:left; }
     .sustainability-faq-wrapper .faq-col h2 { font-size:clamp(2rem,3vw,2.8rem); font-weight:300; margin-bottom:2rem; color:#d4af37; letter-spacing:-0.02em; }
-    .sustainability-faq-wrapper .faq-col .faq-item { border-bottom:1px solid rgba(255,255,255,0.08); padding:1.2rem 0; width:100%; max-width:500px; }
+    .sustainability-faq-wrapper .faq-col .faq-item { border-bottom:1px solid rgba(255,255,255,0.08); padding:1.2rem 0; width:100%; max-width:600px; }
     .sustainability-faq-wrapper .faq-col .faq-item:last-child { border-bottom:none; }
     .sustainability-faq-wrapper .faq-col .faq-question { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:clamp(1.6rem,2vw,2.4rem); color:var(--white); transition:color 0.2s; padding:2rem 0; }
     .sustainability-faq-wrapper .faq-col .faq-question:hover { color:var(--primary); }
@@ -219,33 +264,25 @@
     .sustainability-faq-wrapper .faq-col .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s ease; font-size:clamp(1.3rem,1.4vw,1.5rem); color:#ccc; line-height:1.6; text-align:left; }
     .sustainability-faq-wrapper .faq-col .faq-answer.open { max-height:400px; padding-top:0.8rem; text-align:left; }
     .sustainability-faq-wrapper .faq-col .faq-answer p { margin:0; }
-    .sustainability-left { position:relative; height:100%; width:100%; display:flex; align-items:center; padding:2rem 2rem 2rem 4rem; z-index:2; }
-    .sustainability-left .bg-image-fixed { position:absolute; top:0; left:0; width:100%; height:100%; background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop'); background-size:cover; background-position:center; transition:width 0.8s cubic-bezier(0.25,0.46,0.45,0.94); will-change:width; z-index:0; opacity:0.7; }
-    .sustainability-left .bg-overlay-fixed { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(18,17,17,0.3); z-index:0; pointer-events:none; transition:width 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
-    .sustainability-left .bg-image-fixed.shrink-left { width:50%; }
-    .sustainability-left .bg-overlay-fixed.shrink-left { width:50%; }
-    .sustainability-left .content-box { position:relative; z-index:2; max-width:520px; background:rgba(18,17,17,0.9); backdrop-filter:blur(4px); padding:2.8rem 3.2rem; border-radius:4px; box-shadow:0 8px 30px rgba(0,0,0,0.4); margin-left:auto; margin-right:2rem; border:1px solid rgba(255,255,255,0.05); }
+    .sustainability-left { position:relative; height:100%; width:100%; display:flex; align-items:center; justify-content:center; padding:2rem; z-index:2; background:transparent; }
+    .sustainability-left .content-box { position:relative; z-index:2; max-width:520px; background:rgba(18,17,17,0.85); backdrop-filter:blur(4px); padding:2.8rem 3.2rem; border-radius:4px; box-shadow:0 8px 30px rgba(0,0,0,0.4); margin:0 auto; border:1px solid rgba(255,255,255,0.05); }
     .sustainability-left .content-box h2 { color:#d4af37; margin-bottom:1.2rem; font-weight:300; }
     .sustainability-left .content-box p { font-size:clamp(1.5rem,1.6vw,1.7rem); margin-bottom:2rem; color:var(--white); }
     .sustainability-left .content-box .btn { background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); color:var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .sustainability-left .content-box .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
     @media (max-width:1024px) {
       .sustainability-faq-wrapper { flex-direction:column; height:auto; min-height:100vh; overflow-y:auto; }
-      .sustainability-faq-wrapper .sustainability-col { flex:none; height:60vh; min-height:400px; }
+      .sustainability-faq-wrapper .sustainability-col { flex:none; height:50vh; min-height:300px; }
       .sustainability-faq-wrapper .faq-col { flex:none; border-left:none; border-top:1px solid rgba(255,255,255,0.05); padding:2rem 1.5rem; overflow-y:visible; }
       .sustainability-left { padding:2rem; }
-      .sustainability-left .bg-image-fixed,
-      .sustainability-left .bg-overlay-fixed { width:100% !important; opacity:0.4; }
-      .sustainability-left .bg-image-fixed.shrink-left,
-      .sustainability-left .bg-overlay-fixed.shrink-left { width:100% !important; opacity:0.4; }
-      .sustainability-left .content-box { max-width:100%; background:rgba(18,17,17,0.95); padding:2rem; margin-left:0; margin-right:0; }
+      .sustainability-left .content-box { max-width:100%; background:rgba(18,17,17,0.95); padding:2rem; margin:0; }
     }
 
-    .cta-section { position:relative; width:100%; background-color:var(--dark); border-bottom:1px solid var(--color-border-dark); padding:64px 24px; display:flex; flex-direction:column; gap:32px; height:100vh; justify-content:center; overflow:hidden; }
+    .cta-section { position:relative; width:100%; background:transparent; border-bottom:1px solid var(--color-border-dark); padding:64px 24px; display:flex; flex-direction:column; gap:32px; height:100vh; justify-content:center; overflow:hidden; z-index:1; }
     .cta-section .cta-section__title { font-weight:500; font-size:64px; line-height:1; letter-spacing:-0.04em; color:var(--text); margin:0; text-align:center; }
     .cta-section .cta-section__title span { display:block; }
     .flx { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; }
-    .footer-nav { display:flex; width:100%; height:200px; border-top:1px solid var(--color-border-dark); margin-top:32px; overflow:hidden; position:relative; }
+    .footer-nav { display:flex; width:100%; height:200px; border-top:1px solid var(--color-border-dark); margin-top:32px; overflow:hidden; position:relative; background:rgba(0,0,0,0.2); backdrop-filter:blur(2px); }
     .footer-nav-track { display:flex; animation:marqueeLeft 20s linear infinite; width:max-content; }
     .footer-nav-btn { flex:0 0 auto; width:300px; display:flex; align-items:center; justify-content:space-between; padding:0 32px; height:100%; text-decoration:none; border-right:1px solid var(--color-border-dark); position:relative; overflow:hidden; transition:background 0.3s; }
     .footer-nav-btn:last-child { border-right:none; }
@@ -259,8 +296,8 @@
     @keyframes marqueeLeft { 100% { transform:translateX(0); } 0% { transform:translateX(-50%); } }
     @media (max-width:820px) { .cta-section { padding:60px 24px; gap:48px; height:auto; } .cta-section .cta-section__title { font-size:32px; letter-spacing:-1.5px; } .cta-section .cta-section__title span { display:inline; } .footer-nav { flex-direction:column; height:auto; border-top:1px solid var(--color-border-dark); overflow:visible; } .footer-nav-track { flex-direction:column; animation:none; width:100%; } .footer-nav-btn { width:100%; border-right:none; border-bottom:1px solid var(--color-border-dark); padding:1.6rem 24px; height:80px; } .footer-nav-btn:last-child { border-bottom:none; } }
 
-    .newsletter { height:100vh; display:flex; align-items:center; background:var(--dark); text-align:center; }
-    .newsletter .container { max-width:640px; margin:0 auto; padding:0 2rem; width:100%; }
+    .newsletter { height:100vh; display:flex; align-items:center; background:transparent; text-align:center; z-index:1; position:relative; }
+    .newsletter .container { max-width:640px; margin:0 auto; padding:0 2rem; width:100%; background:rgba(0,0,0,0.2); backdrop-filter:blur(4px); padding:3rem; border-radius:16px; }
     .newsletter h2 { color:#d4af37; margin-bottom:1rem; }
     .newsletter p { font-size:clamp(1.6rem,1.8vw,1.8rem); margin-bottom:2.5rem; color:var(--white); }
     .newsletter form { display:flex; flex-direction:column; gap:1.2rem; align-items:center; }
@@ -273,7 +310,7 @@
     .newsletter .btn { width:100%; max-width:240px; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); color:var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .newsletter .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
 
-    .footer { height:auto !important; padding:clamp(2rem,5vh,5rem) 0; background:var(--dark); color:rgba(255,255,255,0.8); display:flex; align-items:center; }
+    .footer { height:auto !important; padding:clamp(2rem,5vh,5rem) 0; background:rgba(0,0,0,0.3); backdrop-filter:blur(4px); color:rgba(255,255,255,0.8); display:flex; align-items:center; z-index:1; position:relative; }
     .footer .container { width:100%; max-width:1200px; margin:0 auto; padding:0 2rem; }
     .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
     .footer .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
@@ -291,7 +328,6 @@
     @media (max-width:768px) {
       .footer .grid { grid-template-columns:1fr; gap:2rem; } .footer .right { align-items:flex-start; } .footer .footer-links { justify-content:flex-start; } .footer .bottom { flex-direction:column; align-items:flex-start; } }
 
-    /* ===== REGION POPUP — vertical column (clean) ===== */
     .region-popup-overlay {
       position:fixed;
       inset:0;
@@ -347,7 +383,7 @@
       align-items:center;
       justify-content:space-between;
       padding:3.2rem 1.6rem;
-      border-bottom:0px solid var(--color-border-dark);
+      
       background:transparent;
       color:var(--text);
       font-size:clamp(1.4rem,1.6vw,1.8rem);
@@ -359,12 +395,12 @@
       overflow:hidden;
       font-family:inherit;
       text-align:left;
-      border-left:0.3px solid var(--color-border-dark);
-      border-right:none;
+      border:0.3px solid var(--color-border-dark);
+      
       width:100%;
        border-top:0.3px solid var(--color-border-dark) !important;
     }
-    .region-popup .region-btn:last-child { border-bottom:none; }
+    
     .region-popup .region-btn .region-btn__bg {
       position:absolute;
       inset:0;
@@ -441,7 +477,11 @@
   </style>
 </head>
 <body>
-  <!-- REGION POPUP — vertical column with X close -->
+  <!-- shared background canvas (fixed) -->
+  <div class="shared-canvas-bg" id="sharedCanvasBg">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+
   <div class="region-popup-overlay" id="regionPopup">
     <div class="region-popup">
       <button class="popup-close-x" id="popupCloseX" aria-label="Close">✕</button>
@@ -457,9 +497,10 @@
           <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</span>
           <span class="region-btn__arrow">→</span>
         </button>
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore">
+     
+        <button class="region-btn" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan">
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</span>
           <span class="region-btn__arrow">→</span>
         </button>
         <button class="region-btn" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal">
@@ -467,9 +508,10 @@
           <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</span>
           <span class="region-btn__arrow">→</span>
         </button>
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan">
+        
+           <button class="region-btn" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore">
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</span>
+          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</span>
           <span class="region-btn__arrow">→</span>
         </button>
       </div>
@@ -492,9 +534,10 @@
             <div class="dropdown-list" id="regionDropdownMobile">
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
-              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+              
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
-              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+             <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
             </div>
           </div>
           <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -527,22 +570,21 @@
     </header>
 
     <!-- SLIDE 0: HERO (no snap) -->
-    <section class="section-slide hero-slide no-snap" data-index="0" style="padding:0; height:100vh; overflow:hidden;background:rgba(0,0,0,0.35);">
-      <div class="hero-scroll-track" id="hero-track">
-        <div class="hero-canvas-wrap">
-          <canvas id="hero-canvas"></canvas>
-          <div class="hero-overlay">
+    <section class="section-slide hero-slide no-snap" data-index="0" style="padding:0; height:100vh; overflow:hidden; background:transparent;">
+      <div class="hero-scroll-track" id="hero-track" style="height:100%; width:100%; position:relative;">
+        <div class="hero-canvas-wrap" style="height:100%; width:100%; position:relative;">
+          <div class="hero-overlay" style="position:absolute; inset:0; display:flex; justify-content:end; flex-direction:column; gap:12px; pointer-events:none; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8); padding:10rem 3rem 3rem 3rem; bottom:0; align-items:flex-start; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%);">
             <h1><strong>FINSOULS</strong><br />MASTERING CHANGE FOR LASTING VALUE</h1>
             <p>Finsouls is one of the leading accounting businesses in Dubai, UAE, and we are Certified Professional Chartered Accountants offering bookkeeping and accounting services.</p>
             <a href="#" class="btn-arrow btn-arrow-white">Discover Finsouls' commitment to excellence</a>
           </div>
         </div>
       </div>
-      <div class="loading-bar" id="loading-bar"></div>
+      <div class="loading-bar" id="loading-bar" style="position:fixed; bottom:0; left:0; height:4px; background:var(--primary); z-index:10; transition:width 0.15s ease-out; width:0%; display:none;"></div>
     </section>
 
-    <!-- SLIDE 1: ABOUT / KEY FIGURES (no snap) -->
-    <section class="section-slide key-figures no-snap" data-index="1">
+    <!-- SLIDE 1: ABOUT / KEY FIGURES (no snap) with black transparent overlay -->
+    <section class="section-slide key-figures no-snap" data-index="1" >
       <div class="container">
         <div class="grid">
           <div class="big-number">
@@ -560,7 +602,7 @@
     </section>
 
     <!-- SLIDE 2: INSIGHTS & BLOGS (snap enabled) -->
-    <section class="section-slide pillars snap-enabled" data-index="2" id="blogSection">
+    <section class="section-slide pillars snap-enabled" data-index="2" id="blogSection" style=" background:var(--dark);">
       <div class="container">
         <div class="section-header">
           <h2>Insights & Blogs</h2>
@@ -571,62 +613,60 @@
     </section>
 
     <!-- SLIDE 3: SERVICES (snap enabled) -->
-    <section class="section-slide snap-enabled" data-index="3" style="padding:0; height:100vh;">
+    <section class="section-slide snap-enabled" data-index="3" style="padding:0; height:100vh; background:var(--dark); ">
       <div class="five-column-section-wrapper">
         <h2 class="services-heading">Services</h2>
         <div class="five-column-section" id="fiveColSection"></div>
       </div>
     </section>
 
-  <!-- SLIDE 4: SUSTAINABILITY + FAQ (snap enabled) -->
-<section class="section-slide snap-enabled" data-index="4" id="sustainabilityFaqSlide" style="padding:0; height:100vh; overflow:hidden;">
-  <div class="sustainability-faq-wrapper">
-    <div class="sustainability-col">
-      <div class="sustainability-left" id="sustainabilityLeft">
-        <div class="bg-image-fixed" id="sustainabilityBgFixed"></div>
-        <div class="bg-overlay-fixed" id="sustainabilityOverlayFixed"></div>
-        <div class="content-box">
-          <h2 id="sustainabilityTitle">How We Work</h2>
-          <p id="sustainabilityDesc">Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.</p>
-          <a href="#" class="btn" id="sustainabilityBtn">Sustainability</a>
+    <!-- SLIDE 4: SUSTAINABILITY + FAQ (snap enabled) - left col text only, no image, faq wider -->
+    <section class="section-slide snap-enabled" data-index="4" id="sustainabilityFaqSlide" style="padding:0; height:100vh; overflow:hidden; background:var(--dark);">
+      <div class="sustainability-faq-wrapper">
+        <div class="sustainability-col">
+          <div class="sustainability-left" id="sustainabilityLeft">
+            <div class="content-box">
+              <h2 id="sustainabilityTitle">How We Work</h2>
+              <p id="sustainabilityDesc">Our workflow is built on a foundation of clarity, collaboration, and continuous improvement. We begin by deeply understanding our clients' needs, then design tailored strategies that align with their goals. Through agile execution and transparent communication, we ensure every project delivers measurable results and lasting value.</p>
+              <a href="#" class="btn" id="sustainabilityBtn">Sustainability</a>
+            </div>
+          </div>
+        </div>
+        <div class="faq-col" id="faqCol">
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span id="faq1Q">What services does Finsouls offer?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer"><p id="faq1A">We offer a full range of accounting, bookkeeping, VAT consultancy, tax agency, and business advisory services tailored to businesses in Dubai and the UAE.</p></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span id="faq2Q">How experienced is your team?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer"><p id="faq2A">Our team consists of Certified Professional Chartered Accountants with extensive experience across multiple industries, ensuring you receive expert guidance.</p></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span id="faq3Q">Do you offer support for VAT compliance?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer"><p id="faq3A">Yes, we provide comprehensive VAT consultancy and tax agent services to help your business stay compliant with UAE VAT laws and regulations.</p></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span id="faq4Q">How can I get started with your services?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer"><p id="faq4A">Simply contact us via phone, email, or our website contact form. We'll schedule a consultation to understand your needs and propose a tailored solution.</p></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="faq-col" id="faqCol">
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq1Q">What services does Finsouls offer?</span>
-          <span class="icon">+</span>
-        </div>
-        <div class="faq-answer"><p id="faq1A">We offer a full range of accounting, bookkeeping, VAT consultancy, tax agency, and business advisory services tailored to businesses in Dubai and the UAE.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq2Q">How experienced is your team?</span>
-          <span class="icon">+</span>
-        </div>
-        <div class="faq-answer"><p id="faq2A">Our team consists of Certified Professional Chartered Accountants with extensive experience across multiple industries, ensuring you receive expert guidance.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq3Q">Do you offer support for VAT compliance?</span>
-          <span class="icon">+</span>
-        </div>
-        <div class="faq-answer"><p id="faq3A">Yes, we provide comprehensive VAT consultancy and tax agent services to help your business stay compliant with UAE VAT laws and regulations.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq4Q">How can I get started with your services?</span>
-          <span class="icon">+</span>
-        </div>
-        <div class="faq-answer"><p id="faq4A">Simply contact us via phone, email, or our website contact form. We'll schedule a consultation to understand your needs and propose a tailored solution.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-    <!-- SLIDE 5: CTA (snap enabled) -->
-    <section class="section-slide snap-enabled" data-index="5" style="padding:0; height:100vh;">
+    <!-- SLIDE 5: CTA (snap enabled) - added 2 more buttons -->
+    <section class="section-slide snap-enabled" data-index="5" style="padding:0; height:100vh; background:var(--dark);">
       <section class="cta-section">
         <h2 class="cta-section__title"><span id="ctaTitle">Latest News Powered by Bloomberg</span></h2>
         <nav class="footer-nav">
@@ -661,13 +701,24 @@
               <span class="footer-nav-btn__label">Apply</span>
               <span class="footer-nav-btn__arrow-icon">→</span>
             </a>
+            <!-- TWO NEW BUTTONS ADDED -->
+            <a href="/careers" class="footer-nav-btn">
+              <span class="footer-nav-btn__bg"></span>
+              <span class="footer-nav-btn__label">Careers</span>
+              <span class="footer-nav-btn__arrow-icon">→</span>
+            </a>
+            <a href="/contact" class="footer-nav-btn">
+              <span class="footer-nav-btn__bg"></span>
+              <span class="footer-nav-btn__label">Contact</span>
+              <span class="footer-nav-btn__arrow-icon">→</span>
+            </a>
           </div>
         </nav>
       </section>
     </section>
 
     <!-- SLIDE 6: NEWSLETTER (snap enabled) -->
-    <section class="section-slide newsletter snap-enabled" data-index="6">
+    <section class="section-slide newsletter snap-enabled" data-index="6" style="background:var(--dark);">
       <div class="container">
         <h2 id="newsletterTitle">Newsletter</h2>
         <p id="newsletterDesc">Stay up to date on our activities, market news, investments and our latest insights by signing up below</p>
@@ -687,7 +738,7 @@
     </section>
 
     <!-- SLIDE 7: FOOTER (snap enabled) -->
-    <section class="section-slide footer snap-enabled" data-index="7">
+    <section class="section-slide footer snap-enabled" data-index="7" style="background:rgba(0,0,0,0.3); backdrop-filter:blur(4px);">
       <div class="container">
         <div class="grid">
           <div class="left">
@@ -781,38 +832,6 @@
         }
       }
 
-      const sustainabilitySlide = document.getElementById('sustainabilityFaqSlide');
-      const bgImage = document.getElementById('sustainabilityBgFixed');
-      const bgOverlay = document.getElementById('sustainabilityOverlayFixed');
-
-      function updateSustainabilityShrink(shouldShrink) {
-        if (!bgImage || !bgOverlay) return;
-        if (shouldShrink) {
-          bgImage.classList.add('shrink-left');
-          bgOverlay.classList.add('shrink-left');
-        } else {
-          bgImage.classList.remove('shrink-left');
-          bgOverlay.classList.remove('shrink-left');
-        }
-      }
-
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) updateSustainabilityShrink(true);
-          else updateSustainabilityShrink(false);
-        });
-      }, { threshold: 0.3 });
-      if (sustainabilitySlide) observer.observe(sustainabilitySlide);
-
-      function checkSustainabilityActive() {
-        if (!sustainabilitySlide) return;
-        const rect = sustainabilitySlide.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-        const ratio = visible / rect.height;
-        updateSustainabilityShrink(ratio > 0.3);
-      }
-
       let scrollLock = false;
 
       function handleScroll() {
@@ -857,9 +876,11 @@
         }
 
         updatePaginationVisibility();
-        checkSustainabilityActive();
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {}, 100);
+
+        // update hero progress based on scroll from hero to about
+        updateHeroProgressByScroll();
       }
 
       wrapper.addEventListener('wheel', function(e) {
@@ -922,16 +943,15 @@
       wrapper.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', () => {
         updatePaginationVisibility();
-        checkSustainabilityActive();
+        resizeCanvas();
       });
       window.addEventListener('scroll', handleScroll);
 
-      // ===== CANVAS HERO =====
+      // ===== CANVAS HERO – shared background =====
       const FRAME_COUNT = 141;
       const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
       const canvas = document.getElementById('hero-canvas');
       const ctx = canvas.getContext('2d');
-      const heroTrack = document.getElementById('hero-track');
       const loadingBar = document.getElementById('loading-bar');
 
       const images = new Array(FRAME_COUNT);
@@ -952,7 +972,7 @@
       }
 
       function resizeCanvas() {
-        const rect = canvas.parentElement.getBoundingClientRect();
+        const rect = document.getElementById('sharedCanvasBg').getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
@@ -984,7 +1004,6 @@
       const FRAME_INTERVAL = 0.0162;
       let lastFrameTime = 0;
       let animationId = null;
-      const STEP_PER_WHEEL = 0.03;
 
       function updateHeroFrame() {
         if (!framesReady) return;
@@ -1011,70 +1030,47 @@
         animationId = requestAnimationFrame(animationLoop);
       }
 
-      function isHeroActive() {
-        return true;
+      // scroll-based progress: from hero (0) to about (1)
+      function updateHeroProgressByScroll() {
+        const heroSlide = document.querySelector('.hero-slide');
+        const aboutSlide = document.querySelector('.key-figures');
+        if (!heroSlide || !aboutSlide) return;
+        const heroRect = heroSlide.getBoundingClientRect();
+        const aboutRect = aboutSlide.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        // hero is visible from top of screen to about top
+        const heroTop = heroRect.top;
+        const aboutTop = aboutRect.top;
+        const totalDist = aboutTop - heroTop; // distance from hero top to about top
+        if (totalDist <= 0) {
+          targetHeroProgress = 1;
+          return;
+        }
+        const scrolled = -heroTop;
+        let progress = Math.max(0, Math.min(1, scrolled / totalDist));
+        // we want progress 0 when hero top is at 0, 1 when about top is at 0
+        // but we also consider that hero may be partially scrolled
+        targetHeroProgress = progress;
       }
 
-      wrapper.addEventListener('wheel', function(e) {
-        if (!framesReady) return;
-        if (!isHeroActive()) return;
-        const heroSlide = document.querySelector('.hero-slide');
-        if (!heroSlide) return;
-        const rect = heroSlide.getBoundingClientRect();
-        if (rect.top > -10 && rect.bottom > 0) {
-          const deltaY = e.deltaY;
-          if (deltaY > 0) {
-            targetHeroProgress = Math.min(1, targetHeroProgress + STEP_PER_WHEEL);
-          } else if (deltaY < 0) {
-            targetHeroProgress = Math.max(0, targetHeroProgress - STEP_PER_WHEEL);
-          }
-          if ((deltaY > 0 && targetHeroProgress < 1) || (deltaY < 0 && targetHeroProgress > 0)) {
-            e.preventDefault();
-          }
-        }
-      }, { passive: false });
-
-      let touchStartYHero = null;
-      wrapper.addEventListener('touchstart', function(e) {
-        const heroSlide = document.querySelector('.hero-slide');
-        if (!heroSlide) return;
-        const rect = heroSlide.getBoundingClientRect();
-        if (rect.top > -10 && rect.bottom > 0) {
-          touchStartYHero = e.touches[0].clientY;
-        }
-      }, { passive: true });
-
-      wrapper.addEventListener('touchmove', function(e) {
-        if (!framesReady || touchStartYHero === null) return;
-        const heroSlide = document.querySelector('.hero-slide');
-        if (!heroSlide) return;
-        const rect = heroSlide.getBoundingClientRect();
-        if (rect.top > -10 && rect.bottom > 0) {
-          const currentY = e.touches[0].clientY;
-          const deltaY = touchStartYHero - currentY;
-          if (deltaY > 0) {
-            targetHeroProgress = Math.min(1, targetHeroProgress + STEP_PER_WHEEL * 2);
-          } else if (deltaY < 0) {
-            targetHeroProgress = Math.max(0, targetHeroProgress - STEP_PER_WHEEL * 2);
-          }
-          if ((deltaY > 0 && targetHeroProgress < 1) || (deltaY < 0 && targetHeroProgress > 0)) {
-            e.preventDefault();
-          }
-          touchStartYHero = currentY;
-        }
-      }, { passive: false });
-
-      window.addEventListener('resize', () => { resizeCanvas(); drawFrame(currentFrame); });
-
-      resizeCanvas();
-      preloadImages(() => {
-        loadingBar.style.display = 'none';
-        framesReady = true;
-        drawFrame(0);
-        lastFrameTime = 0;
-        if (animationId) cancelAnimationFrame(animationId);
-        animationLoop(performance.now());
+      window.addEventListener('load', function() {
+        resizeCanvas();
+        preloadImages(() => {
+          loadingBar.style.display = 'none';
+          framesReady = true;
+          drawFrame(0);
+          lastFrameTime = 0;
+          if (animationId) cancelAnimationFrame(animationId);
+          animationLoop(performance.now());
+          // initial progress
+          updateHeroProgressByScroll();
+        });
+        // ensure canvas resizes
+        setTimeout(resizeCanvas, 100);
       });
+
+      // also on resize
+      window.addEventListener('resize', resizeCanvas);
 
       document.getElementById('hamburger').addEventListener('click', function() {
         document.getElementById('navMenu').classList.toggle('open');
@@ -1245,7 +1241,7 @@
         window.history.replaceState({}, '', url);
       }
 
-      // ===== REGIONAL CONTENT DATA (for all sections) =====
+      // ===== REGIONAL CONTENT DATA =====
       const regionalContent = {
         'Global': {
           about: { title: 'About Finsouls', desc: 'One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.' },
@@ -1347,11 +1343,9 @@
       function updateRegionalContent(region) {
         const content = regionalContent[region] || regionalContent['Global'];
         
-        // About section
         document.getElementById('aboutTitle').textContent = content.about.title;
         document.getElementById('aboutDesc').textContent = content.about.desc;
         
-        // Stats
         const statsContainer = document.getElementById('statsContainer');
         const statElements = statsContainer.querySelectorAll('.stat');
         content.stats.forEach((stat, index) => {
@@ -1361,12 +1355,9 @@
           }
         });
         
-        // Sustainability
         document.getElementById('sustainabilityTitle').textContent = content.sustainability.title;
         document.getElementById('sustainabilityDesc').textContent = content.sustainability.desc;
-        // document.getElementById('sustainabilityBtn').textContent = content.sustainability.btn;
         
-        // FAQ
         const faqItems = document.querySelectorAll('.faq-item');
         content.faq.forEach((item, index) => {
           if (index < faqItems.length) {
@@ -1377,14 +1368,9 @@
           }
         });
         
-        // CTA
         document.getElementById('ctaTitle').textContent = content.cta;
-        
-        // Newsletter
         document.getElementById('newsletterTitle').textContent = content.newsletter.title;
         document.getElementById('newsletterDesc').textContent = content.newsletter.desc;
-        
-        // Footer
         document.getElementById('footerAddress1').textContent = content.footer.address;
         document.getElementById('footerPhone').textContent = content.footer.phone;
         document.getElementById('footerEmail').textContent = content.footer.email;
@@ -1477,7 +1463,7 @@
         }
       };
 
-      // ===== REGION POPUP - vertical column with X close =====
+      // ===== REGION POPUP =====
       const popupOverlay = document.getElementById('regionPopup');
       const regionGrid = document.getElementById('regionGrid');
       const popupCloseX = document.getElementById('popupCloseX');
@@ -1525,8 +1511,6 @@
         activeIndex = 0;
         updateDots();
         wrapper.scrollTo(0, 0);
-        updateSustainabilityShrink(false);
-        setTimeout(checkSustainabilityActive, 400);
         const urlParams = new URLSearchParams(window.location.search);
         const region = urlParams.get('region') || 'Global';
         updateBlogs(region);
@@ -1536,6 +1520,9 @@
         setTimeout(() => {
           popupOverlay.classList.add('active');
         }, 600);
+        // ensure canvas is sized
+        resizeCanvas();
+        updateHeroProgressByScroll();
       });
 
     })();
