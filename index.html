@@ -23,7 +23,7 @@
     h3 { font-size:clamp(2rem,4vw,2.8rem); color:#d4af37; }
     .btn { display:inline-block; padding:1.2rem 2.8rem; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.25); color:var(--white); font-size:clamp(1.2rem,1.4vw,1.4rem); font-weight:600; text-transform:uppercase; letter-spacing:0.075em; border-radius:8px; cursor:pointer; transition:all 0.3s ease; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
-    .btn-arrow { display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem; color:var(--white); font-weight:500; transition:all 0.3s ease; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border-radius:30px; border:1px solid rgba(201,160,74,0.25); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn-arrow { display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem; color:var(--white); font-weight:500; transition:all 0.3s ease; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border-radius:10px; border:1px solid rgba(201,160,74,0.25); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
     .btn-arrow::after { content:"→"; font-size:1.8rem; transition:all 0.3s ease; }
     .btn-arrow:hover { gap:1.2rem; background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; transform:scale(1.03); }
     .btn-arrow-white { color:var(--white); }
@@ -216,7 +216,52 @@
     @media (max-width:768px) { .pillars .grid { grid-template-columns:1fr; } .pillar-card { min-height:180px; } }
 
     .five-column-section-wrapper { position:relative; height:90vh; width:100%; display:flex; flex-direction:column; background:transparent; margin-top:100px; z-index:1; }
-    .services-heading { text-align:center; color:#d4af37; font-size:clamp(3.6rem,6vw,5.6rem); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-family:'Inter',Arial,sans-serif; padding:2rem 2rem 0.5rem 2rem; flex-shrink:0; background:transparent; margin:0; line-height:1.2; }
+    
+    /* services heading row: left aligned heading + right button */
+    .services-heading-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem 1.5rem 2rem;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    .services-heading-row .services-heading {
+      text-align: left;
+      color: #d4af37;
+      font-size: clamp(3rem, 5vw, 4.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-family: 'Inter', Arial, sans-serif;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .services-heading-row .services-btn {
+      background: rgba(201, 160, 74, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 160, 74, 0.2);
+      color: var(--white);
+      padding: 1rem 2.4rem;
+      font-weight: 600;
+      font-size: clamp(1.2rem, 1.2vw, 1.4rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      white-space: nowrap;
+    }
+    .services-heading-row .services-btn:hover {
+      background: rgba(201, 160, 74, 0.95);
+      box-shadow: 0 0 30px rgba(201, 160, 74, 0.5);
+      color: #121111;
+      border-color: rgba(201, 160, 74, 0.9);
+      transform: scale(1.03);
+    }
+
     .five-column-section { flex:1; width:100%; display:flex; flex-wrap:nowrap; overflow:hidden; position:relative; background:transparent; min-height:0; }
     .col-item { flex:1 0 20%; height:100%; background-size:cover; background-position:center; position:relative; cursor:pointer; transition:flex 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease; overflow:hidden; display:flex; align-items:flex-start; justify-content:flex-start; padding:0 0 0 2rem; background-color:rgba(0,0,0,0.2); backdrop-filter:blur(1px); }
     .col-item .col-overlay { position:absolute; inset:0; background:rgba(18,17,17,0.5); transition:background 0.4s ease; z-index:1; }
@@ -230,7 +275,7 @@
     @media (max-width:768px) {
       .section-slide { height:auto !important; padding-top:50px !important; padding-bottom:50px !important; overflow:visible; }
       .hero-slide{height:100vh !important;}
-      .five-column-section-wrapper { height:auto !important; padding-top:0 !important; padding-bottom:0 !important; }
+      .five-column-section-wrapper { height:auto !important; padding-top:0 !important; padding-bottom:0 !important; margin-top: 0; }
       .five-column-section { height:auto !important; min-height:400px; display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; padding:0 !important; gap:0; }
       .five-column-section .col-item { flex:0 0 40% !important; height:400px; scroll-snap-align:start; padding:0 0 0 1.5rem; margin-right:0.5rem; align-items:flex-start; justify-content:flex-start; }
       .five-column-section .col-item .col-heading { font-size:clamp(1.8rem,4vw,2.6rem) !important; opacity:1; padding:1.2rem 0.3rem; }
@@ -248,6 +293,7 @@
       .newsletter { height:auto; padding:60px 0; }
       .footer { padding:60px 0; }
       .cta-section { height:auto; padding:60px 0; }
+      .services-heading-row { flex-direction: column; align-items: flex-start; padding: 0 1.5rem 1rem 1.5rem; }
     }
 
     /* sustainability – left column text aligned, no image, wider faq */
@@ -382,8 +428,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:3.2rem 1.6rem;
-      
+      padding:1.2rem 1.6rem;
       background:transparent;
       color:var(--text);
       font-size:clamp(1.4rem,1.6vw,1.8rem);
@@ -395,12 +440,23 @@
       overflow:hidden;
       font-family:inherit;
       text-align:left;
-      border:0.3px solid var(--color-border-dark);
       
       width:100%;
-       border-top:0.3px solid var(--color-border-dark) !important;
+      
+      background-size:cover;
+      background-position:center;
+      min-height:80px;
     }
-    
+    .region-popup .region-btn .region-btn-bg-overlay {
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.6);
+      z-index:0;
+      transition:background 0.4s ease;
+    }
+    .region-popup .region-btn:hover .region-btn-bg-overlay {
+      background:rgba(0,0,0,0.3);
+    }
     .region-popup .region-btn .region-btn__bg {
       position:absolute;
       inset:0;
@@ -415,26 +471,31 @@
     }
     .region-popup .region-btn .region-btn__label {
       position:relative;
-      z-index:1;
+      z-index:2;
       display:flex;
-      align-items:center;
-      gap:1rem;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:0.3rem;
       transition:color 0.4s ease, transform 0.4s ease;
-      font-size: 13px;
+      font-size:1.6rem;
+      font-weight:500;
     }
     .region-popup .region-btn:hover .region-btn__label {
       color:var(--dark);
       transform:translateX(4px);
     }
-    .region-popup .region-btn .region-btn__label .flag-icon img {
-      width:22px;
-      height:16px;
-      object-fit:contain;
-      border-radius:2px;
+    .region-popup .region-btn .region-btn__label .region-name {
+      display:block;
+    }
+    .region-popup .region-btn .region-btn__label .region-arrow {
+      display:block;
+      font-size:2rem;
+      font-weight:300;
+      margin-top:0.2rem;
     }
     .region-popup .region-btn .region-btn__arrow {
       position:relative;
-      z-index:1;
+      z-index:2;
       font-size:2rem;
       transition:transform 0.4s ease, color 0.4s ease;
       font-weight:300;
@@ -457,19 +518,23 @@
       font-family:inherit;
       line-height:1;
       padding:0.4rem;
+      z-index:10;
     }
     .region-popup .popup-close-x:hover {
       color:var(--white);
       transform:rotate(90deg);
     }
+    .region-popup .region-btn .region-btn__label .flag-icon {
+      display:none;
+    }
     @media (max-width:480px) {
       .region-popup { padding:2rem 1.6rem; }
       .region-popup h2 { font-size:2rem; }
-      .region-popup .region-btn { padding:1rem 1.2rem; font-size:1.5rem; }
-      .region-popup .region-btn .region-btn__label .flag-icon img { width:18px; height:13px; }
+      .region-popup .region-btn { padding:1.5rem 1.2rem; font-size:1.5rem; min-height:100px; }
+      .region-popup .region-btn .region-btn__label { font-size:1.3rem; }
       .region-popup .popup-close-x { top:0.8rem; right:1.2rem; font-size:2rem; }
     }
-     @media (max-width:768px) {
+    @media (max-width:768px) {
       .region-popup .region-grid {
         flex-direction: column !important;
       }
@@ -482,37 +547,60 @@
     <canvas id="hero-canvas"></canvas>
   </div>
 
-  <div class="region-popup-overlay" id="regionPopup">
+    <div class="region-popup-overlay" id="regionPopup">
     <div class="region-popup">
       <button class="popup-close-x" id="popupCloseX" aria-label="Close">✕</button>
       <h2>Select Your Region</h2>
       <div class="region-grid" id="regionGrid">
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/un.png" data-label="Global">
+        <!-- Global: uses globe icon as background via inline style -->
+        <button class="region-btn" data-label="Global" style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg'); background-size: cover; background-position: center;">
+          <span class="region-btn-bg-overlay"></span>
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</span>
-          <span class="region-btn__arrow">→</span>
+          <span class="region-btn__label">
+            <span class="region-name">Global</span>
+            <span class="region-arrow">→</span>
+          </span>
+          <span class="region-btn__arrow"></span>
         </button>
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE">
+        <!-- UAE -->
+        <button class="region-btn" data-label="UAE" style="background-image: url('https://flagcdn.com/w640/ae.png'); background-size: cover; background-position: center;">
+          <span class="region-btn-bg-overlay"></span>
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</span>
-          <span class="region-btn__arrow">→</span>
+          <span class="region-btn__label">
+            <span class="region-name">UAE</span>
+            <span class="region-arrow">→</span>
+          </span>
+          <span class="region-btn__arrow"></span>
         </button>
-     
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan">
+        <!-- Pakistan -->
+        <button class="region-btn" data-label="Pakistan" style="background-image: url('https://flagcdn.com/w640/pk.png'); background-size: cover; background-position: center;">
+          <span class="region-btn-bg-overlay"></span>
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</span>
-          <span class="region-btn__arrow">→</span>
+          <span class="region-btn__label">
+            <span class="region-name">Pakistan</span>
+            <span class="region-arrow">→</span>
+          </span>
+          <span class="region-btn__arrow"></span>
         </button>
-        <button class="region-btn" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal">
+        <!-- Portugal -->
+        <button class="region-btn" data-label="Portugal" style="background-image: url('https://flagcdn.com/w640/pt.png'); background-size: cover; background-position: center;">
+          <span class="region-btn-bg-overlay"></span>
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</span>
-          <span class="region-btn__arrow">→</span>
+          <span class="region-btn__label">
+            <span class="region-name">Portugal</span>
+            <span class="region-arrow">→</span>
+          </span>
+          <span class="region-btn__arrow"></span>
         </button>
-        
-           <button class="region-btn" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore">
+        <!-- Singapore -->
+        <button class="region-btn" data-label="Singapore" style="background-image: url('https://flagcdn.com/w640/sg.png'); background-size: cover; background-position: center;">
+          <span class="region-btn-bg-overlay"></span>
           <span class="region-btn__bg"></span>
-          <span class="region-btn__label"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</span>
-          <span class="region-btn__arrow">→</span>
+          <span class="region-btn__label">
+            <span class="region-name">Singapore</span>
+            <span class="region-arrow">→</span>
+          </span>
+          <span class="region-btn__arrow"></span>
         </button>
       </div>
     </div>
@@ -527,12 +615,12 @@
         <div class="mobile-right-group">
           <div class="region-selector" id="regionSelectorMobile">
             <div class="selected-region" id="selectedRegionMobile">
-              <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+              <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
               <span>Global</span>
               <span class="arrow-down" id="regionArrowMobile">▾</span>
             </div>
             <div class="dropdown-list" id="regionDropdownMobile">
-              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+              <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
                <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
               
@@ -549,15 +637,15 @@
           <a href="#">About us</a>
           <a href="/project-1/finsouls-services">Services</a>
           <a href="#">Contact</a>
-          <a href="#">Teams</a>
+          <a href="#">Insights</a>
           <div class="region-selector" id="regionSelectorDesktop">
             <div class="selected-region" id="selectedRegionDesktop">
-              <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+              <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
               <span>Global</span>
               <span class="arrow-down" id="regionArrowDesktop">▾</span>
             </div>
             <div class="dropdown-list" id="regionDropdownDesktop">
-              <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+              <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
               <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
@@ -571,16 +659,21 @@
 
     <!-- SLIDE 0: HERO (no snap) -->
     <section class="section-slide hero-slide no-snap" data-index="0" style="padding:0; height:100vh; overflow:hidden; background:transparent;">
+      
       <div class="hero-scroll-track" id="hero-track" style="height:100%; width:100%; position:relative;">
         <div class="hero-canvas-wrap" style="height:100%; width:100%; position:relative;">
           <div class="hero-overlay" style="position:absolute; inset:0; display:flex; justify-content:end; flex-direction:column; gap:12px; pointer-events:none; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8); padding:10rem 3rem 3rem 3rem; bottom:0; align-items:flex-start; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%);">
-            <h1><strong>FINSOULS</strong><br />MASTERING CHANGE FOR LASTING VALUE</h1>
-            <p>Finsouls is one of the leading accounting businesses in Dubai, UAE, and we are Certified Professional Chartered Accountants offering bookkeeping and accounting services.</p>
-            <a href="#" class="btn-arrow btn-arrow-white">Discover Finsouls' commitment to excellence</a>
+            <!-- container for hero content -->
+            <div class="container" style="pointer-events: auto; max-width:1200px; margin:0 auto; padding:0 2rem; width:100%;">
+              <h1><strong>FINSOULS</strong><br />MASTERING CHANGE FOR LASTING VALUE</h1>
+              <p>Finsouls is one of the leading accounting businesses in Dubai, UAE, and we are Certified Professional Chartered Accountants offering bookkeeping and accounting services.</p>
+              
+            </div>
           </div>
         </div>
       </div>
       <div class="loading-bar" id="loading-bar" style="position:fixed; bottom:0; left:0; height:4px; background:var(--primary); z-index:10; transition:width 0.15s ease-out; width:0%; display:none;"></div>
+    
     </section>
 
     <!-- SLIDE 1: ABOUT / KEY FIGURES (no snap) with black transparent overlay -->
@@ -589,7 +682,8 @@
         <div class="grid">
           <div class="big-number">
             <div class="number" id="aboutTitle">About Finsouls</div>
-            <div class="label" id="aboutDesc">One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.</div>
+            <div class="label" id="aboutDesc" style="margin-bottom: 20px;">One of the leading accounting businesses in Dubai, UAE Certified Professional Chartered Accountants offering bookkeeping, VAT, and financial advisory services.</div>
+             <a href="#" class="btn-arrow btn-arrow-white">Discover Finsouls' commitment to excellence</a>
           </div>
           <div class="stats" id="statsContainer">
             <div class="stat"><div class="number" id="stat1Num">22</div><div class="label" id="stat1Label">offices worldwide</div></div>
@@ -614,8 +708,12 @@
 
     <!-- SLIDE 3: SERVICES (snap enabled) -->
     <section class="section-slide snap-enabled" data-index="3" style="padding:0; height:100vh; background:var(--dark); ">
-      <div class="five-column-section-wrapper">
-        <h2 class="services-heading">Services</h2>
+      <div class="five-column-section-wrapper container">
+        <!-- services heading row: left aligned + right button -->
+        <div class="services-heading-row">
+          <h2>Services</h2>
+          <a href="#" class="services-btn" id="exploreServicesBtn">Explore Services →</a>
+        </div>
         <div class="five-column-section" id="fiveColSection"></div>
       </div>
     </section>
@@ -751,7 +849,7 @@
           </div>
           <div class="right">
             <div class="social-links">
-              <a href="#" aria-label="X">𝕏</a>
+              
               <a href="#" aria-label="LinkedIn">in</a>
               <a href="#" aria-label="YouTube">▶</a>
             </div>
@@ -948,10 +1046,10 @@
       window.addEventListener('scroll', handleScroll);
 
       // ===== CANVAS HERO – shared background =====
-   const START_FRAME = 61;
-const END_FRAME = 130;
-const FRAME_COUNT = END_FRAME - START_FRAME + 1; // This will be 70 frames
-const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`; 
+      const START_FRAME = 61;
+      const END_FRAME = 130;
+      const FRAME_COUNT = END_FRAME - START_FRAME + 1;
+      const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`; 
       const canvas = document.getElementById('hero-canvas');
       const ctx = canvas.getContext('2d');
       const loadingBar = document.getElementById('loading-bar');
@@ -960,20 +1058,32 @@ const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${Stri
       let loadedCount = 0;
       let framesReady = false;
 
-function preloadImages(onDone) {
-  for (let i = 0; i < FRAME_COUNT; i++) {
-    const img = new Image();
-    // Start from frame 61 and go up to frame 130
-    const frameNumber = START_FRAME + i;
-    img.src = FRAME_PATH(frameNumber);
-    img.onload = img.onerror = () => {
-      loadedCount++;
-      loadingBar.style.width = `${(loadedCount / FRAME_COUNT) * 100}%`;
-      if (loadedCount === FRAME_COUNT) onDone();
-    };
-    images[i] = img;
-  }
-}
+      // Flag mapping for regions
+      const FLAG_MAP = {
+        'Global': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg',
+        'UAE': 'https://flagcdn.com/w40/ae.png',
+        'Pakistan': 'https://flagcdn.com/w40/pk.png',
+        'Portugal': 'https://flagcdn.com/w40/pt.png',
+        'Singapore': 'https://flagcdn.com/w40/sg.png'
+      };
+
+      function getFlag(region) {
+        return FLAG_MAP[region] || FLAG_MAP['Global'];
+      }
+
+      function preloadImages(onDone) {
+        for (let i = 0; i < FRAME_COUNT; i++) {
+          const img = new Image();
+          const frameNumber = START_FRAME + i;
+          img.src = FRAME_PATH(frameNumber);
+          img.onload = img.onerror = () => {
+            loadedCount++;
+            loadingBar.style.width = `${(loadedCount / FRAME_COUNT) * 100}%`;
+            if (loadedCount === FRAME_COUNT) onDone();
+          };
+          images[i] = img;
+        }
+      }
 
       function resizeCanvas() {
         const rect = document.getElementById('sharedCanvasBg').getBoundingClientRect();
@@ -1034,26 +1144,21 @@ function preloadImages(onDone) {
         animationId = requestAnimationFrame(animationLoop);
       }
 
-      // scroll-based progress: from hero (0) to about (1)
       function updateHeroProgressByScroll() {
         const heroSlide = document.querySelector('.hero-slide');
         const aboutSlide = document.querySelector('.key-figures');
         if (!heroSlide || !aboutSlide) return;
         const heroRect = heroSlide.getBoundingClientRect();
         const aboutRect = aboutSlide.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        // hero is visible from top of screen to about top
         const heroTop = heroRect.top;
         const aboutTop = aboutRect.top;
-        const totalDist = aboutTop - heroTop; // distance from hero top to about top
+        const totalDist = aboutTop - heroTop;
         if (totalDist <= 0) {
           targetHeroProgress = 1;
           return;
         }
         const scrolled = -heroTop;
         let progress = Math.max(0, Math.min(1, scrolled / totalDist));
-        // we want progress 0 when hero top is at 0, 1 when about top is at 0
-        // but we also consider that hero may be partially scrolled
         targetHeroProgress = progress;
       }
 
@@ -1066,14 +1171,11 @@ function preloadImages(onDone) {
           lastFrameTime = 0;
           if (animationId) cancelAnimationFrame(animationId);
           animationLoop(performance.now());
-          // initial progress
           updateHeroProgressByScroll();
         });
-        // ensure canvas resizes
         setTimeout(resizeCanvas, 100);
       });
 
-      // also on resize
       window.addEventListener('resize', resizeCanvas);
 
       document.getElementById('hamburger').addEventListener('click', function() {
@@ -1395,7 +1497,7 @@ function preloadImages(onDone) {
         if (regionParam) {
           const matchingItem = Array.from(items).find(item => item.dataset.label === regionParam);
           if (matchingItem) {
-            const flag = matchingItem.dataset.flag;
+            const flag = matchingItem.dataset.flag || getFlag(regionParam);
             const label = matchingItem.dataset.label;
             selected.innerHTML = `
               <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
@@ -1418,8 +1520,8 @@ function preloadImages(onDone) {
         items.forEach(item => {
           item.addEventListener('click', function(e) {
             e.stopPropagation();
-            const flag = this.dataset.flag;
             const label = this.dataset.label;
+            const flag = this.dataset.flag || getFlag(label);
             selected.innerHTML = `
               <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
               <span>${label}</span>
@@ -1453,6 +1555,14 @@ function preloadImages(onDone) {
         document.getElementById('blogSection').scrollIntoView({ behavior: 'smooth' });
       });
 
+      document.getElementById('exploreServicesBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const servicesSection = document.querySelector('.five-column-section-wrapper');
+        if (servicesSection) {
+          servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+
       window.toggleFaq = function(el) {
         const answer = el.nextElementSibling;
         const icon = el.querySelector('.icon');
@@ -1480,11 +1590,11 @@ function preloadImages(onDone) {
         const btn = e.target.closest('.region-btn');
         if (!btn) return;
         const label = btn.dataset.label;
-        const flag = btn.dataset.flag;
+        const flag = getFlag(label);
+        
         const mobileSelected = document.getElementById('selectedRegionMobile');
         const desktopSelected = document.getElementById('selectedRegionDesktop');
-        const mobileArrow = document.getElementById('regionArrowMobile');
-        const desktopArrow = document.getElementById('regionArrowDesktop');
+        
         const updateSelected = (el, arrowId) => {
           if (el) {
             el.innerHTML = `
@@ -1496,6 +1606,7 @@ function preloadImages(onDone) {
             if (arrowEl) arrowEl.classList.remove('open');
           }
         };
+        
         updateSelected(mobileSelected, 'regionArrowMobile');
         updateSelected(desktopSelected, 'regionArrowDesktop');
         updateBlogs(label);
@@ -1524,7 +1635,6 @@ function preloadImages(onDone) {
         setTimeout(() => {
           popupOverlay.classList.add('active');
         }, 600);
-        // ensure canvas is sized
         resizeCanvas();
         updateHeroProgressByScroll();
       });
