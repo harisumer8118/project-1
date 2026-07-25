@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>About — FINSOULS</title>
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --primary:#c9a04a;
+      --primary-dark:#a8852a;
+      --dark:#121111;
+      --text:#fcfbfa;
+      --white:#fcfbfa;
+      --black:#121111;
+      --shadow:0 10px 25px rgba(0,0,0,0.4);
+      --slide-ease:cubic-bezier(0.25,0.46,0.45,0.94);
+      --color-border-dark:rgba(255,255,255,0.08);
+      --muted:rgba(252,251,250,0.62);
+      --muted-2:rgba(252,251,250,0.4);
+      --line:rgba(255,255,255,0.08);
+    }
+    html { font-size:62.5%; scroll-behavior:smooth; }
+    body { font-family:'Inter',Arial,sans-serif; font-size:1.6rem; line-height:1.7; color:var(--text); background:var(--dark); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+    ul { list-style:none; padding:0; margin:0; }
+    img { max-width:100%; display:block; height:auto; }
+    h1,h2,h3,h4,h5,h6 { font-weight:300; color:var(--white); line-height:1.2; }
+    .btn { display:inline-block; padding:1.2rem 2.8rem; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.25); color:var(--white); font-size:clamp(1.2rem,1.4vw,1.4rem); font-weight:600; text-transform:uppercase; letter-spacing:0.075em; border-radius:8px; cursor:pointer; transition:all 0.3s ease; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .btn-arrow { display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem; color:var(--white); font-weight:500; transition:all 0.3s ease; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border-radius:30px; border:1px solid rgba(201,160,74,0.25); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn-arrow::after { content:"→"; font-size:1.8rem; transition:all 0.3s ease; }
+    .btn-arrow:hover { gap:1.2rem; background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; transform:scale(1.03); }
+    .btn-arrow-white { color:var(--white); }
+    .btn-arrow-white:hover { color:#121111; }
+    .btn-arrow-white:hover::after { color:#121111; }
+    .pill-btn { display:inline-flex; align-items:center; justify-content:center; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); border-radius:60px; padding:0.8rem 2.4rem; transition:all 0.3s ease; font-weight:500; font-size:1.6rem; color:var(--text); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .pill-btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .container { max-width:1240px; margin:0 auto; padding:0 3rem; width:100%; }
+    @media (max-width:768px){ .container{padding:0 2rem;} }
+
+    /* ----- HEADER ----- */
+    .header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; transition:background 0.4s ease, box-shadow 0.3s ease; }
+    .header.scrolled { background:var(--dark) !important; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
+    .header-main { display:flex; justify-content:space-between; align-items:center; padding:0.8rem 2rem; max-width:1200px; margin:0 auto; }
+    .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; transition:color 0.3s ease; }
+    .logo-text span { color:var(--primary); }
+    .header.scrolled .logo-text { color:var(--white); }
+    .header.scrolled .logo-text span { color:var(--primary); }
+    .nav-menu { display:flex; align-items:center; gap:clamp(1.2rem,2.5vw,2.4rem); }
+    .nav-menu a { font-size:clamp(1.2rem,1.3vw,1.4rem); font-weight:500; color:var(--white); transition:color 0.25s ease, border-color 0.25s ease; padding:0.4rem 0; border-bottom:2px solid transparent; white-space:nowrap; }
+    .nav-menu a:hover, .nav-menu a.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .nav-menu .btn { padding:0.6rem 1.6rem; font-size:clamp(1rem,1.2vw,1.2rem); background:rgba(201,160,74,0.15); color:var(--white); white-space:nowrap; backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .nav-menu .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
+    .hamburger { display:none; flex-direction:column; gap:0.4rem; cursor:pointer; padding:0.4rem; background:none; border:none; }
+    .hamburger span { display:block; width:2.8rem; height:2px; background:var(--white); transition:all 0.3s ease; }
+    .region-selector { position:relative; display:inline-block; cursor:pointer; }
+    .region-selector .selected-region { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 1rem 0.4rem 0.6rem; border-radius:30px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); transition:background 0.2s, border-color 0.2s; font-size:clamp(1.1rem,1.2vw,1.3rem); font-weight:500; color:var(--white); line-height:1.4; }
+    .region-selector .selected-region:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
+    .region-selector .selected-region .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .region-selector .selected-region .arrow-down { font-size:1.2rem; opacity:0.6; transition:transform 0.25s ease; margin-left:0.2rem; }
+    .region-selector .selected-region .arrow-down.open { transform:rotate(180deg); }
+    .region-selector .dropdown-list { position:absolute; top:calc(100% + 8px); right:0; min-width:180px; background:rgba(18,17,17,0.96); border:1px solid rgba(255,255,255,0.08); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.6); padding:0.6rem 0; opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; z-index:1200; backdrop-filter:blur(8px); }
+    .region-selector .dropdown-list.open { opacity:1; visibility:visible; transform:translateY(0); }
+    .region-selector .dropdown-item { display:flex; align-items:center; gap:0.8rem; padding:0.7rem 1.4rem; color:var(--white); font-size:clamp(1.2rem,1.3vw,1.4rem); transition:background 0.15s; cursor:pointer; border:none; background:transparent; width:100%; text-align:left; font-family:inherit; }
+    .region-selector .dropdown-item:hover { background:rgba(201,160,74,0.15); color:var(--primary); }
+    .region-selector .dropdown-item .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .mobile-right-group { display:flex; align-items:center; gap:1.2rem; }
+    @media (max-width:1024px) {
+      .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--dark); padding:2rem; box-shadow:var(--shadow); gap:1.2rem; border-top:1px solid rgba(255,255,255,0.05); align-items:stretch; }
+      .nav-menu.open { display:flex; }
+      .hamburger { display:flex; }
+      .nav-menu a { color:var(--white) !important; white-space:normal; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.1); }
+      .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; }
+      .nav-menu .btn { width:100%; text-align:center; }
+      .nav-menu .region-selector { display:none !important; }
+      .header-main .region-selector { display:inline-block; }
+    }
+    @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
+
+    /* ----- FOOTER ----- */
+    .footer { padding:clamp(2rem,5vh,5rem) 0; background:#000; color:rgba(255,255,255,0.8); border-top:1px solid var(--line); position:relative; z-index:10; }
+    .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
+    .footer .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
+    .footer .logo-text span { color:var(--primary); }
+    .footer .address p { font-size:clamp(1.2rem,1.4vw,1.4rem); margin-bottom:0.4rem; color:rgba(255,255,255,0.8); }
+    .footer .address a { color:var(--primary); }
+    .footer .right { display:flex; flex-direction:column; align-items:flex-end; gap:2rem; }
+    .footer .social-links { display:flex; gap:1.2rem; }
+    .footer .social-links a { font-size:clamp(1.8rem,2.2vw,2.2rem); padding:0.4rem; transition:all 0.3s ease; color:rgba(255,255,255,0.7); }
+    .footer .social-links a:hover { color:var(--primary); }
+    .footer .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem 2.5rem; font-size:clamp(1rem,1.2vw,1.2rem); }
+    .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
+    .footer .footer-links a:hover { color:var(--white); }
+    .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
+    @media (max-width:768px) {
+      .footer .grid { grid-template-columns:1fr; gap:2rem; }
+      .footer .right { align-items:flex-start; }
+      .footer .footer-links { justify-content:flex-start; }
+      .footer .bottom { flex-direction:column; align-items:flex-start; }
+    }
+
+    .eyebrow{font-size:1.2rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--primary); font-weight:600; display:flex; align-items:center; gap:1rem;}
+    .eyebrow::before{content:''; width:28px; height:1px; background:var(--primary);}
+    .btn-gold{ display:inline-flex; align-items:center; gap:0.9rem; padding:1.2rem 2.6rem; background:rgba(201,160,74,0.12); border:1px solid rgba(201,160,74,0.35); color:var(--text); font-size:1.3rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; border-radius:10px; cursor:pointer; transition:all 0.35s var(--slide-ease); }
+    .btn-gold::after{ content:'→'; font-size:1.6rem; transition:transform 0.35s var(--slide-ease); }
+    .btn-gold:hover{ background:var(--primary); border-color:var(--primary); color:var(--dark); box-shadow:0 0 30px rgba(201,160,74,0.35); }
+    .btn-gold:hover::after{ transform:translateX(4px); }
+    .btn-ghost{ display:inline-flex; align-items:center; gap:0.8rem; font-size:1.3rem; font-weight:600; letter-spacing:0.04em; color:var(--text); border-bottom:1px solid var(--line); padding-bottom:0.4rem; transition:all 0.3s ease; }
+    .btn-ghost::after{ content:'→'; transition:transform 0.3s ease; }
+    .btn-ghost:hover{ color:var(--primary); border-color:var(--primary); }
+    .btn-ghost:hover::after{ transform:translateX(4px); }
+
+    /* ===== CANVAS BACKGROUND — only for hero ===== */
+    .hero-canvas-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero-canvas-wrapper canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ===== HERO ===== */
+    .hero-slide {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      
+      overflow: hidden;
+    }
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    padding: 10rem 3rem 3rem 3rem;
+    bottom: 0;
+    align-items: flex-start;
+    
+}
+    .hero-overlay h1 { font-weight:300; font-size:clamp(2.8rem,8vw,5.6rem); max-width:65%; }
+    .hero-overlay h1 strong { font-weight:700; color:var(--primary); }
+    .hero-overlay p { font-size:clamp(1.6rem,2vw,2rem); opacity:0.9; max-width:600px; color:#fff; margin-left: auto;}
+
+    /* ===== ABOUT INTRO ===== */
+    .about-intro {
+      background:#0a0a0a;
+      padding:8rem 0;
+      border-bottom:1px solid var(--line);
+      position:relative;
+      z-index:1;
+    }
+    .about-intro .grid {
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:5rem;
+      align-items:start;
+    }
+    .about-intro h2 {
+      font-size:clamp(2.8rem,4vw,4rem);
+      margin:0 0 1.6rem 0;
+    }
+    .about-intro h2 .accent { color:var(--primary); font-style:italic; font-weight:300; }
+    .about-intro .desc {
+      color:var(--muted);
+      font-size:1.7rem;
+      max-width:480px;
+    }
+    .about-intro .stat-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2.4rem 2rem;
+      padding-left:2rem;
+      border-left:1px solid var(--line);
+    }
+    .about-intro .stat .num {
+      font-size:clamp(2.8rem,3.6vw,3.8rem);
+      color:var(--primary);
+      font-weight:300;
+      line-height:1;
+      margin-bottom:0.4rem;
+    }
+    .about-intro .stat .lbl {
+      font-size:1.2rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+    }
+    @media (max-width:900px){
+      .about-intro .grid{ grid-template-columns:1fr; gap:3rem; }
+      .about-intro .stat-grid{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:2.4rem; }
+    }
+
+    /* ===== ACCORDION DRAWER (enhanced) ===== */
+    .accordion-section {
+      background:#0a0a0a;
+      padding:4rem 0 6rem;
+      position:relative;
+      z-index:1;
+    }
+    .accordion-drawer {
+      display:flex;
+      flex-direction:column;
+      gap:0px;
+      width:100%;
+    }
+    .accordion-drawer-item {
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      transition:border-color 0.2s;
+    }
+    .accordion-drawer-item:first-of-type {
+      border-top:1px solid rgba(255,255,255,0.06);
+    }
+
+    .accordion-drawer-item__header {
+      width:100%;
+      padding:2rem 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1.5rem;
+      background:transparent;
+      border:none;
+      cursor:pointer;
+      text-align:left;
+      transition:padding 0.2s ease;
+      color:var(--white);
+    }
+    .accordion-drawer-item__header:hover .accordion-drawer-item__digit-default {
+      transform:translateY(-100%);
+      transition-duration:0.6s;
+    }
+    .accordion-drawer-item__header:hover .accordion-drawer-item__digit-hover {
+      transform:translateY(0);
+      transition-duration:0.6s;
+    }
+
+    .accordion-drawer-item__text {
+      display:flex;
+      align-items:center;
+      gap:1rem;
+    }
+    .accordion-drawer-item__number {
+      display:flex;
+      font-weight:500;
+      font-size:2.8rem;
+      line-height:1;
+      letter-spacing:-0.1rem;
+      color:#8c8c95;
+      font-family:'Inter',sans-serif;
+      min-width:5rem;
+    }
+    .accordion-drawer-item__digit {
+      position:relative;
+      display:inline-block;
+      overflow:hidden;
+      height:1.2em;
+    }
+    .accordion-drawer-item__digit-default,
+    .accordion-drawer-item__digit-hover {
+      display:inline-block;
+      transition:transform 0.4s cubic-bezier(0.25,1,0.5,1);
+      transition-delay:calc(var(--digit-index,0) * 50ms);
+    }
+    .accordion-drawer-item__digit-hover {
+      position:absolute;
+      top:0;
+      left:0;
+      color:var(--primary);
+      transform:translateY(100%);
+    }
+
+    .accordion-drawer-item__title {
+      font-weight:500;
+      font-size:2.8rem;
+      line-height:1;
+      letter-spacing:-0.1rem;
+      color:var(--white);
+      font-family:'Inter',sans-serif;
+    }
+
+    .accordion-drawer-item__icon {
+      flex-shrink:0;
+      width:40px;
+      height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:transform 0.4s cubic-bezier(0.25,1,0.5,1);
+    }
+    .accordion-drawer-item__icon svg {
+      transition:transform 0.4s cubic-bezier(0.25,1,0.5,1);
+    }
+    .accordion-drawer-item--open .accordion-drawer-item__icon svg {
+      transform:rotate(180deg);
+    }
+
+    .accordion-drawer-item__content {
+      max-height:0;
+      overflow:hidden;
+      transition:max-height 0.7s cubic-bezier(0.22,1,0.36,1), opacity 0.5s ease;
+      opacity:0;
+    }
+    .accordion-drawer-item--open .accordion-drawer-item__content {
+      opacity:1;
+      max-height:900px;
+    }
+
+    .accordion-drawer-item__content-inner {
+      padding:2rem 0 3rem 0;
+    }
+
+    /* layout inside */
+    .accordion-drawer-item__layout {
+      display:flex;
+      gap:3rem;
+      width:100%;
+      justify-content:space-between;
+      align-items:flex-start;
+    }
+    .accordion-drawer-item__body {
+      display:flex;
+      flex-direction:column;
+      gap:2rem;
+      max-width:800px;
+      flex:1;
+    }
+    .accordion-drawer-item__subtitle {
+      font-weight:500;
+      font-size:1.8rem;
+      line-height:1.2;
+      letter-spacing:-0.04rem;
+      color:var(--white);
+    }
+    .accordion-drawer-item__description {
+      font-size:1.6rem;
+      line-height:1.5;
+      color:var(--muted);
+    }
+    .accordion-drawer-item__bullets {
+      display:flex;
+      flex-direction:column;
+      gap:1.6rem;
+      margin-top:0.4rem;
+    }
+    .accordion-drawer-item__bullet h4 {
+      font-weight:500;
+      font-size:1.6rem;
+      letter-spacing:-0.02rem;
+      margin-bottom:0.2rem;
+      color:var(--white);
+    }
+    .accordion-drawer-item__bullet p {
+      font-size:1.4rem;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    /* images */
+    .section-image {
+      flex-shrink:0;
+      width:300px;
+      height:300px;
+      border-radius:24px;
+      overflow:hidden;
+      background:#1a1a1a;
+    }
+    .section-image img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* engine / outcome (extra) */
+    .vectr-engine {
+      display:flex;
+      flex-direction:column;
+      gap:2.5rem;
+      width:100%;
+    }
+    .vectr-engine__content {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:2.5rem;
+    }
+    .vectr-engine__content_wrapper {
+      display:flex;
+      flex-direction:column;
+      gap:2.5rem;
+      flex:1;
+    }
+    .vectr-engine__text {
+      display:flex;
+      flex-direction:column;
+      gap:1.5rem;
+      max-width:800px;
+    }
+    .vectr-engine__title {
+      font-weight:500;
+      font-size:1.8rem;
+      letter-spacing:-0.04rem;
+      color:var(--white);
+    }
+    .vectr-engine__body p {
+      font-size:1.6rem;
+      line-height:1.5;
+      color:var(--muted);
+      margin-bottom:1rem;
+    }
+    .vectr-engine__features {
+      display:flex;
+      gap:2rem;
+      flex-wrap:wrap;
+    }
+    .vectr-engine__feature {
+      flex:1;
+      min-width:200px;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    .vectr-engine__feature-title {
+      font-weight:500;
+      font-size:1.6rem;
+      letter-spacing:-0.02rem;
+      color:var(--white);
+    }
+    .vectr-engine__feature-desc {
+      font-size:1.4rem;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    .outcome {
+      display:flex;
+      gap:2.5rem;
+      width:100%;
+      justify-content:space-between;
+      align-items:flex-start;
+    }
+    .outcome__content {
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:2.5rem;
+    }
+    .outcome__header {
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+    }
+    .outcome__title {
+      font-weight:500;
+      font-size:1.8rem;
+      letter-spacing:-0.04rem;
+      color:var(--white);
+    }
+    .outcome__subtitle {
+      font-size:1.6rem;
+      color:var(--muted);
+    }
+    .outcome__items {
+      display:flex;
+      gap:2rem;
+      flex-wrap:wrap;
+    }
+    .outcome-item {
+      flex:1;
+      min-width:200px;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    .outcome-item__number {
+      font-weight:500;
+      font-size:2.8rem;
+      line-height:1;
+      letter-spacing:-0.1rem;
+      color:var(--primary);
+      opacity:0.6;
+    }
+    .outcome-item__title {
+      font-weight:500;
+      font-size:1.6rem;
+      letter-spacing:-0.02rem;
+      color:var(--white);
+    }
+    .outcome-item__description {
+      font-size:1.4rem;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    @media (max-width:1024px){
+      .accordion-drawer-item__layout,
+      .vectr-engine__content,
+      .outcome {
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .section-image {
+        width:100%;
+        height:220px;
+      }
+      .accordion-drawer-item__number,
+      .accordion-drawer-item__title {
+        font-size:2rem;
+      }
+      .accordion-drawer-item__text {
+        gap:0.75rem;
+      }
+    }
+    @media (max-width:640px){
+      .accordion-drawer-item__number,
+      .accordion-drawer-item__title {
+        font-size:1.6rem;
+      }
+      .accordion-drawer-item__header {
+        padding:1.5rem 0;
+      }
+      .accordion-drawer-item__content-inner {
+        padding:1rem 0 2rem 0;
+      }
+      .section-image {
+        height:180px;
+      }
+    }
+
+    /* ===== CTA ===== */
+    .cta{ 
+      position:relative;
+      z-index:1;
+      padding:11rem 0; 
+      text-align:center; 
+      background:#0a0a0a; 
+    }
+    .cta h2{ font-size:clamp(3rem,5vw,5.2rem); max-width:800px; margin:0 auto 3.2rem; }
+    .cta h2 em{ color:var(--primary); font-style:italic; font-weight:300; }
+    .cta .btn-gold{ font-size:1.4rem; padding:1.5rem 3.4rem; }
+
+    /* ===== UTILITY ===== */
+    .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
+    .reveal.in{ opacity:1; transform:translateY(0); }
+    @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
+    .loading-bar {
+      position:fixed;
+      bottom:0;
+      left:0;
+      height:4px;
+      background:var(--primary);
+      z-index:10;
+      transition:width 0.15s ease-out;
+      width:0%;
+      display:block;
+    }
+    .hero-overlay-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+ background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+  pointer-events: none;
+}
+  </style>
+</head>
+<body>
+  <!-- LOADING BAR -->
+  <div class="loading-bar" id="loading-bar"></div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
+      <a href="#" class="logo">
+        <span class="logo-text">FINSOULS</span>
+      </a>
+      <div class="mobile-right-group">
+        <div class="region-selector" id="regionSelectorMobile">
+          <div class="selected-region" id="selectedRegionMobile">
+            <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowMobile">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownMobile">
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="nav-menu" id="navMenu">
+        <a href="https://harisumer.me/project-1/">Home</a>
+        <a href="#" class="active">About us</a>
+        <a href="/project-1/finsouls-services">Services</a>
+        <a href="#">Insights</a>
+        <a href="/project-1/contact">Contact</a>
+        <div class="region-selector" id="regionSelectorDesktop">
+          <div class="selected-region" id="selectedRegionDesktop">
+            <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowDesktop">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownDesktop">
+            <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <a href="#" class="btn">Book a Consultant</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SLIDE with canvas background -->
+  <section class="hero-slide" id="heroSlide">
+    <div class="hero-canvas-wrapper" id="heroCanvasWrapper">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-overlay-bg"></div>
+    </div>
+    <div class="hero-overlay">
+      <h1>About <strong>FINSOULS</strong><br />Accounting &amp; Bookkeeping</h1>
+      <p>One of the leading accounting businesses, we offer expert VAT services, financial consulting, and affordable value‑added solutions — all in one place.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT INTRO -->
+  <section class="about-intro" id="aboutSection">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <h2>Who we <span class="accent">are</span></h2>
+          <p class="desc">We are a leading provider of accounting and VAT services for businesses. We provide services that adhere to the highest standards of professional ethics and quality and assist small businesses in setting up bookkeeping systems.</p>
+          <p class="desc" style="margin-top:1.6rem;">At Finsouls, we offer a wide range of accounting services, including payroll, VAT returns, and account management. Our clients come from a wide range of professions across the UAE and around the globe.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><div class="num">10+</div><div class="lbl">Years Expertise</div></div>
+          <div class="stat"><div class="num">500+</div><div class="lbl">Businesses Served</div></div>
+          <div class="stat"><div class="num">100%</div><div class="lbl">Client Satisfaction</div></div>
+          <div class="stat"><div class="num">24/7</div><div class="lbl">Support</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ENHANCED ACCORDION ===== -->
+  <section class="accordion-section">
+    <div class="container">
+      <div class="accordion-drawer">
+
+        <!-- Item 1: The Friction -->
+        <div class="accordion-drawer-item">
+          <button class="accordion-drawer-item__header" type="button" aria-expanded="false">
+            <div class="accordion-drawer-item__text">
+              <span class="accordion-drawer-item__number">
+                <span class="accordion-drawer-item__digit" style="--digit-index:0">
+                  <span class="accordion-drawer-item__digit-default">0</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">0</span>
+                </span>
+                <span class="accordion-drawer-item__digit" style="--digit-index:1">
+                  <span class="accordion-drawer-item__digit-default">1</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">1</span>
+                </span>
+              </span>
+              <span class="accordion-drawer-item__title">The Challenge</span>
+            </div>
+            <span class="accordion-drawer-item__icon">
+              <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L20 18L36 6" stroke="#c9a04a" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-drawer-item__content">
+            <div class="accordion-drawer-item__content-inner">
+              <div class="accordion-drawer-item__layout">
+                <div class="section-image">
+                  <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=400&fit=crop&crop=center&auto=format" alt="Modern office workspace" loading="lazy" />
+                </div>
+                <div class="accordion-drawer-item__body">
+                  <h3 class="accordion-drawer-item__subtitle">The hidden cost of outdated processes</h3>
+                  <p class="accordion-drawer-item__description">Many businesses still rely on manual workflows, fragmented spreadsheets, and reactive decision-making. This friction slows growth, increases risk, and consumes valuable time that could be spent on strategy.</p>
+                  <div class="accordion-drawer-item__bullets">
+                    <div class="accordion-drawer-item__bullet">
+                      <h4>📉 Inefficient Workflows</h4>
+                      <p>Manual data entry and disconnected systems create bottlenecks and errors that impact financial reporting.</p>
+                    </div>
+                    <div class="accordion-drawer-item__bullet">
+                      <h4>⏳ Delayed Insights</h4>
+                      <p>When data is scattered, you lose the ability to make informed decisions in real time.</p>
+                    </div>
+                    <div class="accordion-drawer-item__bullet">
+                      <h4>🔄 Compliance Overhead</h4>
+                      <p>Keeping up with changing regulations without a structured system adds unnecessary administrative burden.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: The Finsouls Engine -->
+        <div class="accordion-drawer-item">
+          <button class="accordion-drawer-item__header" type="button" aria-expanded="false">
+            <div class="accordion-drawer-item__text">
+              <span class="accordion-drawer-item__number">
+                <span class="accordion-drawer-item__digit" style="--digit-index:0">
+                  <span class="accordion-drawer-item__digit-default">0</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">0</span>
+                </span>
+                <span class="accordion-drawer-item__digit" style="--digit-index:1">
+                  <span class="accordion-drawer-item__digit-default">2</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">2</span>
+                </span>
+              </span>
+              <span class="accordion-drawer-item__title">The Finsouls Engine</span>
+            </div>
+            <span class="accordion-drawer-item__icon">
+              <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L20 18L36 6" stroke="#c9a04a" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-drawer-item__content">
+            <div class="accordion-drawer-item__content-inner">
+              <div class="vectr-engine">
+                <div class="vectr-engine__content">
+                  <div class="vectr-engine__content_wrapper">
+                    <div class="vectr-engine__text">
+                      <h3 class="vectr-engine__title">Precision through automation &amp; expertise</h3>
+                      <div class="vectr-engine__body">
+                        <p>We replace manual friction with structured processes and deep financial expertise. Our team combines technology and human insight to deliver clarity and control.</p>
+                        <p>By leveraging modern tools and a client-first approach, we help you focus on what matters: growing your business.</p>
+                      </div>
+                    </div>
+                    <div class="vectr-engine__features">
+                      <article class="vectr-engine__feature">
+                        <h4 class="vectr-engine__feature-title">📊 Real‑time Reporting</h4>
+                        <p class="vectr-engine__feature-desc">Get a clear view of your financial health with dashboards and reports that update automatically.</p>
+                      </article>
+                      <article class="vectr-engine__feature">
+                        <h4 class="vectr-engine__feature-title">🧾 Compliance Automation</h4>
+                        <p class="vectr-engine__feature-desc">Stay ahead of VAT, payroll, and regulatory requirements with automated checks and filings.</p>
+                      </article>
+                      <article class="vectr-engine__feature">
+                        <h4 class="vectr-engine__feature-title">📈 Strategic Advisory</h4>
+                        <p class="vectr-engine__feature-desc">Our experts provide actionable insights to optimize your tax position and business performance.</p>
+                      </article>
+                    </div>
+                  </div>
+                  <div class="section-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop&crop=center&auto=format" alt="Data analytics dashboard" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: The Outcome -->
+        <div class="accordion-drawer-item">
+          <button class="accordion-drawer-item__header" type="button" aria-expanded="false">
+            <div class="accordion-drawer-item__text">
+              <span class="accordion-drawer-item__number">
+                <span class="accordion-drawer-item__digit" style="--digit-index:0">
+                  <span class="accordion-drawer-item__digit-default">0</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">0</span>
+                </span>
+                <span class="accordion-drawer-item__digit" style="--digit-index:1">
+                  <span class="accordion-drawer-item__digit-default">3</span>
+                  <span class="accordion-drawer-item__digit-hover" aria-hidden="true">3</span>
+                </span>
+              </span>
+              <span class="accordion-drawer-item__title">The Outcome</span>
+            </div>
+            <span class="accordion-drawer-item__icon">
+              <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L20 18L36 6" stroke="#c9a04a" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-drawer-item__content">
+            <div class="accordion-drawer-item__content-inner">
+              <section class="outcome">
+                <div class="section-image">
+                  <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop&crop=center&auto=format" alt="Business team collaborating" loading="lazy" />
+                </div>
+                <div class="outcome__content">
+                  <div class="outcome__header">
+                    <h3 class="outcome__title">Engineered for growth</h3>
+                    <p class="outcome__subtitle">When you work with Finsouls, you invest in operational continuity and strategic clarity.</p>
+                  </div>
+                  <div class="outcome__items">
+                    <div class="outcome-item">
+                      <span class="outcome-item__number">01</span>
+                      <div>
+                        <h4 class="outcome-item__title">Protect your margins</h4>
+                        <p class="outcome-item__description">We eliminate inefficiencies that drain resources. You pay for value, not overhead.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item">
+                      <span class="outcome-item__number">02</span>
+                      <div>
+                        <h4 class="outcome-item__title">Accelerate decision‑making</h4>
+                        <p class="outcome-item__description">With clear data and expert guidance, you can pivot quickly and seize opportunities.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item">
+                      <span class="outcome-item__number">03</span>
+                      <div>
+                        <h4 class="outcome-item__title">Sustain compliance</h4>
+                        <p class="outcome-item__description">Our proactive approach keeps you ahead of regulatory changes, reducing risk and stress.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2 class="reveal">Looking for a first‑class <em>business plan consultant</em>?</h2>
+      <a href="#" class="btn-gold reveal">Get a Quote</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="grid">
+        <div class="left">
+          <div class="logo-text">FINSOULS</div>
+          <div class="address">
+            <p id="footerAddress1">Business Bay, Dubai, UAE</p>
+            <p><strong id="footerPhone">+971 52 449 4542</strong></p>
+            <p><a href="mailto:info@finsouls.com" id="footerEmail" style="color:var(--primary);">info@finsouls.com</a></p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+          <div class="footer-links">
+            <a href="#">Contacts &amp; Offices</a>
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Cookies Policy</a>
+            <a href="#">Privacy notices</a>
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© 2026 FINSOULS | Planning &amp; Guidance. All Rights Reserved.</span>
+        <span>FINSOULS</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      // HEADER SCROLL
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', function(){
+        if (window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+
+      // MOBILE MENU
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+      navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+      // REVEAL ON SCROLL
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(el => io.observe(el));
+
+      // REGION SELECTOR
+      function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
+        const selector = document.getElementById(selectorId);
+        if (!selector) return;
+        const selected = document.getElementById(selectedId);
+        const dropdown = document.getElementById(dropdownId);
+        const arrow = document.getElementById(arrowId);
+        const items = dropdown.querySelectorAll('.dropdown-item');
+
+        selected.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+          if (arrow) arrow.classList.toggle('open');
+        });
+
+        items.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const flag = this.dataset.flag;
+            const label = this.dataset.label;
+            selected.innerHTML = `
+              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+              <span>${label}</span>
+              <span class="arrow-down" id="${arrowId}">▾</span>
+            `;
+            document.getElementById(arrowId).classList.remove('open');
+            dropdown.classList.remove('open');
+            items.forEach(d => d.style.background = 'transparent');
+            this.style.background = 'rgba(201,160,74,0.15)';
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!selector.contains(e.target)) {
+            dropdown.classList.remove('open');
+            const arrowEl = document.getElementById(arrowId);
+            if (arrowEl) arrowEl.classList.remove('open');
+          }
+        });
+        dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+      }
+
+      setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
+      setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+
+      // ===== ACCORDION DRAWER (enhanced) =====
+      const drawerItems = document.querySelectorAll('.accordion-drawer-item');
+      function closeAllExcept(exceptItem) {
+        drawerItems.forEach(item => {
+          if (item !== exceptItem) {
+            const btn = item.querySelector('.accordion-drawer-item__header');
+            const content = item.querySelector('.accordion-drawer-item__content');
+            item.classList.remove('accordion-drawer-item--open');
+            if (content) content.style.maxHeight = '0px';
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      function toggleItem(header) {
+        const item = header.closest('.accordion-drawer-item');
+        if (!item) return;
+        const content = item.querySelector('.accordion-drawer-item__content');
+        const isOpen = item.classList.contains('accordion-drawer-item--open');
+
+        if (isOpen) {
+          item.classList.remove('accordion-drawer-item--open');
+          if (content) content.style.maxHeight = '0px';
+          header.setAttribute('aria-expanded', 'false');
+        } else {
+          closeAllExcept(item);
+          item.classList.add('accordion-drawer-item--open');
+          if (content) {
+            content.style.maxHeight = 'none';
+            const h = content.scrollHeight;
+            content.style.maxHeight = h + 'px';
+          }
+          header.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      document.querySelectorAll('.accordion-drawer-item__header').forEach(header => {
+        header.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleItem(this);
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        document.querySelectorAll('.accordion-drawer-item--open').forEach(item => {
+          const content = item.querySelector('.accordion-drawer-item__content');
+          if (content) {
+            content.style.maxHeight = 'none';
+            const h = content.scrollHeight;
+            content.style.maxHeight = h + 'px';
+          }
+        });
+      });
+
+      // ===== CANVAS (hero) =====
+      const START_FRAME = 61;
+      const END_FRAME = 130;
+      const FRAME_COUNT = END_FRAME - START_FRAME + 1;
+      const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const loadingBar = document.getElementById('loading-bar');
+      const wrapper = document.getElementById('heroCanvasWrapper');
+
+      const images = new Array(FRAME_COUNT);
+      let loadedCount = 0;
+      let framesReady = false;
+
+      function preloadImages(onDone) {
+        for (let i = 0; i < FRAME_COUNT; i++) {
+          const img = new Image();
+          const frameNumber = START_FRAME + i;
+          img.src = FRAME_PATH(frameNumber);
+          img.onload = img.onerror = () => {
+            loadedCount++;
+            loadingBar.style.width = `${(loadedCount / FRAME_COUNT) * 100}%`;
+            if (loadedCount === FRAME_COUNT) onDone();
+          };
+          images[i] = img;
+        }
+      }
+
+      function resizeCanvas() {
+        const rect = wrapper.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      let currentFrame = -1;
+      function drawFrame(index) {
+        index = Math.max(0, Math.min(FRAME_COUNT - 1, index));
+        if (index === currentFrame) return;
+        currentFrame = index;
+        const img = images[index];
+        if (!img || !img.complete || !img.naturalWidth) return;
+        const cw = canvas.width / (window.devicePixelRatio || 1);
+        const ch = canvas.height / (window.devicePixelRatio || 1);
+        const ir = img.naturalWidth / img.naturalHeight;
+        const cr = cw / ch;
+        let dw, dh, dx, dy;
+        if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
+        else         { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      let heroProgress = 0;
+      let targetHeroProgress = 0;
+      const FRAME_INTERVAL = 0.0162;
+      let lastFrameTime = 0;
+      let animationId = null;
+
+      function updateHeroFrame() {
+        if (!framesReady) return;
+        const diff = targetHeroProgress - heroProgress;
+        if (Math.abs(diff) < 0.0005) {
+          heroProgress = targetHeroProgress;
+        } else {
+          const step = Math.sign(diff) * Math.min(Math.abs(diff), FRAME_INTERVAL * 60 * 0.008);
+          heroProgress += step;
+          heroProgress = Math.max(0, Math.min(1, heroProgress));
+        }
+        const frameIndex = Math.round(heroProgress * (FRAME_COUNT - 1));
+        drawFrame(frameIndex);
+      }
+
+      function animationLoop(timestamp) {
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        const delta = (timestamp - lastFrameTime) / 1000;
+        if (delta >= FRAME_INTERVAL) {
+          updateHeroFrame();
+          lastFrameTime = timestamp;
+        }
+        animationId = requestAnimationFrame(animationLoop);
+      }
+
+      function updateHeroProgressByScroll() {
+        const heroSlide = document.getElementById('heroSlide');
+        const aboutSection = document.getElementById('aboutSection');
+        if (!heroSlide || !aboutSection) return;
+        const heroRect = heroSlide.getBoundingClientRect();
+        const aboutRect = aboutSection.getBoundingClientRect();
+        const heroTop = heroRect.top;
+        const aboutTop = aboutRect.top;
+        const totalDist = aboutTop - heroTop;
+        if (totalDist <= 0) {
+          targetHeroProgress = 1;
+          return;
+        }
+        const scrolled = -heroTop;
+        let progress = Math.max(0, Math.min(1, scrolled / totalDist));
+        targetHeroProgress = progress;
+      }
+
+      window.addEventListener('load', function() {
+        resizeCanvas();
+        preloadImages(() => {
+          loadingBar.style.display = 'none';
+          framesReady = true;
+          drawFrame(0);
+          lastFrameTime = 0;
+          if (animationId) cancelAnimationFrame(animationId);
+          animationLoop(performance.now());
+          updateHeroProgressByScroll();
+        });
+        setTimeout(resizeCanvas, 100);
+      });
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('scroll', updateHeroProgressByScroll);
+    })();
+  </script>
+</body>
+</html>
