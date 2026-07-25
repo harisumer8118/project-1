@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>Insights &amp; Blog — FINSOULS</title>
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-32x32.png" sizes="32x32" />
+  <link rel="icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-192x192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="https://finsouls.com/wp-content/uploads/2022/07/cropped-finsoul-icon-180x180.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --primary:#c9a04a;
+      --primary-dark:#a8852a;
+      --dark:#121111;
+      --text:#fcfbfa;
+      --white:#fcfbfa;
+      --black:#121111;
+      --shadow:0 10px 25px rgba(0,0,0,0.4);
+      --slide-ease:cubic-bezier(0.25,0.46,0.45,0.94);
+      --color-border-dark:rgba(255,255,255,0.08);
+      --muted:rgba(252,251,250,0.62);
+      --muted-2:rgba(252,251,250,0.4);
+      --line:rgba(255,255,255,0.08);
+    }
+    html { font-size:62.5%; scroll-behavior:smooth; }
+    body { font-family:'Inter',Arial,sans-serif; font-size:1.6rem; line-height:1.7; color:var(--text); background:var(--dark); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; }
+    ul { list-style:none; padding:0; margin:0; }
+    img { max-width:100%; display:block; height:auto; }
+    h1,h2,h3,h4,h5,h6 { font-weight:300; color:var(--white); line-height:1.2; }
+    .btn { display:inline-block; padding:1.2rem 2.8rem; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.25); color:var(--white); font-size:clamp(1.2rem,1.4vw,1.4rem); font-weight:600; text-transform:uppercase; letter-spacing:0.075em; border-radius:8px; cursor:pointer; transition:all 0.3s ease; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .btn-arrow { display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem; color:var(--white); font-weight:500; transition:all 0.3s ease; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border-radius:30px; border:1px solid rgba(201,160,74,0.25); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn-arrow::after { content:"→"; font-size:1.8rem; transition:all 0.3s ease; }
+    .btn-arrow:hover { gap:1.2rem; background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; transform:scale(1.03); }
+    .btn-arrow-white { color:var(--white); }
+    .btn-arrow-white:hover { color:#121111; }
+    .btn-arrow-white:hover::after { color:#121111; }
+    .pill-btn { display:inline-flex; align-items:center; justify-content:center; background:rgba(201,160,74,0.15); backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); border-radius:60px; padding:0.8rem 2.4rem; transition:all 0.3s ease; font-weight:500; font-size:1.6rem; color:var(--text); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .pill-btn:hover { background:rgba(201,160,74,0.95); border-color:rgba(201,160,74,0.9); box-shadow:0 0 30px rgba(201,160,74,0.5); transform:scale(1.03); color:#121111; }
+    .container { max-width:1240px; margin:0 auto; padding:0 3rem; width:100%; }
+    @media (max-width:768px){ .container{padding:0 2rem;} }
+
+    /* ----- HEADER (same) ----- */
+    .header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; transition:background 0.4s ease, box-shadow 0.3s ease; }
+    .header.scrolled { background:var(--dark) !important; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
+    .header-main { display:flex; justify-content:space-between; align-items:center; padding:0.8rem 2rem; max-width:1200px; margin:0 auto; }
+    .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; transition:color 0.3s ease; }
+    .logo-text span { color:var(--primary); }
+    .header.scrolled .logo-text { color:var(--white); }
+    .header.scrolled .logo-text span { color:var(--primary); }
+    .nav-menu { display:flex; align-items:center; gap:clamp(1.2rem,2.5vw,2.4rem); }
+    .nav-menu a { font-size:clamp(1.2rem,1.3vw,1.4rem); font-weight:500; color:var(--white); transition:color 0.25s ease, border-color 0.25s ease; padding:0.4rem 0; border-bottom:2px solid transparent; white-space:nowrap; }
+    .nav-menu a:hover, .nav-menu a.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .nav-menu .btn { padding:0.6rem 1.6rem; font-size:clamp(1rem,1.2vw,1.2rem); background:rgba(201,160,74,0.15); color:var(--white); white-space:nowrap; backdrop-filter:blur(8px); border:1px solid rgba(201,160,74,0.2); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .nav-menu .btn:hover { background:rgba(201,160,74,0.95); box-shadow:0 0 30px rgba(201,160,74,0.5); color:#121111; border-color:rgba(201,160,74,0.9); }
+    .hamburger { display:none; flex-direction:column; gap:0.4rem; cursor:pointer; padding:0.4rem; background:none; border:none; }
+    .hamburger span { display:block; width:2.8rem; height:2px; background:var(--white); transition:all 0.3s ease; }
+    .region-selector { position:relative; display:inline-block; cursor:pointer; }
+    .region-selector .selected-region { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 1rem 0.4rem 0.6rem; border-radius:30px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); transition:background 0.2s, border-color 0.2s; font-size:clamp(1.1rem,1.2vw,1.3rem); font-weight:500; color:var(--white); line-height:1.4; }
+    .region-selector .selected-region:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
+    .region-selector .selected-region .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .region-selector .selected-region .arrow-down { font-size:1.2rem; opacity:0.6; transition:transform 0.25s ease; margin-left:0.2rem; }
+    .region-selector .selected-region .arrow-down.open { transform:rotate(180deg); }
+    .region-selector .dropdown-list { position:absolute; top:calc(100% + 8px); right:0; min-width:180px; background:rgba(18,17,17,0.96); border:1px solid rgba(255,255,255,0.08); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.6); padding:0.6rem 0; opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; z-index:1200; backdrop-filter:blur(8px); }
+    .region-selector .dropdown-list.open { opacity:1; visibility:visible; transform:translateY(0); }
+    .region-selector .dropdown-item { display:flex; align-items:center; gap:0.8rem; padding:0.7rem 1.4rem; color:var(--white); font-size:clamp(1.2rem,1.3vw,1.4rem); transition:background 0.15s; cursor:pointer; border:none; background:transparent; width:100%; text-align:left; font-family:inherit; }
+    .region-selector .dropdown-item:hover { background:rgba(201,160,74,0.15); color:var(--primary); }
+    .region-selector .dropdown-item .flag-icon img { width:20px; height:15px; object-fit:contain; border-radius:2px; }
+    .mobile-right-group { display:flex; align-items:center; gap:1.2rem; }
+    @media (max-width:1024px) {
+      .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--dark); padding:2rem; box-shadow:var(--shadow); gap:1.2rem; border-top:1px solid rgba(255,255,255,0.05); align-items:stretch; }
+      .nav-menu.open { display:flex; }
+      .hamburger { display:flex; }
+      .nav-menu a { color:var(--white) !important; white-space:normal; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.1); }
+      .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; }
+      .nav-menu .btn { width:100%; text-align:center; }
+      .nav-menu .region-selector { display:none !important; }
+      .header-main .region-selector { display:inline-block; }
+    }
+    @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
+
+    /* ----- FOOTER ----- */
+    .footer { padding:clamp(2rem,5vh,5rem) 0; background:#000; color:rgba(255,255,255,0.8); border-top:1px solid var(--line); position:relative; z-index:10; }
+    .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
+    .footer .logo-text { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:700; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
+    .footer .logo-text span { color:var(--primary); }
+    .footer .address p { font-size:clamp(1.2rem,1.4vw,1.4rem); margin-bottom:0.4rem; color:rgba(255,255,255,0.8); }
+    .footer .address a { color:var(--primary); }
+    .footer .right { display:flex; flex-direction:column; align-items:flex-end; gap:2rem; }
+    .footer .social-links { display:flex; gap:1.2rem; }
+    .footer .social-links a { font-size:clamp(1.8rem,2.2vw,2.2rem); padding:0.4rem; transition:all 0.3s ease; color:rgba(255,255,255,0.7); }
+    .footer .social-links a:hover { color:var(--primary); }
+    .footer .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem 2.5rem; font-size:clamp(1rem,1.2vw,1.2rem); }
+    .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
+    .footer .footer-links a:hover { color:var(--white); }
+    .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
+    @media (max-width:768px) {
+      .footer .grid { grid-template-columns:1fr; gap:2rem; }
+      .footer .right { align-items:flex-start; }
+      .footer .footer-links { justify-content:flex-start; }
+      .footer .bottom { flex-direction:column; align-items:flex-start; }
+    }
+
+    .eyebrow{font-size:1.2rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--primary); font-weight:600; display:flex; align-items:center; gap:1rem;}
+    .eyebrow::before{content:''; width:28px; height:1px; background:var(--primary);}
+    .btn-gold{ display:inline-flex; align-items:center; gap:0.9rem; padding:1.2rem 2.6rem; background:rgba(201,160,74,0.12); border:1px solid rgba(201,160,74,0.35); color:var(--text); font-size:1.3rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; border-radius:10px; cursor:pointer; transition:all 0.35s var(--slide-ease); }
+    .btn-gold::after{ content:'→'; font-size:1.6rem; transition:transform 0.35s var(--slide-ease); }
+    .btn-gold:hover{ background:var(--primary); border-color:var(--primary); color:var(--dark); box-shadow:0 0 30px rgba(201,160,74,0.35); }
+    .btn-gold:hover::after{ transform:translateX(4px); }
+    .btn-ghost{ display:inline-flex; align-items:center; gap:0.8rem; font-size:1.3rem; font-weight:600; letter-spacing:0.04em; color:var(--text); border-bottom:1px solid var(--line); padding-bottom:0.4rem; transition:all 0.3s ease; }
+    .btn-ghost::after{ content:'→'; transition:transform 0.3s ease; }
+    .btn-ghost:hover{ color:var(--primary); border-color:var(--primary); }
+    .btn-ghost:hover::after{ transform:translateX(4px); }
+
+    /* ===== CANVAS BACKGROUND ===== */
+    .hero-canvas-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero-canvas-wrapper canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ===== HERO (identical) ===== */
+    .hero-slide {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      overflow: hidden;
+    }
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+      padding: 10rem 3rem 3rem 3rem;
+      bottom: 0;
+      align-items: flex-start;
+    }
+    .hero-overlay h1 { 
+      font-weight:300; 
+      font-size:clamp(2.8rem,8vw,5.6rem); 
+      max-width:65%; 
+    }
+    .hero-overlay h1 strong { 
+      font-weight:700; 
+      color:var(--primary); 
+    }
+    .hero-overlay p { 
+      font-size:clamp(1.6rem,2vw,2rem); 
+      opacity:0.9; 
+      max-width:600px; 
+      color:#fff; 
+      margin-left: auto;
+    }
+    .hero-overlay-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ===== BLOG / INSIGHTS CONTENT ===== */
+    .insights-section {
+      padding: 6rem 0 8rem;
+      background: #0a0a0a;
+    }
+    .insights-header {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+    .insights-header h2 {
+      font-size: clamp(2.8rem,4vw,4.2rem);
+      font-weight: 300;
+    }
+    .insights-header h2 span { color: var(--primary); }
+    .insights-header p {
+      color: var(--muted);
+      max-width: 640px;
+      margin: 1.2rem auto 0;
+      font-size: 1.6rem;
+    }
+
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.2rem;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+    .filter-tab {
+      padding: 0.6rem 2rem;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.3rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .filter-tab:hover { border-color: var(--primary); color: var(--white); }
+    .filter-tab.active { background: rgba(201,160,74,0.15); border-color: var(--primary); color: var(--primary); }
+
+    /* Blog grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 3rem;
+    }
+    .blog-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      transition: all 0.4s var(--slide-ease);
+      transform: translateY(0);
+    }
+    .blog-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(201,160,74,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .blog-card__image {
+      height: 220px;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .blog-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--slide-ease);
+    }
+    .blog-card:hover .blog-card__image img {
+      transform: scale(1.05);
+    }
+    .blog-card__content {
+      padding: 2.4rem 2.4rem 2.8rem;
+    }
+    .blog-card__meta {
+      display: flex;
+      gap: 1.6rem;
+      font-size: 1.2rem;
+      color: var(--muted-2);
+      margin-bottom: 1rem;
+    }
+    .blog-card__meta .category {
+      color: var(--primary);
+      font-weight: 500;
+    }
+    .blog-card__title {
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+      transition: color 0.3s;
+    }
+    .blog-card:hover .blog-card__title { color: var(--primary); }
+    .blog-card__excerpt {
+      color: var(--muted);
+      font-size: 1.4rem;
+      line-height: 1.6;
+      margin-bottom: 1.6rem;
+    }
+    .blog-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 1.3rem;
+      transition: gap 0.3s;
+    }
+    .blog-card__link::after { content: '→'; transition: transform 0.3s; }
+    .blog-card__link:hover { gap: 1rem; }
+    .blog-card__link:hover::after { transform: translateX(4px); }
+
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: rgba(255,255,255,0.05);
+    }
+    .blog-card.featured .blog-card__image { height: 100%; min-height: 320px; }
+    .blog-card.featured .blog-card__content { padding: 3.2rem; display: flex; flex-direction: column; justify-content: center; }
+    .blog-card.featured .blog-card__title { font-size: 2.6rem; }
+    @media (max-width:768px) {
+      .blog-card.featured { grid-template-columns: 1fr; }
+      .blog-card.featured .blog-card__image { height: 220px; min-height: auto; }
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+
+    /* CTA */
+    .cta{ 
+      position:relative;
+      z-index:1;
+      padding:8rem 0; 
+      text-align:center; 
+      background:#0a0a0a; 
+      border-top:1px solid var(--line);
+    }
+    .cta h2{ font-size:clamp(2.6rem,4vw,4.2rem); max-width:700px; margin:0 auto 2.8rem; }
+    .cta h2 em{ color:var(--primary); font-style:italic; font-weight:300; }
+
+    .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
+    .reveal.in{ opacity:1; transform:translateY(0); }
+    @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
+    .loading-bar {
+      position:fixed;
+      bottom:0;
+      left:0;
+      height:4px;
+      background:var(--primary);
+      z-index:10;
+      transition:width 0.15s ease-out;
+      width:0%;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADING BAR -->
+  <div class="loading-bar" id="loading-bar"></div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
+      <a href="#" class="logo">
+        <span class="logo-text">FINSOULS</span>
+      </a>
+      <div class="mobile-right-group">
+        <div class="region-selector" id="regionSelectorMobile">
+          <div class="selected-region" id="selectedRegionMobile">
+            <span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowMobile">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownMobile">
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/un.png" data-label="Global"><span class="flag-icon"><img src="https://flagcdn.com/w40/un.png" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="nav-menu" id="navMenu">
+        <a href="https://harisumer.me/project-1/">Home</a>
+        <a href="#">About us</a>
+        <a href="/project-1/finsouls-services">Services</a>
+        <a href="#" class="active">Insights</a>
+        <a href="/project-1/contact">Contact</a>
+        <div class="region-selector" id="regionSelectorDesktop">
+          <div class="selected-region" id="selectedRegionDesktop">
+            <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowDesktop">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownDesktop">
+            <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+          </div>
+        </div>
+        <a href="#" class="btn">Book a Consultant</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SLIDE with canvas background -->
+  <section class="hero-slide" id="heroSlide">
+    <div class="hero-canvas-wrapper" id="heroCanvasWrapper">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-overlay-bg"></div>
+    </div>
+    <div class="hero-overlay">
+      <h1>Insights &amp; <strong>Blog</strong></h1>
+      <p>Expert perspectives on accounting, VAT, and financial strategy — curated for business leaders.</p>
+    </div>
+  </section>
+
+  <!-- INSIGHTS / BLOG CONTENT -->
+  <section class="insights-section" id="insightsSection">
+    <div class="container">
+      <div class="insights-header reveal">
+        <h2>Latest <span>insights</span></h2>
+        <p>Stay ahead with our latest articles, guides, and thought leadership on finance and accounting.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs reveal">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="vat">VAT &amp; Tax</button>
+        <button class="filter-tab" data-filter="accounting">Accounting</button>
+        <button class="filter-tab" data-filter="strategy">Strategy</button>
+        <button class="filter-tab" data-filter="compliance">Compliance</button>
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="blog-grid" id="blogGrid">
+        <!-- Featured Post -->
+        <article class="blog-card featured reveal" data-category="strategy">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center&auto=format" alt="Financial strategy" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">Strategy</span>
+              <span>12 May 2026</span>
+              <span>6 min read</span>
+            </div>
+            <h3 class="blog-card__title">How to build a resilient financial strategy in 2026</h3>
+            <p class="blog-card__excerpt">Discover the key pillars of a modern financial strategy that adapts to market volatility and regulatory changes.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+
+        <!-- Regular Posts -->
+        <article class="blog-card reveal" data-category="vat">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&crop=center&auto=format" alt="VAT" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">VAT &amp; Tax</span>
+              <span>28 Apr 2026</span>
+              <span>4 min read</span>
+            </div>
+            <h3 class="blog-card__title">UAE VAT: What businesses need to know for Q2 2026</h3>
+            <p class="blog-card__excerpt">Stay compliant with the latest VAT regulations in the UAE. Key updates and filing deadlines explained.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal" data-category="accounting">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=400&fit=crop&crop=center&auto=format" alt="Accounting" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">Accounting</span>
+              <span>15 Apr 2026</span>
+              <span>5 min read</span>
+            </div>
+            <h3 class="blog-card__title">Automating bookkeeping: Tools that save time and money</h3>
+            <p class="blog-card__excerpt">Explore the best automation tools for bookkeeping and how they can transform your accounting workflows.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal" data-category="compliance">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop&crop=center&auto=format" alt="Compliance" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">Compliance</span>
+              <span>3 Apr 2026</span>
+              <span>3 min read</span>
+            </div>
+            <h3 class="blog-card__title">Anti-money laundering regulations: A guide for SMEs</h3>
+            <p class="blog-card__excerpt">Understand AML compliance requirements and how to implement effective controls in your business.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal" data-category="strategy">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=400&fit=crop&crop=center&auto=format" alt="Business strategy" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">Strategy</span>
+              <span>20 Mar 2026</span>
+              <span>7 min read</span>
+            </div>
+            <h3 class="blog-card__title">Financial forecasting for startups: A practical approach</h3>
+            <p class="blog-card__excerpt">Learn how to build realistic financial forecasts that help your startup attract investors and plan for growth.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal" data-category="vat">
+          <div class="blog-card__image">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&crop=center&auto=format" alt="Tax planning" loading="lazy" />
+          </div>
+          <div class="blog-card__content">
+            <div class="blog-card__meta">
+              <span class="category">VAT &amp; Tax</span>
+              <span>5 Mar 2026</span>
+              <span>4 min read</span>
+            </div>
+            <h3 class="blog-card__title">Corporate tax in the UAE: What you need to know</h3>
+            <p class="blog-card__excerpt">A comprehensive overview of the new corporate tax regime in the UAE and how it impacts your business.</p>
+            <a href="#" class="blog-card__link">Read more</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="container">
+      <h2 class="reveal">Stay updated with our <em>latest insights</em></h2>
+      <a href="#" class="btn-gold reveal">Subscribe to Newsletter</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="grid">
+        <div class="left">
+          <div class="logo-text">FINSOULS</div>
+          <div class="address">
+            <p id="footerAddress1">Business Bay, Dubai, UAE</p>
+            <p><strong id="footerPhone">+971 52 449 4542</strong></p>
+            <p><a href="mailto:info@finsouls.com" id="footerEmail" style="color:var(--primary);">info@finsouls.com</a></p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+          <div class="footer-links">
+            <a href="#">Contacts &amp; Offices</a>
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Cookies Policy</a>
+            <a href="#">Privacy notices</a>
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© 2026 FINSOULS | Planning &amp; Guidance. All Rights Reserved.</span>
+        <span>FINSOULS</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      // HEADER SCROLL
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', function(){
+        if (window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+
+      // MOBILE MENU
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+      navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+      // REVEAL ON SCROLL
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(el => io.observe(el));
+
+      // REGION SELECTOR
+      function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
+        const selector = document.getElementById(selectorId);
+        if (!selector) return;
+        const selected = document.getElementById(selectedId);
+        const dropdown = document.getElementById(dropdownId);
+        const arrow = document.getElementById(arrowId);
+        const items = dropdown.querySelectorAll('.dropdown-item');
+
+        selected.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+          if (arrow) arrow.classList.toggle('open');
+        });
+
+        items.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const flag = this.dataset.flag;
+            const label = this.dataset.label;
+            selected.innerHTML = `
+              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
+              <span>${label}</span>
+              <span class="arrow-down" id="${arrowId}">▾</span>
+            `;
+            document.getElementById(arrowId).classList.remove('open');
+            dropdown.classList.remove('open');
+            items.forEach(d => d.style.background = 'transparent');
+            this.style.background = 'rgba(201,160,74,0.15)';
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!selector.contains(e.target)) {
+            dropdown.classList.remove('open');
+            const arrowEl = document.getElementById(arrowId);
+            if (arrowEl) arrowEl.classList.remove('open');
+          }
+        });
+        dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+      }
+
+      setupRegionSelector('regionSelectorMobile', 'selectedRegionMobile', 'regionDropdownMobile', 'regionArrowMobile');
+      setupRegionSelector('regionSelectorDesktop', 'selectedRegionDesktop', 'regionDropdownDesktop', 'regionArrowDesktop');
+
+      // ===== CANVAS (hero) =====
+      const START_FRAME = 61;
+      const END_FRAME = 130;
+      const FRAME_COUNT = END_FRAME - START_FRAME + 1;
+      const FRAME_PATH = i => `https://jovial-rugelach-ab3d08.netlify.app/frame_${String(i).padStart(4, '0')}.jpg`;
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const loadingBar = document.getElementById('loading-bar');
+      const wrapper = document.getElementById('heroCanvasWrapper');
+
+      const images = new Array(FRAME_COUNT);
+      let loadedCount = 0;
+      let framesReady = false;
+
+      function preloadImages(onDone) {
+        for (let i = 0; i < FRAME_COUNT; i++) {
+          const img = new Image();
+          const frameNumber = START_FRAME + i;
+          img.src = FRAME_PATH(frameNumber);
+          img.onload = img.onerror = () => {
+            loadedCount++;
+            loadingBar.style.width = `${(loadedCount / FRAME_COUNT) * 100}%`;
+            if (loadedCount === FRAME_COUNT) onDone();
+          };
+          images[i] = img;
+        }
+      }
+
+      function resizeCanvas() {
+        const rect = wrapper.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      let currentFrame = -1;
+      function drawFrame(index) {
+        index = Math.max(0, Math.min(FRAME_COUNT - 1, index));
+        if (index === currentFrame) return;
+        currentFrame = index;
+        const img = images[index];
+        if (!img || !img.complete || !img.naturalWidth) return;
+        const cw = canvas.width / (window.devicePixelRatio || 1);
+        const ch = canvas.height / (window.devicePixelRatio || 1);
+        const ir = img.naturalWidth / img.naturalHeight;
+        const cr = cw / ch;
+        let dw, dh, dx, dy;
+        if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
+        else         { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      let heroProgress = 0;
+      let targetHeroProgress = 0;
+      const FRAME_INTERVAL = 0.0162;
+      let lastFrameTime = 0;
+      let animationId = null;
+
+      function updateHeroFrame() {
+        if (!framesReady) return;
+        const diff = targetHeroProgress - heroProgress;
+        if (Math.abs(diff) < 0.0005) {
+          heroProgress = targetHeroProgress;
+        } else {
+          const step = Math.sign(diff) * Math.min(Math.abs(diff), FRAME_INTERVAL * 60 * 0.008);
+          heroProgress += step;
+          heroProgress = Math.max(0, Math.min(1, heroProgress));
+        }
+        const frameIndex = Math.round(heroProgress * (FRAME_COUNT - 1));
+        drawFrame(frameIndex);
+      }
+
+      function animationLoop(timestamp) {
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        const delta = (timestamp - lastFrameTime) / 1000;
+        if (delta >= FRAME_INTERVAL) {
+          updateHeroFrame();
+          lastFrameTime = timestamp;
+        }
+        animationId = requestAnimationFrame(animationLoop);
+      }
+
+      function updateHeroProgressByScroll() {
+        const heroSlide = document.getElementById('heroSlide');
+        const insightsSection = document.getElementById('insightsSection');
+        if (!heroSlide || !insightsSection) return;
+        const heroRect = heroSlide.getBoundingClientRect();
+        const aboutRect = insightsSection.getBoundingClientRect();
+        const heroTop = heroRect.top;
+        const aboutTop = aboutRect.top;
+        const totalDist = aboutTop - heroTop;
+        if (totalDist <= 0) {
+          targetHeroProgress = 1;
+          return;
+        }
+        const scrolled = -heroTop;
+        let progress = Math.max(0, Math.min(1, scrolled / totalDist));
+        targetHeroProgress = progress;
+      }
+
+      window.addEventListener('load', function() {
+        resizeCanvas();
+        preloadImages(() => {
+          loadingBar.style.display = 'none';
+          framesReady = true;
+          drawFrame(0);
+          lastFrameTime = 0;
+          if (animationId) cancelAnimationFrame(animationId);
+          animationLoop(performance.now());
+          updateHeroProgressByScroll();
+        });
+        setTimeout(resizeCanvas, 100);
+      });
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('scroll', updateHeroProgressByScroll);
+
+      // ===== FILTER TABS =====
+      const tabs = document.querySelectorAll('.filter-tab');
+      const cards = document.querySelectorAll('.blog-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          const filter = this.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
