@@ -134,15 +134,14 @@
       object-fit: cover;
     }
 
-    /* ===== HERO ===== */
+    /* ===== HERO (same as about) ===== */
     .hero-slide {
       position: relative;
       z-index: 1;
       min-height: 100vh;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       padding: 0;
-      background: transparent;
       overflow: hidden;
     }
     .hero-overlay {
@@ -155,16 +154,37 @@
       gap: 12px;
       pointer-events: none;
       color: #fff;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
       padding: 10rem 3rem 3rem 3rem;
       bottom: 0;
       align-items: flex-start;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%);
     }
-    .hero-overlay h1 { font-weight:300; font-size:clamp(2.8rem,8vw,5.6rem); max-width:65%; }
-    .hero-overlay h1 strong { font-weight:700; color:var(--primary); }
-    .hero-overlay p { font-size:clamp(1.6rem,2vw,2rem); opacity:0.9; max-width:600px; color:#fff; margin-left: auto;}
-    .hero-overlay .btn-arrow { pointer-events:auto; }
+    .hero-overlay h1 { 
+      font-weight:300; 
+      font-size:clamp(2.8rem,8vw,5.6rem); 
+      max-width:65%; 
+    }
+    .hero-overlay h1 strong { 
+      font-weight:700; 
+      color:var(--primary); 
+    }
+    .hero-overlay p { 
+      font-size:clamp(1.6rem,2vw,2rem); 
+      opacity:0.9; 
+      max-width:600px; 
+      color:#fff; 
+      margin-left: auto;
+    }
+    .hero-overlay-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+      pointer-events: none;
+    }
 
     /* ===== INTRO ===== */
     .intro{ 
@@ -183,7 +203,7 @@
     .intro-stats .stat .lbl{ font-size:1.2rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
     @media (max-width:900px){ .intro .grid{ grid-template-columns:1fr; gap:4rem; } .intro-stats{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:3rem; } }
 
-    /* ===== NEW STICKY STACK SERVICES ===== */
+    /* ===== STICKY STACK SERVICES ===== */
     .services-stack-wrap {
       position:relative;
       z-index:1;
@@ -204,7 +224,7 @@
       .services-title { font-size: 28px; padding: 40px 16px 12px; }
     }
 
-    /* STICKY STACK — each item acts as a viewport‑height container */
+    /* STICKY STACK — each item is fixed, and only the right column scrolls */
     .sticky-stack {
       display: flex;
       flex-direction: column;
@@ -234,7 +254,6 @@
       margin-bottom: 0;
     }
 
-    /* CARD ROW – scrollable right column */
     .service-row {
       width: 100%;
       max-width: 1200px;
@@ -250,9 +269,9 @@
       max-height: calc(100vh - 80px);
       overflow-y: auto;
       scroll-behavior: smooth;
-      transition: box-shadow 0.2s;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      transition: opacity 0.2s;
     }
     .service-row::-webkit-scrollbar {
       display: none;
@@ -277,7 +296,6 @@
       font-size: 20px;
       font-weight: 500;
       letter-spacing: -0.02em;
-      color: #6b6a70;
       text-decoration: none;
       transition: color 0.25s ease;
       cursor: pointer;
@@ -296,7 +314,6 @@
     .service-row__card {
       flex: 1;
       min-width: 0;
-      /* simulate tall content so scrolling is needed */
       padding-bottom: 20px;
     }
     .service-card {
@@ -350,7 +367,6 @@
       margin-top: 4px;
     }
 
-    /* extra spacing to force scroll in the card */
     .service-card__extra {
       margin-top: 16px;
       padding-top: 16px;
@@ -381,10 +397,9 @@
       .service-card__feature { font-size: 14px; }
     }
 
-    /* ===== CTA ===== */
     .cta{ 
       position:relative;
-      z-index:1;
+      z-index:2;
       padding:11rem 0; 
       text-align:center; 
       background:#0a0a0a; 
@@ -393,7 +408,6 @@
     .cta h2 em{ color:var(--primary); font-style:italic; font-weight:300; }
     .cta .btn-gold{ font-size:1.4rem; padding:1.5rem 3.4rem; }
 
-    /* ===== UTILITY ===== */
     .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
     .reveal.in{ opacity:1; transform:translateY(0); }
     @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal, .pin-col-content{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
@@ -469,6 +483,7 @@
   <section class="hero-slide" id="heroSlide">
     <div class="hero-canvas-wrapper" id="heroCanvasWrapper">
       <canvas id="hero-canvas"></canvas>
+      <div class="hero-overlay-bg"></div>
     </div>
     <div class="hero-overlay">
       <h1>What we <strong>handle</strong>,<br />so you don't have to.</h1>
@@ -476,15 +491,32 @@
     </div>
   </section>
 
- 
+  <!-- INTRO / ABOUT SECTION -->
+  <section class="intro" id="aboutSection">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <h2>Why <span class="accent">FINSOULS</span></h2>
+          <p class="intro-desc">We are a leading provider of accounting and VAT services for businesses. We provide services that adhere to the highest standards of professional ethics and quality and assist small businesses in setting up bookkeeping systems.</p>
+          <p class="intro-desc" style="margin-top:1.6rem;">At Finsouls, we offer a wide range of accounting services, including payroll, VAT returns, and account management. Our clients come from a wide range of professions across the UAE and around the globe.</p>
+        </div>
+        <div class="intro-stats">
+          <div class="stat"><div class="num">10+</div><div class="lbl">Years Expertise</div></div>
+          <div class="stat"><div class="num">500+</div><div class="lbl">Businesses Served</div></div>
+          <div class="stat"><div class="num">100%</div><div class="lbl">Client Satisfaction</div></div>
+          <div class="stat"><div class="num">24/7</div><div class="lbl">Support</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- ===== NEW STICKY STACK SERVICES ===== -->
-  <div class="services-stack-wrap">
+  <!-- ===== STICKY STACK SERVICES ===== -->
+  <div class="services-stack-wrap" id="servicesWrap">
     <h2 class="services-title">Our <span class="accent">core</span> services</h2>
     <div class="sticky-stack" id="servicesStack">
       <!-- 1 Bookkeeping -->
-      <div class="sticky-stack__item" data-index="0">
-        <div class="service-row" id="service-bookkeeping">
+      <div class="sticky-stack__item" data-index="0" data-section="service-bookkeeping">
+        <div class="service-row" id="service-bookkeeping" data-section="service-bookkeeping">
           <div class="service-row__nav">
             <nav class="service-nav">
               <button class="service-nav__item is-active" data-target="service-bookkeeping">Bookkeeping</button>
@@ -508,7 +540,7 @@
               <p>Books reconciled monthly and reviewed by chartered accountants, so your numbers are audit-ready the moment you need them.</p>
               <p style="margin-top: 6px;">We handle everything from day-to-day entries to financial statements, giving you clarity and control.</p>
               <div class="service-card__extra">
-                <strong>Extra details to scroll:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <strong>Extra details to scroll:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
               </div>
             </article>
           </div>
@@ -516,8 +548,8 @@
       </div>
 
       <!-- 2 VAT & Tax -->
-      <div class="sticky-stack__item" data-index="1">
-        <div class="service-row" id="service-vat">
+      <div class="sticky-stack__item" data-index="1" data-section="service-vat">
+        <div class="service-row" id="service-vat" data-section="service-vat">
           <div class="service-row__nav">
             <nav class="service-nav">
               <button class="service-nav__item" data-target="service-bookkeeping">Bookkeeping</button>
@@ -541,7 +573,7 @@
               <p>FTA-certified guidance on VAT registration, filing, and corporate tax — built to keep you compliant and penalty-free.</p>
               <p style="margin-top: 6px;">We help you navigate the complexities of UAE tax law with proactive planning and expert advice.</p>
               <div class="service-card__extra">
-                <strong>Scroll to reveal next service:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+                <strong>Scroll to reveal next service:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
               </div>
             </article>
           </div>
@@ -549,8 +581,8 @@
       </div>
 
       <!-- 3 Audit -->
-      <div class="sticky-stack__item" data-index="2">
-        <div class="service-row" id="service-audit">
+      <div class="sticky-stack__item" data-index="2" data-section="service-audit">
+        <div class="service-row" id="service-audit" data-section="service-audit">
           <div class="service-row__nav">
             <nav class="service-nav">
               <button class="service-nav__item" data-target="service-bookkeeping">Bookkeeping</button>
@@ -574,7 +606,7 @@
               <p>Independent, thorough audits that satisfy regulators and investors — and give you an honest read on your own numbers.</p>
               <p style="margin-top: 6px;">We deliver assurance that builds trust and helps you make confident business decisions.</p>
               <div class="service-card__extra">
-                <strong>Scroll further:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                <strong>Scroll further:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
               </div>
             </article>
           </div>
@@ -582,8 +614,8 @@
       </div>
 
       <!-- 4 Business Setup -->
-      <div class="sticky-stack__item" data-index="3">
-        <div class="service-row" id="service-setup">
+      <div class="sticky-stack__item" data-index="3" data-section="service-setup">
+        <div class="service-row" id="service-setup" data-section="service-setup">
           <div class="service-row__nav">
             <nav class="service-nav">
               <button class="service-nav__item" data-target="service-bookkeeping">Bookkeeping</button>
@@ -607,7 +639,7 @@
               <p>From licensing to banking, we structure your entity right the first time — mainland, freezone, or offshore.</p>
               <p style="margin-top: 6px;">We guide you through every step, ensuring your business is set up for success from day one.</p>
               <div class="service-card__extra">
-                <strong>Last service — scroll to the bottom:</strong> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
+                <strong>Last service — scroll to the bottom:</strong> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.
               </div>
             </article>
           </div>
@@ -638,11 +670,10 @@
         </div>
         <div class="right">
           <div class="social-links">
-            
             <a href="#" aria-label="LinkedIn">in</a>
             <a href="#" aria-label="YouTube">▶</a>
           </div>
-         <div class="footer-links">
+          <div class="footer-links">
             <a href="/project-1/privacy-policy">Contacts &amp; Offices</a>
             <a href="/project-1/privacy-policy">Terms &amp; Conditions</a>
             <a href="/project-1/privacy-policy">Cookies Policy</a>
@@ -732,6 +763,8 @@
 
       // ===== STICKY STACK: update active nav based on scroll =====
       const stackItems = document.querySelectorAll('.sticky-stack__item');
+      const allServiceRows = document.querySelectorAll('.service-row');
+      
       if (stackItems.length) {
         function updateActiveNav(index) {
           document.querySelectorAll('.service-nav').forEach(nav => {
@@ -757,6 +790,39 @@
           return bestIndex;
         }
 
+        // ---- NAV CLICK: scroll to section properly ----
+        document.querySelectorAll('.service-nav__item').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.dataset.target;
+            if (!targetId) return;
+            
+            // Find the target element
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return;
+            
+            // Find the parent sticky item
+            const parentItem = targetEl.closest('.sticky-stack__item');
+            if (!parentItem) return;
+            
+            // Update active nav
+            const index = parseInt(parentItem.dataset.index, 10);
+            if (!isNaN(index)) updateActiveNav(index);
+            
+            // Get the exact position of the parent item
+            const headerOffset = 80;
+            const rect = parentItem.getBoundingClientRect();
+            const absoluteTop = rect.top + window.pageYOffset;
+            
+            // Smooth scroll to the section
+            window.scrollTo({
+              top: absoluteTop - headerOffset,
+              behavior: 'smooth'
+            });
+          });
+        });
+
+        // ---- Intersection Observer for active nav ----
         const observer = new IntersectionObserver((entries) => {
           let bestEntry = null;
           let bestRatio = -1;
@@ -776,26 +842,7 @@
         });
         stackItems.forEach(item => observer.observe(item));
 
-        document.querySelectorAll('.service-nav__item').forEach(btn => {
-          btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.dataset.target;
-            if (!targetId) return;
-            const targetEl = document.getElementById(targetId);
-            if (!targetEl) return;
-            const parentItem = targetEl.closest('.sticky-stack__item');
-            if (!parentItem) return;
-            const index = parseInt(parentItem.dataset.index, 10);
-            if (isNaN(index)) return;
-            updateActiveNav(index);
-            const headerOffset = 20;
-            const top = parentItem.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-            window.scrollTo({ top, behavior: 'smooth' });
-          });
-        });
-
-        updateActiveNav(0);
-
+        // ---- Scroll listener for active nav ----
         let ticking2 = false;
         window.addEventListener('scroll', function() {
           if (!ticking2) {
@@ -808,6 +855,7 @@
           }
         }, { passive: true });
 
+        // ---- Resize handler ----
         let resizeTimer;
         window.addEventListener('resize', function() {
           clearTimeout(resizeTimer);
@@ -817,18 +865,20 @@
           }, 100);
         });
 
+        // ---- Initial setup ----
         setTimeout(() => {
           const idx = getMostVisibleIndex();
           updateActiveNav(idx);
         }, 150);
 
-        document.querySelectorAll('.service-row').forEach(row => {
+        // Make sure each service row can scroll independently
+        allServiceRows.forEach(row => {
           row.style.scrollbarWidth = 'none';
           row.style.msOverflowStyle = 'none';
         });
       }
 
-      // ===== CANVAS FRAME ANIMATION — only for hero section =====
+      // ===== CANVAS FRAME ANIMATION — hero section with scroll =====
       const START_FRAME = 61;
       const END_FRAME = 130;
       const FRAME_COUNT = END_FRAME - START_FRAME + 1;
