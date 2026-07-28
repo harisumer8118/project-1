@@ -381,7 +381,27 @@
     .col-item { flex:1 0 20%; height:100%; background-size:cover; background-position:center; position:relative; cursor:pointer; transition:flex 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease; overflow:hidden; display:flex; align-items:flex-start; justify-content:flex-start; padding:0 0 0 2rem; background-color:rgba(0,0,0,0.2); backdrop-filter:blur(1px); }
     .col-item .col-overlay { position:absolute; inset:0; background:rgba(23,28,48,0.5); transition:background 0.4s ease; z-index:1; }
     .col-item:hover .col-overlay { background:rgba(23,28,48,0.2); }
-    .col-item .col-heading { position:relative; z-index:3; writing-mode:vertical-rl; text-orientation:mixed; font-family:'Versailles',Georgia,serif; font-weight:400 !important; font-size:clamp(1.8rem,2.4vw,2.8rem) !important; letter-spacing:0.08em; text-transform:uppercase; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.7); padding:1.2rem 0.4rem; margin:0; line-height:1.3; transition:opacity 0.3s ease; pointer-events:none; white-space:nowrap; }
+  .col-item .col-heading {
+  position: relative;
+  z-index: 3;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  /* Add this to make it read bottom to top */
+  transform: rotate(180deg);
+  font-family: 'Versailles', Georgia, serif;
+  font-weight: 400 !important;
+  font-size: clamp(1.8rem, 2.4vw, 2.8rem) !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+  padding: 1.2rem 0.4rem;
+  margin: 0;
+  line-height: 1.3;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
     .col-item .col-content { display:none; }
     .col-item .col-cta { display:none; }
     .close-btn { position:absolute; top:8rem; right:5rem; z-index:50; width:44px; height:44px; background-color:transparent !important; border:2px solid rgba(255,255,255,0.3); border-radius:50%; color:#fff; font-size:2.4rem; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none; transition:opacity 0.3s ease, background 0.2s; }
@@ -487,7 +507,7 @@
 
     .footer { 
       height:auto !important; padding:clamp(2rem,5vh,5rem) 0; 
-      background: linear-gradient(135deg, rgba(122,81,81,0.4) 0%, rgba(23,28,48,0.95) 100%);
+      
       color:rgba(255,255,255,0.8); display:flex; align-items:center; z-index:1; position:relative; 
     }
     .footer .container { width:100%; max-width:1200px; margin:0 auto; padding:0 2rem; }
@@ -812,7 +832,7 @@
 
 
     <!-- SLIDE 3: SERVICES -->
-    <section class="section-slide snap-enabled" data-index="3" style="padding:0; height:80vh;  margin-top: 100px;">
+    <section class="section-slide snap-enabled" data-index="3" style="padding:0; height:100vh;  margin-top: 100px;">
       <div class="five-column-section-wrapper container" >
         <div class="services-heading-row">
           <h2>Services</h2>
@@ -1453,50 +1473,51 @@
       };
 
       function updateRegionalContent(region) {
-        const content = regionalContent[region] || regionalContent['Global'];
+  const content = regionalContent[region] || regionalContent['Global'];
 
-        if (content.hero) {
-          document.getElementById('heroLabel').textContent = content.hero.label;
-          const lines = content.hero.headline;
-          document.getElementById('heroHeadline').innerHTML = `<strong>${lines[0]}</strong>${lines[1] ? '<br />' + lines[1] : ''}${lines[2] ? '<br />' + lines[2] : ''}`;
-          document.getElementById('heroSubline').textContent = content.hero.subline;
-        }
-        const taglineEl = document.getElementById('footerTagline');
-        if (taglineEl && content.tagline) taglineEl.textContent = content.tagline;
+  if (content.hero) {
+    // Remove this line as 'heroLabel' doesn't exist
+    // document.getElementById('heroLabel').textContent = content.hero.label;
+    const lines = content.hero.headline;
+    document.getElementById('heroHeadline').innerHTML = `<strong>${lines[0]}</strong>${lines[1] ? '<br />' + lines[1] : ''}${lines[2] ? '<br />' + lines[2] : ''}`;
+    document.getElementById('heroSubline').textContent = content.hero.subline;
+  }
+  const taglineEl = document.getElementById('footerTagline');
+  if (taglineEl && content.tagline) taglineEl.textContent = content.tagline;
 
-        document.getElementById('aboutTitle').textContent = content.about.title;
-        document.getElementById('aboutDesc').textContent = content.about.desc;
-        
-        const statsContainer = document.getElementById('statsContainer');
-        const statElements = statsContainer.querySelectorAll('.stat');
-        content.stats.forEach((stat, index) => {
-          if (index < statElements.length) {
-            statElements[index].querySelector('.number').textContent = stat.num;
-            statElements[index].querySelector('.label').textContent = stat.label;
-          }
-        });
-        
-        document.getElementById('sustainabilityTitle').textContent = content.sustainability.title;
-        document.getElementById('sustainabilityDesc').textContent = content.sustainability.desc;
-        
-        const faqItems = document.querySelectorAll('.faq-item');
-        content.faq.forEach((item, index) => {
-          if (index < faqItems.length) {
-            const questionSpan = faqItems[index].querySelector('.faq-question span:first-child');
-            const answerP = faqItems[index].querySelector('.faq-answer p');
-            if (questionSpan) questionSpan.textContent = item.q;
-            if (answerP) answerP.textContent = item.a;
-          }
-        });
-        
-        document.getElementById('ctaTitle').textContent = content.cta;
-        document.getElementById('newsletterTitle').textContent = content.newsletter.title;
-        document.getElementById('newsletterDesc').textContent = content.newsletter.desc;
-        document.getElementById('footerAddress1').textContent = content.footer.address;
-        document.getElementById('footerPhone').textContent = content.footer.phone;
-        document.getElementById('footerEmail').textContent = content.footer.email;
-        document.getElementById('footerEmail').href = `mailto:${content.footer.email}`;
-      }
+  document.getElementById('aboutTitle').textContent = content.about.title;
+  document.getElementById('aboutDesc').textContent = content.about.desc;
+  
+  const statsContainer = document.getElementById('statsContainer');
+  const statElements = statsContainer.querySelectorAll('.stat');
+  content.stats.forEach((stat, index) => {
+    if (index < statElements.length) {
+      statElements[index].querySelector('h2').textContent = stat.num;
+      statElements[index].querySelector('.label').textContent = stat.label;
+    }
+  });
+  
+  document.getElementById('sustainabilityTitle').textContent = content.sustainability.title;
+  document.getElementById('sustainabilityDesc').textContent = content.sustainability.desc;
+  
+  const faqItems = document.querySelectorAll('.faq-item');
+  content.faq.forEach((item, index) => {
+    if (index < faqItems.length) {
+      const questionSpan = faqItems[index].querySelector('.faq-question h2:first-child');
+      const answerP = faqItems[index].querySelector('.faq-answer p');
+      if (questionSpan) questionSpan.textContent = item.q;
+      if (answerP) answerP.textContent = item.a;
+    }
+  });
+  
+  document.getElementById('ctaTitle').textContent = content.cta;
+  document.getElementById('newsletterTitle').textContent = content.newsletter.title;
+  document.getElementById('newsletterDesc').textContent = content.newsletter.desc;
+  document.getElementById('footerAddress1').textContent = content.footer.address;
+  document.getElementById('footerPhone').textContent = content.footer.phone;
+  document.getElementById('footerEmail').textContent = content.footer.email;
+  document.getElementById('footerEmail').href = `mailto:${content.footer.email}`;
+}
 
       // ===== REGION SELECTOR =====
       function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
