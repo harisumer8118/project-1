@@ -332,8 +332,9 @@
     .btn-ghost:hover::after{ transform:translateX(4px); }
 
     /* additional global letter-spacing */
-    .filter-select, .filter-select option, .nav-menu a, .btn, .btn-arrow, .btn-gold, .region-selector .selected-region, .region-selector .dropdown-item {
-      letter-spacing: 1px;
+    .filter-select option{
+      font-family: Arial, Helvetica, sans-serif !important;
+      
     }
   </style>
 </head>
@@ -401,33 +402,33 @@
           <div class="filter-group">
             <label for="categoryFilter">Category</label>
             <select id="categoryFilter" class="filter-select">
-              <option value="all">All</option>
-              <option value="vat">VAT &amp; Tax</option>
-              <option value="accounting">Accounting</option>
-              <option value="strategy">Strategy</option>
-              <option value="compliance">Compliance</option>
-              <option value="banking">Banking</option>
-              <option value="residency">Residency</option>
+           <option value="all" style="letter-spacing:1px;">All</option>
+<option value="vat" style="letter-spacing:1px;">VAT &amp; Tax</option>
+<option value="accounting" style="letter-spacing:1px;">Accounting</option>
+<option value="strategy" style="letter-spacing:1px;">Strategy</option>
+<option value="compliance" style="letter-spacing:1px;">Compliance</option>
+<option value="banking" style="letter-spacing:1px;">Banking</option>
+<option value="residency" style="letter-spacing:1px;">Residency</option>
             </select>
           </div>
           <div class="filter-group">
             <label for="regionFilter">Region</label>
             <select id="regionFilter" class="filter-select">
-              <option value="all">All Regions</option>
-              <option value="uae">UAE</option>
-              <option value="pakistan">Pakistan</option>
-              <option value="portugal">Portugal</option>
-              <option value="singapore">Singapore</option>
-              <option value="global">Global</option>
+              <option value="all" style="letter-spacing:1px;">All Regions</option>
+             <option value="uae" style="letter-spacing:1px;">UAE</option>
+<option value="pakistan" style="letter-spacing:1px;">Pakistan</option>
+<option value="portugal" style="letter-spacing:1px;">Portugal</option>
+<option value="singapore" style="letter-spacing:1px;">Singapore</option>
+<option value="global" style="letter-spacing:1px;">Global</option>
             </select>
           </div>
           <div class="filter-group">
             <label for="dateFilter">Date</label>
             <select id="dateFilter" class="filter-select">
-              <option value="all">All</option>
-              <option value="latest">Latest</option>
-              <option value="2026">2026</option>
-              <option value="2025">2025</option>
+              <option value="all" style="letter-spacing:1px;">All</option>
+              <option value="latest" style="letter-spacing:1px;">Latest</option>
+              <option value="2026" style="letter-spacing:1px;">2026</option>
+              <option value="2025" style="letter-spacing:1px;">2025</option>
             </select>
           </div>
         </div>
