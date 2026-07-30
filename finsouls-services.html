@@ -890,31 +890,31 @@
       // ---------- ACTIVE NAV (SCROLL) ----------
       let scrollTick = false;
 
-      function updateActiveService() {
-        const items = document.querySelectorAll(".sticky-stack__item");
-        const buttons = document.querySelectorAll(".service-nav__item");
+    function updateActiveService() {
+  const items = document.querySelectorAll(".sticky-stack__item");
+  const buttons = document.querySelectorAll(".service-nav__item");
 
-        if (!items.length) return;
+  if (!items.length) return;
 
-        const headerOffset = 100; // sticky top offset
-        let activeIndex = 0;
+  const headerOffset = 80;
+  const trigger = headerOffset + 10;
 
-        items.forEach((item, index) => {
-          const rect = item.getBoundingClientRect();
-          // section is considered active when its top is at or above the sticky threshold
-          if (rect.top <= headerOffset) {
-            activeIndex = index;
-          }
-        });
+  let activeIndex = 0;
 
-        buttons.forEach(btn => btn.classList.remove("is-active"));
+  items.forEach((item, index) => {
+    const rect = item.getBoundingClientRect();
 
-        if (buttons[activeIndex]) {
-          buttons[activeIndex].classList.add("is-active");
-        }
+    if (rect.top <= trigger) {
+      activeIndex = index;
+    }
+  });
 
-        scrollTick = false;
-      }
+  buttons.forEach((btn, index) => {
+    btn.classList.toggle("is-active", index === activeIndex);
+  });
+
+  scrollTick = false;
+}
 
       window.addEventListener("scroll", () => {
         if (!scrollTick) {
@@ -964,38 +964,50 @@
           sideNavContainer.removeEventListener('click', sideNavContainer._clickHandler);
         }
         
-        const clickHandler = function(e) {
-          const btn = e.target.closest('.service-nav__item');
-          if (!btn) return;
-          
-          e.preventDefault();
-          const targetId = btn.dataset.target;
-          if (!targetId) return;
-          
-          const targetEl = document.getElementById(targetId);
-          if (!targetEl) return;
-          
-          const parentItem = targetEl.closest('.sticky-stack__item');
-          if (!parentItem) return;
+ const clickHandler = function (e) {
+  const btn = e.target.closest(".service-nav__item");
+  if (!btn) return;
 
-          // Update active state on side nav
-          document.querySelectorAll('.service-nav__item').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
+  e.preventDefault();
 
-          // --- FIX: use getBoundingClientRect for reliable upward scrolling ---
-          const headerOffset = 80;
-          const rect = parentItem.getBoundingClientRect();
-          const absoluteTop = rect.top + window.pageYOffset;
-          const targetY = absoluteTop - headerOffset;
+  const targetId = btn.dataset.target;
+  const target = document.getElementById(targetId);
+  if (!target) return;
 
-          window.scrollTo({
-            top: targetY,
-            behavior: 'smooth'
-          });
+  const section = target.closest(".sticky-stack__item");
+  if (!section) return;
 
-          // Update active state after scroll
-          setTimeout(updateActiveService, 350);
-        };
+  // Update active state immediately
+  document.querySelectorAll(".service-nav__item").forEach(item => {
+    item.classList.remove("is-active");
+  });
+  btn.classList.add("is-active");
+
+  const headerOffset = 80;
+
+  // FIX: Calculate position relative to the sticky-stack container
+  const stackContainer = document.getElementById('servicesStack');
+  const sectionRect = section.getBoundingClientRect();
+  const stackRect = stackContainer.getBoundingClientRect();
+  
+  // Calculate the section's position relative to the stack container
+  const relativeTop = sectionRect.top - stackRect.top;
+  
+  // Get the current scroll position of the stack container's parent
+  const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Calculate target position
+  const targetPosition = scrollPosition + relativeTop - headerOffset;
+
+  window.scrollTo({
+    top: targetPosition,
+    behavior: "smooth"
+  });
+
+  setTimeout(() => {
+    updateActiveService();
+  }, 500);
+};
         
         sideNavContainer.addEventListener('click', clickHandler);
         sideNavContainer._clickHandler = clickHandler;
