@@ -67,7 +67,7 @@
     p, .p, .paragraph, .text, .desc, .label, .stat .label, .faq-answer, .newsletter p, .footer .address p, .footer .bottom, .region-popup p {
       font-family:'Neue Montreal','Inter',Arial,sans-serif;
     }
-    p { margin-bottom:35px !important; }
+    p { margin-bottom:35px !important; width: 450px !important;}
     .btn {
       display:inline-block; padding:1.2rem 2.8rem;
       background:rgba(163, 118, 118, 0.2);
@@ -342,7 +342,7 @@
       top: 80px;
       flex: 0 0 220px;
       align-self: flex-start;
-      padding: 24px 0 40px 24px;
+      padding: 77px 0 40px 24px;
       max-height: calc(100vh - 80px);
       overflow-y: auto;
       scrollbar-width: none;
@@ -408,16 +408,15 @@
       margin-bottom: 0;
     }
 
+    /* ===== TWO-COLUMN SERVICE ROW ===== */
     .service-row {
       width: 100%;
       margin: 0 auto;
       display: flex;
       gap: 40px;
-        background: radial-gradient(circle at 0% 0%, #a37676 0%, #0c102a 88%, transparent 0%);
+      background: radial-gradient(circle at 0% 0%, #a37676 0%, #0c102a 88%, transparent 0%);
       border-radius: 24px;
       padding: 40px 48px;
-      
-      
       pointer-events: auto;
       max-height: calc(100vh - 80px);
       overflow-y: auto;
@@ -426,7 +425,6 @@
       -ms-overflow-style: none;
       transition: opacity 0.2s;
       height: 80vh;
-      /* clip-path: polygon(0% 0%, 36% 0%, 46% 8%, 101% 9%, 101% 100%, 0% 100%); */
     }
     .service-row::-webkit-scrollbar {
       display: none;
@@ -434,19 +432,18 @@
       background: transparent;
     }
 
-    .service-row__nav {
-      display: none;
-    }
-
+    /* LEFT COLUMN: heading, features, paragraph */
     .service-row__card {
       flex: 1;
       min-width: 0;
       padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
     }
     .service-card {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
     .service-card__title {
       font-size: 28px;
@@ -454,17 +451,16 @@
       letter-spacing: -0.02em;
       line-height: 1.2;
       color: var(--white);
-      margin: 0;
-      font-family:'Versailles',Georgia,serif;
-      
+      margin: 0 0 20px 0;
+      font-family: 'Versailles', Georgia, serif;
     }
     .service-card__features {
-      display: flex;
+      
       flex-wrap: wrap;
       gap: 8px 20px;
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 0 0 8px 0;
     }
     .service-card__feature {
       font-size: 16px;
@@ -481,30 +477,38 @@
       font-size: 15px;
       line-height: 1.6;
       margin-top: 4px;
+      margin-bottom: 8px !important;
     }
     .service-card__extra {
-      margin-top: 16px;
-      padding-top: 16px;
+      margin-top: 8px;
+      padding-top: 12px;
       border-top: 1px solid rgba(255,255,255,0.06);
       color: rgba(252,251,250,0.4);
       font-size: 14px;
       line-height: 1.8;
     }
 
-    /* ===== RECTANGULAR IMAGE (low height) ===== */
+    /* RIGHT COLUMN: square image with 10px border radius */
+    .service-card__image-wrap {
+      flex: 0 0 280px;
+      max-width: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .service-card__image {
-      width: 50%;
-      height: 150px;
+      width: 100%;
+      aspect-ratio: 1/1.5;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 10px;
       background: #1a1f35;
-      display: block;
-      margin: 4px 0 8px 0;
       border: 1px solid rgba(255,255,255,0.06);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+      height: auto;
     }
     .service-card__image:hover {
-      transform: scale(1.01);
+      transform: scale(1.02);
       box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
@@ -536,21 +540,27 @@
         border-radius: 16px;
         max-height: 70vh;
       }
-      .service-row__nav { display: none; }
       .service-card__title { font-size: 22px; }
-      .service-card__image { height: 80px; }
-     
+      .service-card__image-wrap {
+        flex: 0 0 auto;
+        max-width: 100%;
+        width: 100%;
+      }
+      .service-card__image {
+        aspect-ratio: 1/1;
+        max-width: 280px;
+        margin: 0 auto;
+      }
     }
 
-    @media (max-width: 1230px) { .service-card {
-        
-    margin-top: 50px;
-}}
+    @media (max-width: 1230px) { 
+      .service-card { margin-top: 0; }
+    }
     @media (max-width: 480px) {
       .service-row { padding: 16px; }
       .service-card__title { font-size: 20px; }
       .service-card__feature { font-size: 14px; }
-      .service-card__image { height: 70px; }
+      .service-card__image { max-width: 100%; }
       .services-title { padding: 10rem 16px 12px; font-size: 2.8rem; }
       .footer .grid { text-align:center; }
       .footer .right { align-items:center; }
@@ -577,7 +587,39 @@
     .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
     .reveal.in{ opacity:1; transform:translateY(0); }
     @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
-    
+    /* Add this to your CSS */
+.service-card__features {
+  
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+
+/* Add bullet points using ::before */
+.service-card__feature {
+  font-size: 16px;
+  color: rgba(252,251,250,0.62);
+  position: relative;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.service-card__feature::before {
+  content: "●";
+  color: #a37676;
+  position: absolute;
+  left: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Remove the dot separator between items */
+.service-card__feature:not(:last-child)::after {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -758,28 +800,28 @@
               features: ["Monthly bookkeeping", "Payroll processing", "Accounts payable/receivable", "Management reporting"],
               desc: "Books reconciled monthly and reviewed by chartered accountants, so your numbers are audit‑ready the moment you need them.",
               extra: "We handle everything from day‑to‑day entries to financial statements, giving you clarity and control.",
-              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "VAT & Tax Advisory",
               features: ["VAT registration", "Quarterly filing", "Corporate tax", "Voluntary disclosures"],
               desc: "FTA‑certified guidance on VAT registration, filing, and corporate tax — built to keep you compliant and penalty‑free.",
               extra: "Our tax advisory services cover VAT, corporate tax, and excise tax. We help businesses register for VAT, file accurate returns, and manage tax audits.",
-              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Audit & Assurance",
               features: ["Statutory audit", "Internal controls review", "Due diligence", "Investor reporting"],
               desc: "Independent, thorough audits that satisfy regulators and investors — and give you an honest read on your own numbers.",
               extra: "Our audit services include statutory audits, internal audits, and due diligence reviews. We provide independent opinions on financial statements.",
-              image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Business Setup & Advisory",
               features: ["Trade licensing", "Bank account opening", "Freezone vs mainland", "CFO advisory"],
               desc: "From licensing to banking, we structure your entity right the first time — mainland, freezone, or offshore.",
               extra: "Our business setup services include company registration, trade licensing, and bank account opening. We help clients choose between freezone and mainland setups.",
-              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=600&fit=crop&crop=center&auto=format"
             }
           ]
         },
@@ -792,35 +834,35 @@
               features: ["Structure selection", "Trade licence", "PRO & visas", "Bank account intro", "Ejari registration"],
               desc: "Mainland, freezone or offshore — the right structure depends on what you sell, where your clients sit and how you bank. We advise on the structure first, then handle the licensing, visas and paperwork until you are trading.",
               extra: "We handle the entire setup process, from jurisdiction selection to office leasing, so you can start trading without delays.",
-              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Accounting & Bookkeeping",
               features: ["Monthly bookkeeping", "VAT registration & filing", "Corporate tax", "Payroll & WPS", "Year‑end statements"],
               desc: "We keep your records to IFRS standards and file with the FTA on time, every time. When a bank, auditor or buyer asks for your numbers, they are ready the same day.",
               extra: "Our accounting services are designed to give you peace of mind, with full compliance and timely reporting.",
-              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Banking Consultancy",
               features: ["Account opening", "Working capital", "Corporate loans", "Bank guarantees", "Mortgage finance"],
               desc: "UAE banking rewards preparation and relationships. We prepare your file the way credit teams want to read it, and we put it in front of the right people.",
               extra: "We leverage our banking relationships to get you the best terms and fastest approvals.",
-              image: "https://images.unsplash.com/photo-1591696204402-5b7ca8121ab6?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1591696204402-5b7ca8121ab6?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "CFO Advisory",
               features: ["Cash flow planning", "Budgeting", "Business valuation", "Feasibility studies", "Board reporting"],
               desc: "Most SMEs need a CFO for a few days a month, not a full salary. We give you the planning, forecasting and board‑level reporting of a finance director, scaled to your size.",
               extra: "Our fractional CFO service provides senior financial expertise without the full‑time cost.",
-              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Project Management",
               features: ["Project costing", "Vendor oversight", "Milestone tracking", "Risk reporting", "Stakeholder reporting"],
               desc: "For clients building, expanding or relocating, we manage the financial side of the project — costing, vendors, milestones — so overruns are caught early, not explained later.",
               extra: "We keep your project on track financially, so you can focus on delivery.",
-              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=600&fit=crop&crop=center&auto=format"
             }
           ]
         },
@@ -833,35 +875,35 @@
               features: ["NTN & sales tax", "Corporate & individual filing", "Withholding tax", "Notice responses", "Advance tax"],
               desc: "Pakistani tax is less about rates and more about records. We register you correctly, file on time and answer notices with documentation instead of anxiety.",
               extra: "We keep you compliant with the FBR, handling everything from registration to appeals.",
-              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Business Setup",
               features: ["SECP incorporation", "Tax registrations", "Foreign company registration", "Sector licences", "Corporate filings"],
               desc: "We register companies for Pakistani founders and foreign entrants alike — SECP incorporation, tax registrations and the licences your sector requires, handled as one process.",
               extra: "We make business formation in Pakistan straightforward and fully compliant.",
-              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Banking Services",
               features: ["Account opening", "Loan applications", "Working capital", "Financial documentation", "Relationship support"],
               desc: "Facilities in Pakistan turn on the quality of your financials and the strength of the introduction. We handle both.",
               extra: "Our banking services help you secure the facilities you need with professionally prepared financials.",
-              image: "https://images.unsplash.com/photo-1591696204402-5b7ca8121ab6?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1591696204402-5b7ca8121ab6?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Accounting & Bookkeeping",
               features: ["Monthly bookkeeping", "Sales tax records", "Payroll processing", "Financial statements", "Compliance calendar"],
               desc: "We keep your books current, your sales tax records reconciled and your statements ready — so a notice from the FBR is an errand, not an emergency.",
               extra: "Our accounting services ensure you are always audit‑ready and compliant.",
-              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Audit",
               features: ["Statutory audit", "Internal audit", "Compliance audits", "Stock verification", "Audit readiness"],
               desc: "As a licensed audit firm, we conduct statutory and internal audits that stand up to regulators, lenders and shareholders — and we tell you what we find in plain terms.",
               extra: "We provide thorough and independent audits that build trust with stakeholders.",
-              image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop&crop=center&auto=format"
             }
           ]
         },
@@ -874,28 +916,28 @@
               features: ["LDA formation", "NIF & tax registrations", "Bank account opening", "Municipal registrations", "Ongoing filings"],
               desc: "We form Portuguese entities end to end — company registration, tax numbers, banking and the filings that follow — for founders who may not set foot in Lisbon until it is done.",
               extra: "We handle your entire setup remotely, so you can focus on your business.",
-              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Residency Consultancy",
               features: ["Pathway assessment", "NHR guidance", "Document preparation", "Application filing", "Family reunification"],
               desc: "Golden Visa, D7, D2 — each suits a different profile of income, capital and intent. We assess your situation first, then build the application that actually fits it.",
               extra: "Our residency services are tailored to your personal and financial situation.",
-              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Accounting & Bookkeeping",
               features: ["Portuguese bookkeeping", "IVA filing", "IRS/IRC returns", "Payroll & social security", "Cross‑border coordination"],
               desc: "Owners with income in the Gulf and obligations in Portugal need books that satisfy both. We keep Portuguese records compliant while coordinating with your position abroad.",
               extra: "We bridge the gap between Portuguese compliance and your international affairs.",
-              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Advisory",
               features: ["Market entry", "UAE‑Portugal structuring", "Property guidance", "Banking introductions", "Compliance oversight"],
               desc: "Market entry, property, structuring between the UAE and Europe — we advise on what holds up in practice, drawing on clients who have already made the move.",
               extra: "Our advisory services give you the confidence to make informed decisions in Portugal.",
-              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=600&fit=crop&crop=center&auto=format"
             }
           ]
         },
@@ -908,28 +950,28 @@
               features: ["Company registration", "Licensing", "Bank account", "Compliance"],
               desc: "We are preparing our Singapore office to help you enter one of Asia's most dynamic markets.",
               extra: "Get in touch to register your interest and we will keep you updated.",
-              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Accounting & Bookkeeping",
               features: ["Bookkeeping", "Financial statements", "Payroll", "Compliance"],
               desc: "Our Singapore team will provide the same high‑standard accounting services you expect from Finsouls.",
               extra: "We are building a team of local experts to serve you.",
-              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Tax Advisory",
               features: ["Corporate tax", "GST", "Tax planning", "Compliance"],
               desc: "We will help you navigate Singapore's tax landscape with confidence.",
               extra: "Our tax advisory services will be available upon our launch.",
-              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=600&h=600&fit=crop&crop=center&auto=format"
             },
             {
               title: "Advisory",
               features: ["Market entry", "Structuring", "Banking", "Compliance"],
               desc: "Strategic advice for businesses looking to expand into Singapore and Asia.",
               extra: "We are building our local knowledge to provide the best advice.",
-              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=200&fit=crop&crop=center&auto=format"
+              image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=600&fit=crop&crop=center&auto=format"
             }
           ]
         }
@@ -996,12 +1038,11 @@
         });
         sideNavContainer.innerHTML = navHtml;
 
-        // Build stack with IDs and images
+        // Build stack with TWO columns: left text, right image
         let html = '';
         data.cards.forEach((card, idx) => {
           const features = card.features.map(f => `<li class="service-card__feature">${f}</li>`).join('');
-          // Use a placeholder image if not provided
-          const imgSrc = card.image || 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=200&fit=crop&crop=center&auto=format';
+          const imgSrc = card.image || 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=600&fit=crop&crop=center&auto=format';
 
           html += `
             <div 
@@ -1009,15 +1050,18 @@
               id="service-${idx}"
               data-index="${idx}">
               <div class="service-row">
-                <div class="service-row__nav"></div>
+                <!-- LEFT COLUMN: heading, features, paragraph, extra -->
                 <div class="service-row__card">
                   <article class="service-card">
                     <h3 class="service-card__title">${card.title}</h3>
-                    <img class="service-card__image" src="${imgSrc}" alt="${card.title} visual" loading="lazy" />
                     <ul class="service-card__features">${features}</ul>
-                    <p>${card.desc}</p>
-                    <div class="service-card__extra">${card.extra}</div>
+                    <p>${card.desc},${card.extra}</p>
+                    
                   </article>
+                </div>
+                <!-- RIGHT COLUMN: square image with 10px radius -->
+                <div class="service-card__image-wrap">
+                  <img class="service-card__image" src="${imgSrc}" alt="${card.title} visual" loading="lazy" />
                 </div>
               </div>
             </div>
