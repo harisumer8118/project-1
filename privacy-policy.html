@@ -7,11 +7,9 @@
   <link rel="icon" href="https://harisumer.me/project-1/finsoul-logof.svg" sizes="32x32" />
   <link rel="icon" href="https://harisumer.me/project-1/finsoul-logof.svg" sizes="192x192" />
   <link rel="apple-touch-icon" href="https://harisumer.me/project-1/finsoul-logof.svg" />
-  <!-- Google Fonts: Inter + Neue Montreal (matching homepage) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;300;400;500;600;700&family=Neue+Montreal&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
   <style>
+    /* ===== FONTS ===== */
     @font-face {
       font-family: 'Versailles';
       src: url('https://harisumer.me/project-1/jen-wagner-co-versailles-regular (1).ttf') format('opentype');
@@ -26,21 +24,19 @@
       font-style: normal;
       font-display: swap;
     }
+
+    /* ===== VARIABLES & RESETS ===== */
     * { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --primary:#7a5151;
-      --primary-dark:#55152d;
-      --dark:#171c30;
+      --primary:#a37676;
+      --primary-dark:#570d29;
+      --dark:#0c102a;
       --text:#fcfbfa;
       --white:#fcfbfa;
-      --black:#171c30;
+      --black:#0c102a;
       --shadow:0 10px 25px rgba(0,0,0,0.4);
       --slide-ease:cubic-bezier(0.25,0.46,0.45,0.94);
       --color-border-dark:rgba(255,255,255,0.08);
-      --muted:rgba(252,251,250,0.62);
-      --muted-2:rgba(252,251,250,0.4);
-      --line:rgba(255,255,255,0.08);
-      --container-max:1200px;
     }
     html { font-size:62.5%; scroll-behavior:smooth; }
     body {
@@ -63,14 +59,15 @@
       line-height:1.2;
     }
     h1 { font-size:clamp(2.8rem,8vw,5.6rem); }
-    h2 { font-size:clamp(2.4rem,6vw,3.8rem); color:#c99aa3; }
+    h2 { font-size:clamp(2.4rem,6vw,3.8rem); color:#fff; margin-bottom:35px !important; }
     h3 { font-size:clamp(2rem,4vw,2.8rem); color:#c99aa3; }
     p, .p, .paragraph, .text, .desc, .label, .stat .label, .faq-answer, .newsletter p, .footer .address p, .footer .bottom, .region-popup p {
       font-family:'Neue Montreal','Inter',Arial,sans-serif;
     }
+    p { margin-bottom:35px !important; }
     .btn {
       display:inline-block; padding:1.2rem 2.8rem;
-      background: linear-gradient(135deg, #7a5151 0%, #7a5151 30%, #d5afaf 50%, #7a5151 70%);
+      background:rgba(163, 118, 118, 0.2);
       border:1px solid rgba(122,81,81,0.25);
       color:var(--white);
       font-size:clamp(1.2rem,1.4vw,1.4rem);
@@ -84,7 +81,7 @@
       box-shadow:0 4px 15px rgba(0,0,0,0.2);
     }
     .btn:hover {
-      background:rgba(122,81,81,0.95);
+      background: radial-gradient(circle at 0% 0%, #a37676 0%, #a37676 40%, transparent 80%);
       border-color:rgba(122,81,81,0.9);
       box-shadow:0 0 30px rgba(122,81,81,0.5);
       transform:scale(1.03);
@@ -94,85 +91,115 @@
       display:inline-flex; align-items:center; gap:0.8rem; padding:1rem 2.4rem 1rem 1.6rem;
       color:var(--white); font-weight:500;
       transition:all 0.3s ease;
-      background: linear-gradient(135deg, #7a5151 0%, #7a5151 30%, #d5afaf 50%, #7a5151 70%);
+      background:rgba(163, 118, 118, 0.2);
       border-radius:10px;
       border:1px solid rgba(122,81,81,0.25);
       box-shadow:0 4px 15px rgba(0,0,0,0.2);
     }
     .btn-arrow::after { content:"→"; font-size:1.8rem; transition:all 0.3s ease; }
-    .btn-arrow:hover { gap:1.2rem; background:rgba(122,81,81,0.95); border-color:rgba(122,81,81,0.9); box-shadow:0 0 30px rgba(122,81,81,0.5); color:var(--text); }
+    .btn-arrow:hover { gap:1.2rem; background: radial-gradient(circle at 0% 0%, #a37676 0%, #a37676 40%, transparent 80%); border-color:rgba(122,81,81,0.9); box-shadow:0 0 30px rgba(122,81,81,0.5); color:var(--text); }
     .btn-arrow-white { color:var(--white); }
     .btn-arrow-white:hover { color:var(--text); }
     .btn-arrow-white:hover::after { color:var(--text); }
-    .container { max-width:var(--container-max); margin:0 auto; padding:0 2rem; width:100%; }
-    @media (max-width:768px){ .container{padding:0 2rem;} }
+    .container {  margin:0 auto; padding:0 2rem; width:100%; }
 
-    /* ----- HEADER (exactly like homepage) ----- */
-    .header { position:fixed; top:0; left:0; right:0; z-index:1000; background:transparent; transition:background 0.4s ease, box-shadow 0.3s ease; }
+    /* ===== HEADER ===== */
+    .header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      background:transparent;
+      transition:background 0.4s ease, box-shadow 0.3s ease;
+    }
     .header.scrolled { background:var(--dark) !important; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
-    .header-main { display:flex; justify-content:space-between; align-items:center; padding:0.8rem 2rem; max-width:1200px; margin:0 auto; }
-    .logo-wrap { display:flex; align-items:center; gap:0.8rem; }
-    .logo-img { height:clamp(2.8rem,4vw,4.2rem); width:auto; transition:filter 0.3s ease; }
-    .logo-text { font-family:'Versailles',Georgia,serif; font-size:clamp(2.4rem,4vw,3.6rem); font-weight:400; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; transition:color 0.3s ease; line-height:1; }
+    .header-main {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0.8rem 2rem;
+      
+      margin:0 auto;
+      width:100%;
+    }
+    .logo-wrap {
+      display:flex;
+      align-items:center;
+      gap:0.8rem;
+      flex-shrink:0;
+    }
+    .logo-img { height:clamp(2.8rem,4vw,4.2rem); width:auto; }
+    .logo-text {
+      font-family:'Versailles',Georgia,serif;
+      font-size:clamp(2.4rem,4vw,3.6rem);
+      font-weight:400;
+      color:var(--white);
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      line-height:1;
+      transition:color 0.3s ease;
+    }
     .logo-text span { color:var(--primary); }
     .header.scrolled .logo-text { color:var(--white); }
     .header.scrolled .logo-text span { color:var(--primary); }
-    .nav-menu { display:flex; align-items:center; gap:clamp(1.2rem,2.5vw,2.4rem); }
-    .nav-menu a { font-size:clamp(1.2rem,1.3vw,1.4rem); font-weight:500; color:var(--white); transition:color 0.25s ease, border-color 0.25s ease; padding:0.4rem 0; border-bottom:2px solid transparent; white-space:nowrap; }
+
+    .nav-menu {
+      display:flex;
+      align-items:center;
+      gap:clamp(1.2rem,2.5vw,2.4rem);
+      flex:1;
+      justify-content:center;
+      margin:0 2rem 0 11rem;
+    }
+    .nav-menu a {
+      font-size: clamp(1.4rem, 1.6vw, 1.8rem);
+      font-weight:500;
+      color:var(--white);
+      transition:color 0.25s ease, border-color 0.25s ease;
+      padding:0.4rem 0;
+      border-bottom:2px solid transparent;  
+      white-space:nowrap;
+    }
     .nav-menu a:hover, .nav-menu a.active { color:var(--primary); border-bottom-color:var(--primary); }
-    .nav-menu .btn { padding:0.6rem 1.6rem; font-size:clamp(1rem,1.2vw,1.2rem); background:rgba(122,81,81,0.15); color:var(--white); white-space:nowrap; backdrop-filter:blur(8px); border:1px solid rgba(122,81,81,0.2); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
-    .nav-menu .btn:hover { background:rgba(122,81,81,0.95); box-shadow:0 0 30px rgba(122,81,81,0.5); color:var(--text); border-color:rgba(122,81,81,0.9); }
-    .hamburger { display:none; flex-direction:column; gap:0.4rem; cursor:pointer; padding:0.4rem; background:none; border:none; }
-    .hamburger span { display:block; width:2.8rem; height:2px; background:var(--white); transition:all 0.3s ease; }
-    .mobile-right-group { display:flex; align-items:center; gap:1.2rem; }
-    @media (max-width:1024px) {
-      .nav-menu { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0; background:var(--dark); padding:2rem; box-shadow:var(--shadow); gap:1.2rem; border-top:1px solid rgba(255,255,255,0.05); align-items:stretch; }
-      .nav-menu.open { display:flex; }
-      .hamburger { display:flex; }
-      .nav-menu a { color:var(--white) !important; white-space:normal; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.1); }
-      .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; }
-      .nav-menu .btn { width:100%; text-align:center; }
-      .nav-menu .region-selector { display:none !important; }
-      .header-main .region-selector { display:inline-block; }
-    }
-    @media (min-width:1025px) { #regionSelectorMobile { display:none !important; } .nav-menu .region-selector { display:inline-block !important; } }
 
-    /* ----- FOOTER (exactly like homepage) ----- */
-    .footer { padding:clamp(2rem,5vh,5rem) 0; background:#171c30; color:rgba(255,255,255,0.8); position:relative; z-index:10; }
-    .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
-    .footer .logo-text { font-family:'Versailles',Georgia,serif; font-size:clamp(2.4rem,4vw,3.6rem); font-weight:400; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
-    .footer .logo-text span { color:var(--primary); }
-    .footer .address p { font-size:clamp(1.2rem,1.4vw,1.4rem); margin-bottom:0.4rem; color:rgba(255,255,255,0.8); }
-    .footer .address a { color:var(--primary); }
-    .footer .right { display:flex; flex-direction:column; align-items:flex-end; gap:2rem; }
-    .footer .social-links { display:flex; gap:1.2rem; }
-    .footer .social-links a { font-size:clamp(1.8rem,2.2vw,2.2rem); padding:0.4rem; transition:all 0.3s ease; color:rgba(255,255,255,0.7); }
-    .footer .social-links a:hover { color:var(--primary); }
-    .footer .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem 2.5rem; font-size:clamp(1rem,1.2vw,1.2rem); }
-    .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
-    .footer .footer-links a:hover { color:var(--white); }
-    .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
-    @media (max-width:768px) {
-      .footer .grid { grid-template-columns:1fr; gap:2rem; }
-      .footer .right { align-items:flex-start; }
-      .footer .footer-links { justify-content:flex-start; }
-      .footer .bottom { flex-direction:column; align-items:flex-start; }
+    .right-group {
+      display:flex;
+      align-items:center;
+      gap:clamp(1rem,1.5vw,2rem);
+      flex-shrink:0;
+    }
+    .nav-menu .btn {
+      padding:0.6rem 1.6rem;
+      font-size:clamp(1rem,1.2vw,1.2rem);
+      color:var(--white);
+      white-space:nowrap;
+      border:1px solid rgba(122,81,81,0.2);
+      box-shadow:0 4px 15px rgba(0,0,0,0.2);
+      margin-left:0.4rem;
+    }
+    .nav-menu .btn:hover {
+      background:rgba(122,81,81,0.95);
+      box-shadow:0 0 30px rgba(122,81,81,0.5);
+      color:var(--text);
+      border-color:rgba(122,81,81,0.9);
     }
 
-    .eyebrow{font-size:1.2rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--primary); font-weight:600; display:flex; align-items:center; gap:1rem;}
-    .eyebrow::before{content:''; width:28px; height:1px; background:var(--primary);}
-    .btn-gold{ display:inline-flex; align-items:center; gap:0.9rem; padding:1.2rem 2.6rem; background:rgba(122,81,81,0.12); border:1px solid rgba(122,81,81,0.35); color:var(--text); font-size:1.3rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; border-radius:10px; cursor:pointer; transition:all 0.35s var(--slide-ease); }
-    .btn-gold::after{ content:'→'; font-size:1.6rem; transition:transform 0.35s var(--slide-ease); }
-    .btn-gold:hover{ background:var(--primary); border-color:var(--primary); color:var(--dark); box-shadow:0 0 30px rgba(122,81,81,0.35); }
-    .btn-gold:hover::after{ transform:translateX(4px); }
-    .btn-ghost{ display:inline-flex; align-items:center; gap:0.8rem; font-size:1.3rem; font-weight:600; letter-spacing:0.04em; color:var(--text); border-bottom:1px solid var(--line); padding-bottom:0.4rem; transition:all 0.3s ease; }
-    .btn-ghost::after{ content:'→'; transition:transform 0.3s ease; }
-    .btn-ghost:hover{ color:var(--primary); border-color:var(--primary); }
-    .btn-ghost:hover::after{ transform:translateX(4px); }
+    .mobile-right-group {
+      display:flex;
+      align-items:center;
+      gap:1.2rem;
+    }
 
-    /* region selector (same as homepage) */
     .region-selector { position:relative; display:inline-block; cursor:pointer; }
-    .region-selector .selected-region { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 1rem 0.4rem 0.6rem; border-radius:30px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); transition:background 0.2s, border-color 0.2s; font-size:clamp(1.1rem,1.2vw,1.3rem); font-weight:500; color:var(--white); line-height:1.4; }
+    .region-selector .selected-region {
+      display:flex; align-items:center; gap:0.6rem;
+      padding:0.4rem 1rem 0.4rem 0.6rem;
+      border-radius:30px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      transition:background 0.2s, border-color 0.2s;
+      font-size:clamp(1.1rem,1.2vw,1.3rem);
+      font-weight:500;
+      color:var(--white);
+      line-height:1.4;
+    }
     .region-selector .selected-region:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
     .region-selector .selected-region .flag-icon { width:20px; height:20px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.1); flex-shrink:0; }
     .region-selector .selected-region .flag-icon img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
@@ -197,6 +224,91 @@
     .region-selector .dropdown-item .flag-icon { width:20px; height:20px; border-radius:50%; overflow:hidden; flex-shrink:0; }
     .region-selector .dropdown-item .flag-icon img { width:100%; height:100%; object-fit:cover; }
 
+    .hamburger { display:none; flex-direction:column; gap:0.4rem; cursor:pointer; padding:0.4rem; background:none; border:none; }
+    .hamburger span { display:block; width:2.8rem; height:2px; background:var(--white); transition:all 0.3s ease; }
+
+    @media (max-width:1024px) {
+      .nav-menu {
+        display:none;
+        flex-direction:column;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:var(--dark);
+        padding:2rem;
+        box-shadow:var(--shadow);
+        gap:1.2rem;
+        border-top:1px solid rgba(255,255,255,0.05);
+        align-items:stretch;
+        margin:0;
+      }
+      .nav-menu.open { display:flex; }
+      .hamburger { display:flex; }
+      .nav-menu a {
+        color:var(--white) !important;
+        white-space:normal;
+        padding:0.8rem 0;
+        border-bottom:1px solid rgba(255,255,255,0.1);
+        text-align:center;
+      }
+      .nav-menu a:hover { color:var(--primary) !important; border-bottom-color:var(--primary) !important; }
+      .nav-menu .btn { width:100%; text-align:center; }
+      .nav-menu .region-selector { display:none !important; }
+      .header-main .region-selector { display:inline-block; }
+      .right-group { display:none; }
+    }
+    @media (min-width:1025px) {
+      #regionSelectorMobile { display:none !important; }
+      .nav-menu .region-selector { display:inline-block !important; }
+      .mobile-right-group .region-selector { display:none !important; }
+    }
+
+    /* ===== Singapore Coming Soon Popup ===== */
+    .singapore-popup-overlay {
+      position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.5s ease;
+    }
+    .singapore-popup-overlay.active { opacity:1; pointer-events:auto; }
+    .singapore-popup {
+      background:var(--dark); border:1px solid var(--color-border-dark); border-radius:20px; padding:3.2rem 2.8rem; max-width:420px; width:92%; box-shadow:0 25px 50px rgba(0,0,0,0.8); transform:scale(0.95) translateY(20px); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease; opacity:0; text-align:center; position:relative;
+    }
+    .singapore-popup-overlay.active .singapore-popup { transform:scale(1) translateY(0); opacity:1; }
+    .singapore-popup h2 { font-family:'Versailles',Georgia,serif; font-size:clamp(2.2rem,3.5vw,3rem); font-weight:400; color:var(--text); margin:0 0 0.2rem 0; }
+    .singapore-popup .popup-sub { font-family:'Neue Montreal','Inter',Arial,sans-serif; font-size:clamp(1.3rem,1.6vw,1.6rem); color:rgba(252,251,250,0.65); margin-top:0.4rem; margin-bottom:1.6rem; }
+    .singapore-popup .popup-close-x { position:absolute; top:1.2rem; right:1.6rem; background:transparent; border:none; color:rgba(255,255,255,0.4); font-size:2.4rem; cursor:pointer; transition:color 0.2s, transform 0.2s; font-family:inherit; line-height:1; padding:0.4rem; z-index:10; }
+    .singapore-popup .popup-close-x:hover { color:var(--white); transform:rotate(90deg); }
+    .singapore-popup .popup-btn { margin-top:1.6rem; display:inline-block; padding:0.8rem 2.4rem; background:rgba(163, 118, 118, 0.2); border:1px solid rgba(122,81,81,0.25); border-radius:8px; color:var(--white); font-size:1.4rem; cursor:pointer; transition:all 0.3s ease; }
+    .singapore-popup .popup-btn:hover { background:rgba(122,81,81,0.95); border-color:rgba(122,81,81,0.9); box-shadow:0 0 30px rgba(122,81,81,0.5); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding:clamp(2rem,5vh,5rem) 0;
+      color:rgba(255,255,255,0.8);
+      background:var(--dark);
+      position:relative;
+      z-index:10;
+    }
+    .footer .container {  margin:0 auto; padding:0 2rem; width:100%; }
+    .footer .grid { display:grid; grid-template-columns:1fr 2fr; gap:clamp(2rem,4vw,4rem); margin-bottom:3rem; }
+    .footer .logo-text { font-family:'Versailles',Georgia,serif; font-size:clamp(2.4rem,4vw,3.6rem); font-weight:400; color:var(--white); letter-spacing:0.1em; text-transform:uppercase; }
+    .footer .logo-text span { color:var(--primary); }
+    .footer .address p { font-size:clamp(1.2rem,1.4vw,1.4rem); margin-bottom:0.4rem !important; color:rgba(255,255,255,0.8); }
+    .footer .address a { color:var(--primary); }
+    .footer .right { display:flex; flex-direction:column; align-items:flex-end; gap:2rem; }
+    .footer .social-links { display:flex; gap:1.2rem; }
+    .footer .social-links a { font-size:clamp(1.8rem,2.2vw,2.2rem); padding:0.4rem; transition:all 0.3s ease; color:rgba(255,255,255,0.7); }
+    .footer .social-links a:hover { color:var(--primary); }
+    .footer .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem 2.5rem; font-size:clamp(1rem,1.2vw,1.2rem); }
+    .footer .footer-links a { transition:all 0.3s ease; color:rgba(255,255,255,0.6); }
+    .footer .footer-links a:hover, .footer .footer-links a.active { color:var(--white); }
+    .footer .bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:clamp(1rem,1.2vw,1.2rem); color:rgba(255,255,255,0.5); }
+    @media (max-width:768px) {
+      .footer .grid { grid-template-columns:1fr; gap:2rem; }
+      .footer .right { align-items:flex-start; }
+      .footer .footer-links { justify-content:flex-start; }
+      .footer .bottom { flex-direction:column; align-items:flex-start; }
+    }
+
     /* ===== PRIVACY CONTENT ===== */
     .privacy-section {
       padding: 16rem 0 8rem;
@@ -214,7 +326,7 @@
     }
     .privacy-header h2 span { color: var(--primary); }
     .privacy-header p {
-      color: var(--muted);
+      color: rgba(252,251,250,0.62);
       margin: 1.2rem auto 0;
       font-size: 1.6rem;
     }
@@ -231,17 +343,18 @@
       flex-direction: column;
       gap: 0.8rem;
       padding-right: 2rem;
-      border-right: 1px solid var(--line);
+      border-right: 1px solid rgba(255,255,255,0.08);
     }
     .privacy-nav a {
       font-size: 1.4rem;
       font-weight: 400;
-      color: var(--muted);
+      color: rgba(252,251,250,0.62);
       padding: 0.6rem 1rem;
       border-radius: 6px;
       transition: all 0.3s ease;
       border-left: 2px solid transparent;
       font-family:'Neue Montreal','Inter',Arial,sans-serif;
+      letter-spacing:1px;
     }
     .privacy-nav a:hover {
       color: var(--white);
@@ -271,13 +384,13 @@
     .privacy-block p {
       font-size: 1.5rem;
       line-height: 1.7;
-      color: var(--muted);
+      color: rgba(252,251,250,0.62);
       font-family:'Neue Montreal','Inter',Arial,sans-serif;
     }
     .privacy-block ul {
       list-style: disc;
       padding-left: 2.4rem;
-      color: var(--muted);
+      color: rgba(252,251,250,0.62);
       font-size: 1.5rem;
       line-height: 1.7;
     }
@@ -298,7 +411,7 @@
     }
     .privacy-divider {
       height: 1px;
-      background: var(--line);
+      background: rgba(255,255,255,0.08);
       margin: 0.4rem 0;
     }
     @media (max-width: 900px) {
@@ -311,7 +424,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         border-right: none;
-        border-bottom: 1px solid var(--line);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
         padding: 0 0 1.6rem 0;
         gap: 0.4rem 0.8rem;
       }
@@ -329,33 +442,70 @@
         font-size: 1.8rem;
       }
     }
+    @media (max-width:480px) {
+      .privacy-section { padding:10rem 0 4rem; }
+      .privacy-header h2 { font-size:2.8rem; }
+      .privacy-header p { font-size:1.4rem; }
+      .privacy-block h3 { font-size:1.6rem; }
+      .privacy-block p, .privacy-block ul { font-size:1.4rem; }
+      .footer .grid { text-align:center; }
+      .footer .right { align-items:center; }
+      .footer .footer-links { justify-content:center; }
+      .header-main { padding:0.6rem 1.2rem; }
+      .logo-img { height:2.8rem !important; }
+      .logo-text { font-size:2rem !important; }
+    }
+
     .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
     .reveal.in{ opacity:1; transform:translateY(0); }
-    @media (prefers-reduced-motion:reduce){ .hero-anim, .reveal{ opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; } }
-    .loading-bar {
-      position:fixed;
-      bottom:0;
-      left:0;
-      height:4px;
-      background:var(--primary);
-      z-index:10;
-      transition:width 0.15s ease-out;
-      width:0%;
-      display:block;
-    }
+    @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
   </style>
 </head>
 <body>
-  <!-- LOADING BAR -->
-  <div class="loading-bar" id="loading-bar"></div>
+
+  <!-- Singapore Coming Soon Popup -->
+  <div class="singapore-popup-overlay" id="singaporePopup">
+    <div class="singapore-popup">
+      <button class="popup-close-x" id="singaporePopupClose" aria-label="Close">✕</button>
+      <h2 style="margin-top:10px;">Singapore is coming soon. Stay tuned for our launch!</h2>
+      <button class="popup-btn" id="singaporePopupBtn">Got it</button>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header class="header" id="header">
-    <div class="container header-main" style="max-width:1200px; padding:0.8rem 2rem;">
-      <a href="#" class="logo" id="logoLink" style="display:flex; align-items:center; gap:0.8rem;">
-        <img src="https://harisumer.me/project-1/finsoul-logof.svg" alt="Finsouls logo" class="logo-img" style="height:clamp(3rem,4.5vw,4.8rem); width:auto;" />
+    <div class="header-main">
+      <a href="#" class="logo-wrap" id="logoLink">
+        <img src="https://harisumer.me/project-1/finsoul-logof.svg" alt="Finsouls logo" class="logo-img" />
         <span class="logo-text">FINSOULS</span>
       </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="https://harisumer.me/project-1/">Home</a>
+        <a href="/project-1/about">About us</a>
+        <a href="/project-1/finsouls-services">Services</a>
+        <a href="/project-1/insights">Insights</a>
+        <a href="/project-1/contact">Contact</a>
+      </nav>
+
+      <div class="right-group">
+        <div class="region-selector" id="regionSelectorDesktop">
+          <div class="selected-region" id="selectedRegionDesktop">
+            <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
+            <span>Global</span>
+            <span class="arrow-down" id="regionArrowDesktop">▾</span>
+          </div>
+          <div class="dropdown-list" id="regionDropdownDesktop">
+            <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
+          </div>
+        </div>
+        <a href="#" class="btn">Book a Consultant</a>
+      </div>
+
       <div class="mobile-right-group">
         <div class="region-selector" id="regionSelectorMobile">
           <div class="selected-region" id="selectedRegionMobile">
@@ -366,37 +516,15 @@
           <div class="dropdown-list" id="regionDropdownMobile">
             <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
             <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
             <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
+            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
           </div>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
-      <nav class="nav-menu" id="navMenu">
-        <a href="https://harisumer.me/project-1/">Home</a>
-        <a href="/project-1/about">About us</a>
-        <a href="/project-1/finsouls-services">Services</a>
-        <a href="/project-1/insights">Insights</a>
-        <a href="/project-1/contact">Contact</a>
-        <div class="region-selector" id="regionSelectorDesktop">
-          <div class="selected-region" id="selectedRegionDesktop">
-            <span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span>
-            <span>Global</span>
-            <span class="arrow-down" id="regionArrowDesktop">▾</span>
-          </div>
-          <div class="dropdown-list" id="regionDropdownDesktop">
-            <button class="dropdown-item" data-flag="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" data-label="Global"><span class="flag-icon"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg" alt="Global" /></span> Global</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/ae.png" data-label="UAE"><span class="flag-icon"><img src="https://flagcdn.com/w40/ae.png" alt="UAE" /></span> UAE</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/sg.png" data-label="Singapore"><span class="flag-icon"><img src="https://flagcdn.com/w40/sg.png" alt="Singapore" /></span> Singapore</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pt.png" data-label="Portugal"><span class="flag-icon"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" /></span> Portugal</button>
-            <button class="dropdown-item" data-flag="https://flagcdn.com/w40/pk.png" data-label="Pakistan"><span class="flag-icon"><img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" /></span> Pakistan</button>
-          </div>
-        </div>
-        <a href="#" class="btn">Book a Consultant</a>
-      </nav>
     </div>
   </header>
 
@@ -410,7 +538,7 @@
 
       <div class="privacy-grid">
         <!-- Navigation -->
-        <nav class="privacy-nav reveal in" id="privacyNav">
+        <nav class="privacy-nav reveal" id="privacyNav">
           <a href="#privacy-policy" data-target="privacy-policy" class="active">Privacy Policy</a>
           <a href="#terms-conditions" data-target="terms-conditions">Terms &amp; Conditions</a>
           <a href="#cookie-policy" data-target="cookie-policy">Cookie Policy</a>
@@ -608,11 +736,11 @@
             <img src="https://harisumer.me/project-1/finsoul-logof.svg" alt="Finsouls logo" style="height:clamp(3.2rem,4.8vw,5rem); width:auto;" />
             <span class="logo-text">FINSOULS</span>
           </div>
-          <p style="color:#c99aa3; font-size:1.5rem; margin:0.8rem 0 1.4rem 0; font-style:italic;">The firm Dubai businesses keep.</p>
+        
           <div class="address">
             <p id="footerAddress1">Business Bay Dubai UAE</p>
             <p><strong id="footerPhone">+971 52 449 4542</strong></p>
-            <p><a href="mailto:info@finsouls.com" style="color:var(--primary);" id="footerEmail">info@finsouls.com</a></p>
+            <p><a href="mailto:info@finsouls.com" style="color: rgba(255, 255, 255, 0.8);" id="footerEmail">info@finsouls.com</a></p>
           </div>
         </div>
         <div class="right">
@@ -662,7 +790,28 @@
       }, { threshold: 0.15 });
       reveals.forEach(el => io.observe(el));
 
-      // REGION SELECTOR (same as homepage)
+      // SINGAPORE POPUP
+      const singaporePopup = document.getElementById('singaporePopup');
+      function showSingaporePopup() {
+        singaporePopup.classList.add('active');
+      }
+      function hideSingaporePopup() {
+        singaporePopup.classList.remove('active');
+      }
+      document.getElementById('singaporePopupClose').addEventListener('click', hideSingaporePopup);
+      document.getElementById('singaporePopupBtn').addEventListener('click', hideSingaporePopup);
+      singaporePopup.addEventListener('click', function(e) { if (e.target === this) hideSingaporePopup(); });
+
+      // REGION SELECTOR with Singapore popup
+      const FLAG_MAP = {
+        'Global': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f30f.svg',
+        'UAE': 'https://flagcdn.com/w40/ae.png',
+        'Pakistan': 'https://flagcdn.com/w40/pk.png',
+        'Portugal': 'https://flagcdn.com/w40/pt.png',
+        'Singapore': 'https://flagcdn.com/w40/sg.png'
+      };
+      function getFlag(region) { return FLAG_MAP[region] || FLAG_MAP['Global']; }
+
       function setupRegionSelector(selectorId, selectedId, dropdownId, arrowId) {
         const selector = document.getElementById(selectorId);
         if (!selector) return;
@@ -680,13 +829,19 @@
         items.forEach(item => {
           item.addEventListener('click', function(e) {
             e.stopPropagation();
-            const flag = this.dataset.flag;
             const label = this.dataset.label;
-            selected.innerHTML = `
-              <span class="flag-icon"><img src="${flag}" alt="${label}" /></span>
-              <span>${label}</span>
-              <span class="arrow-down" id="${arrowId}">▾</span>
-            `;
+            const flag = this.dataset.flag || getFlag(label);
+            
+            if (label === 'Singapore') {
+              showSingaporePopup();
+              const globalFlag = getFlag('Global');
+              selected.innerHTML = `<span class="flag-icon"><img src="${globalFlag}" alt="Global" /></span><span>Global</span><span class="arrow-down" id="${arrowId}">▾</span>`;
+              document.getElementById(arrowId).classList.remove('open');
+              dropdown.classList.remove('open');
+              return;
+            }
+            
+            selected.innerHTML = `<span class="flag-icon"><img src="${flag}" alt="${label}" /></span><span>${label}</span><span class="arrow-down" id="${arrowId}">▾</span>`;
             document.getElementById(arrowId).classList.remove('open');
             dropdown.classList.remove('open');
             items.forEach(d => d.style.background = 'transparent');
@@ -759,19 +914,6 @@
           }
         }, 500);
       }
-
-      // Loading bar (just for visual consistency)
-      const loadingBar = document.getElementById('loading-bar');
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 15;
-        if (progress >= 100) { progress = 100; clearInterval(interval); }
-        loadingBar.style.width = progress + '%';
-      }, 200);
-      window.addEventListener('load', () => {
-        loadingBar.style.width = '100%';
-        setTimeout(() => { loadingBar.style.display = 'none'; }, 500);
-      });
     })();
   </script>
 </body>
