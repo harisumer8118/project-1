@@ -62,8 +62,10 @@
     h3 { font-size:clamp(2rem,4vw,2.8rem); color:#c99aa3; }
     p, .p, .paragraph, .text, .desc, .label, .stat .label, .faq-answer, .newsletter p, .footer .address p, .footer .bottom, .region-popup p {
       font-family:'Neue Montreal','Inter',Arial,sans-serif;
+      
     }
-    p { margin-bottom: 35px !important; }
+    p { margin-bottom: 35px !important; 
+    width: 450px !important;}
     .btn {
       display:inline-block; padding:1.2rem 2.8rem;
       background:rgba(163, 118, 118, 0.2);
@@ -363,7 +365,7 @@
     .key-figures .grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,4vw,4rem); align-items:center; width:100%; }
     .key-figures .big-number { text-align:left; }
     .key-figures .big-number .number { font-size:clamp(3rem,8vw,6rem); font-weight:300; color:var(--primary); line-height:1; }
-    .key-figures .big-number .label {margin-bottom: 35px !important; font-size:clamp(1.4rem,1.6vw,1.8rem); opacity:0.9; margin-top:0.4rem; color:var(--white); }
+    .key-figures .big-number .label { width:450px; margin-bottom: 35px !important; font-size:clamp(1.4rem,1.6vw,1.8rem); opacity:0.9; margin-top:0.4rem; color:var(--white); }
     .key-figures .stats { display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.5rem,2vw,2rem) clamp(2rem,4vw,4rem); background: radial-gradient(circle at 0% 0%, #a37676 0%, #a37676 40%, transparent 80%); padding:2rem; border-radius:12px; }
     .key-figures .stat .number { font-size:clamp(2.8rem,5vw,4.2rem); font-weight:300; color:var(--primary); line-height:1.2; }
     .key-figures .stat .label { font-size:clamp(1.2rem,1.2vw,1.4rem); opacity:0.8; text-transform:uppercase; letter-spacing:0.05em; color:var(--white); }
@@ -1652,7 +1654,7 @@
         const effectiveRegion = (region === 'Singapore') ? 'Global' : region;
         const content = regionalContent[effectiveRegion] || regionalContent['Global'];
         const lines = content.hero.headline;
-        document.getElementById('heroHeadline').innerHTML = `<strong>${lines[0]}</strong>${lines[1] ? '<br />' + lines[1] : ''}${lines[2] ? '<br />' + lines[2] : ''}`;
+        document.getElementById('heroHeadline').innerHTML = `${lines[0]},${lines[1] ? '<br />' + lines[1] : ''}${lines[2] ? '<br />' + lines[2] : ''}`;
         document.getElementById('heroSubline').textContent = content.hero.subline;
         const footerTagline = document.getElementById('footerTagline');
         if (footerTagline) footerTagline.textContent = content.tagline;
