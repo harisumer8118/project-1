@@ -115,7 +115,6 @@
       align-items:center;
       justify-content:space-between;
       padding:0.8rem 2rem;
-    
       margin:0 auto;
       width:100%;
     }
@@ -309,74 +308,7 @@
       .footer .bottom { flex-direction:column; align-items:flex-start; }
     }
 
-    /* ===== SERVICES PAGE SPECIFIC ===== */
-
-    /* HERO */
-    .hero-slide {
-      position:relative;
-      z-index:1;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      padding:0;
-      overflow:hidden;
-      background:var(--dark);
-    }
-    .hero-bg-image {
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:0;
-      background-image:url('https://harisumer.me/project-1/TvHo1.jpg');
-      background-size:cover;
-      background-position:center;
-      background-repeat:no-repeat;
-    }
-    .hero-overlay-bg {
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:1;
-      background: linear-gradient(135deg, rgba(23,28,48,0.92) 44%, rgba(122,81,81,0.85) 100%);
-      pointer-events:none;
-    }
-    .hero-overlay {
-      position:relative;
-      z-index:2;
-      width:100%;
-      display:flex;
-      justify-content:center;
-      flex-direction:column;
-      gap:12px;
-      pointer-events:none;
-      color:#fff;
-      text-shadow:0 2px 12px rgba(0,0,0,0.8);
-      padding:10rem 3rem 3rem 3rem;
-      bottom:0;
-      align-items:flex-start;
-    }
-    .hero-overlay h1 {
-      font-weight:400;
-      font-size:clamp(2.8rem,8vw,5.6rem);
-      max-width:65%;
-    }
-    .hero-overlay h1 strong {
-      font-weight:700;
-      color:var(--primary);
-    }
-    .hero-overlay p {
-      font-size:clamp(1.6rem,2vw,2rem);
-      opacity:0.9;
-      max-width:600px;
-      color:#fff;
-      margin-bottom:35px !important;
-    }
-
-    /* SERVICES STACK */
+    /* ===== SERVICES STACK (overlap, sticky) ===== */
     .services-stack-wrap {
       position:relative;
       z-index:1;
@@ -387,7 +319,7 @@
       font-weight: 400;
       letter-spacing: -0.02em;
       padding: 16rem 24px 20px;
-      max-width: 1240px;
+      
       margin: 0 auto;
       color: var(--white);
       font-family:'Versailles',Georgia,serif;
@@ -401,7 +333,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      max-width: 1400px;
+      
       margin: 0 auto;
       padding: 0 24px 40px;
       position: relative;
@@ -428,7 +360,6 @@
 
     .service-row {
       width: 100%;
-      
       margin: 0 auto;
       display: flex;
       gap: 40px;
@@ -557,9 +488,6 @@
       .service-card__title { font-size: 20px; }
       .service-card__feature { font-size: 14px; }
       .services-title { padding: 10rem 16px 12px; font-size: 2.8rem; }
-      .hero-overlay { padding:8rem 1.5rem 2rem 1.5rem !important; align-items:center !important; text-align:center !important; }
-      .hero-overlay h1 { max-width:100% !important; font-size:3.2rem !important; }
-      .hero-overlay p { max-width:100% !important; font-size:1.6rem !important; }
       .footer .grid { text-align:center; }
       .footer .right { align-items:center; }
       .footer .footer-links { justify-content:center; }
@@ -920,10 +848,8 @@
       // ---------- RENDER FUNCTION ----------
       function renderServices(regionKey) {
         const data = serviceData[regionKey] || serviceData.global;
-        // Update title
         if (servicesTitle) servicesTitle.textContent = data.title;
 
-        // Build HTML for all cards
         let html = '';
         data.cards.forEach((card, idx) => {
           const navItems = data.nav.map((label, i) => {
@@ -976,9 +902,7 @@
 
             const itemIndex = parseInt(parentItem.dataset.index, 10);
             if (!isNaN(itemIndex)) {
-              // update active nav
               document.querySelectorAll('.service-nav__item').forEach(b => b.classList.remove('is-active'));
-              // find the corresponding button in this nav
               const navBtns = parentItem.querySelectorAll('.service-nav__item');
               if (navBtns[buttonIndex]) navBtns[buttonIndex].classList.add('is-active');
             }
@@ -993,7 +917,6 @@
           });
         });
 
-        // Re-bind intersection observer for active nav
         setupIntersectionObserver();
       }
 
@@ -1017,7 +940,6 @@
           if (bestEntry) {
             const index = parseInt(bestEntry.target.dataset.index, 10);
             if (!isNaN(index)) {
-              // activate nav
               document.querySelectorAll('.service-nav__item').forEach(b => b.classList.remove('is-active'));
               const navBtns = bestEntry.target.querySelectorAll('.service-nav__item');
               if (navBtns[index]) navBtns[index].classList.add('is-active');
@@ -1072,7 +994,6 @@
             items.forEach(d => d.style.background = 'transparent');
             this.style.background = 'rgba(122,81,81,0.15)';
 
-            // Update services based on region
             renderServices(region);
           });
         });
