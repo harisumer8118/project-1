@@ -545,6 +545,7 @@
     .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.8s var(--slide-ease), transform 0.8s var(--slide-ease); }
     .reveal.in{ opacity:1; transform:translateY(0); }
     @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
+    
   </style>
 </head>
 <body>
@@ -615,9 +616,10 @@
   </header>
 
 
-
+<h2 style="margin: 100px 20px 0 20px; "> Our Core Services</h2>
   <!-- SERVICES STACK -->
   <div class="services-stack-wrap" id="servicesWrap">
+    
     <!-- LEFT FIXED NAV (will be populated by JS) -->
     <div class="services-side-nav" id="servicesSideNav">
       <nav class="service-nav" id="sideNavContainer">
@@ -885,6 +887,42 @@
       // Store the current region to re-render if needed
       let currentRegion = 'global';
 
+      // ---------- ACTIVE NAV (SCROLL) ----------
+      let scrollTick = false;
+
+      function updateActiveService() {
+        const items = document.querySelectorAll(".sticky-stack__item");
+        const buttons = document.querySelectorAll(".service-nav__item");
+
+        if (!items.length) return;
+
+        const headerOffset = 100; // sticky top offset
+        let activeIndex = 0;
+
+        items.forEach((item, index) => {
+          const rect = item.getBoundingClientRect();
+          // section is considered active when its top is at or above the sticky threshold
+          if (rect.top <= headerOffset) {
+            activeIndex = index;
+          }
+        });
+
+        buttons.forEach(btn => btn.classList.remove("is-active"));
+
+        if (buttons[activeIndex]) {
+          buttons[activeIndex].classList.add("is-active");
+        }
+
+        scrollTick = false;
+      }
+
+      window.addEventListener("scroll", () => {
+        if (!scrollTick) {
+          requestAnimationFrame(updateActiveService);
+          scrollTick = true;
+        }
+      });
+
       // ---------- RENDER FUNCTION ----------
       function renderServices(regionKey) {
         currentRegion = regionKey;
@@ -921,17 +959,11 @@
 
         stack.innerHTML = html;
 
-        // Re-bind nav click events (side nav) - using event delegation
-        // Clear any previous listeners by using a single listener on the container
-        // We'll use a mutation observer approach or simply re-bind
-        
         // Use event delegation on the side nav container
-        // Remove old listener if exists
         if (sideNavContainer._clickHandler) {
           sideNavContainer.removeEventListener('click', sideNavContainer._clickHandler);
         }
         
-        // Create click handler
         const clickHandler = function(e) {
           const btn = e.target.closest('.service-nav__item');
           if (!btn) return;
@@ -950,14 +982,19 @@
           document.querySelectorAll('.service-nav__item').forEach(b => b.classList.remove('is-active'));
           btn.classList.add('is-active');
 
-          // Scroll to section with offset
+          // --- FIX: use getBoundingClientRect for reliable upward scrolling ---
           const headerOffset = 80;
           const rect = parentItem.getBoundingClientRect();
           const absoluteTop = rect.top + window.pageYOffset;
+          const targetY = absoluteTop - headerOffset;
+
           window.scrollTo({
-            top: absoluteTop - headerOffset,
+            top: targetY,
             behavior: 'smooth'
           });
+
+          // Update active state after scroll
+          setTimeout(updateActiveService, 350);
         };
         
         sideNavContainer.addEventListener('click', clickHandler);
@@ -967,40 +1004,8 @@
         const firstBtn = sideNavContainer.querySelector('.service-nav__item');
         if (firstBtn) firstBtn.classList.add('is-active');
 
-        setupIntersectionObserver();
-      }
-
-      // ---------- INTERSECTION OBSERVER ----------
-      let observer = null;
-      function setupIntersectionObserver() {
-        if (observer) observer.disconnect();
-
-        const stackItems = document.querySelectorAll('.sticky-stack__item');
-        if (!stackItems.length) return;
-
-        observer = new IntersectionObserver((entries) => {
-          let bestEntry = null;
-          let bestRatio = -1;
-          for (const entry of entries) {
-            // Only consider entries that are intersecting and have a positive ratio
-            if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-              bestRatio = entry.intersectionRatio;
-              bestEntry = entry;
-            }
-          }
-          if (bestEntry) {
-            const index = parseInt(bestEntry.target.dataset.index, 10);
-            if (!isNaN(index)) {
-              const allBtns = document.querySelectorAll('.service-nav__item');
-              allBtns.forEach(b => b.classList.remove('is-active'));
-              if (allBtns[index]) allBtns[index].classList.add('is-active');
-            }
-          }
-        }, {
-          threshold: [0.1, 0.3, 0.5, 0.7],
-          rootMargin: '0px 0px -30% 0px'  // Increased negative margin to detect earlier
-        });
-        stackItems.forEach(item => observer.observe(item));
+        // Update active state after render
+        updateActiveService();
       }
 
       // ---------- REGION SELECTOR SETUP ----------
@@ -1072,13 +1077,12 @@
       // ---------- INITIAL RENDER (Global) ----------
       renderServices('global');
 
-      // Also handle window resize for mobile view
+      // Handle window resize
       let resizeTimer;
       window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
-          // Re-setup observer after resize
-          setupIntersectionObserver();
+          updateActiveService();
         }, 250);
       });
 
