@@ -1119,7 +1119,7 @@
     </section>
 
     <!-- SLIDE 1: ABOUT / KEY FIGURES -->
-    <section class="section-slide key-figures" data-index="1" style="display:flex; align-items:center; position:relative; z-index:1; background:transparent;">
+    <section class="section-slide key-figures" data-index="1" style="display:flex; align-items:center; position:relative; z-index:1; background: var(--dark);">
       <div class="container">
         <div class="grid">
           <div class="big-number">
@@ -1267,6 +1267,51 @@
 
   <script>
     (function() {
+      // ----- GLOBAL TOGGLE FAQ (fixed) -----
+      window.toggleFaq = function(element) {
+        // element is the .faq-question div
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('.icon');
+        if (!answer) return;
+        // Close all other FAQs in the same FAQ column
+        const faqCol = element.closest('.faq-col');
+        if (faqCol) {
+          const allAnswers = faqCol.querySelectorAll('.faq-answer');
+          const allIcons = faqCol.querySelectorAll('.faq-question .icon');
+          allAnswers.forEach(a => {
+            if (a !== answer) {
+              a.classList.remove('open');
+              a.style.maxHeight = '0';
+              a.style.paddingTop = '0';
+            }
+          });
+          allIcons.forEach(ic => {
+            if (ic !== icon) {
+              ic.classList.remove('open');
+              ic.textContent = '+';
+            }
+          });
+        }
+        // Toggle current
+        if (answer.classList.contains('open')) {
+          answer.classList.remove('open');
+          answer.style.maxHeight = '0';
+          answer.style.paddingTop = '0';
+          if (icon) {
+            icon.classList.remove('open');
+            icon.textContent = '+';
+          }
+        } else {
+          answer.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 20 + 'px';
+          answer.style.paddingTop = '0.4rem';
+          if (icon) {
+            icon.classList.add('open');
+            icon.textContent = '−';
+          }
+        }
+      };
+
       const wrapper = document.getElementById('sliderWrapper');
       const slides = document.querySelectorAll('.section-slide');
       const pagination = document.getElementById('pagination');
@@ -1421,7 +1466,7 @@
         section.innerHTML = '';
         services.forEach((service) => {
           const col = document.createElement('a');
-          col.href = '#';
+          col.href = '/project-1/finsouls-services';
           col.className = 'col-item';
           col.style.backgroundImage = `url('${service.img}')`;
           col.innerHTML = `
