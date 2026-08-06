@@ -101,7 +101,7 @@
     .btn-arrow-white { color:var(--white); }
     .btn-arrow-white:hover { color:var(--text); }
     .btn-arrow-white:hover::after { color:var(--text); }
-    .container {  margin:0 auto; padding:0 2rem; width:100%; }
+    .container { max-width:1200px; margin:0 auto; padding:0 2rem; width:100%; }
 
     /* ===== HEADER ===== */
     .header {
@@ -115,7 +115,7 @@
       align-items:center;
       justify-content:space-between;
       padding:0.8rem 2rem;
-      
+      max-width:1200px;
       margin:0 auto;
       width:100%;
     }
@@ -705,6 +705,7 @@
       font-size:1.4rem;
       line-height:1.5;
       color:rgba(252,251,250,0.62);
+      width: auto !important;
     }
     @media (max-width:1024px){
       .accordion-drawer-item__layout,
